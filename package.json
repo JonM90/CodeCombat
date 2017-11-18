@@ -23,6 +23,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "body-parser": "^1.16.1",
+    "brace": "^0.10.0",
     "compression": "^1.7.1",
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.14.1",
@@ -35,6 +36,7 @@
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.5.8",
     "react": "^16.0.0",
+    "react-ace-editor": "0.0.2",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.2",
     "react-router": "^4.1.1",
