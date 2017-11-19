@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Login, Signup, UserHome} from './components'
 import {me} from './store'
-import Editor from './components/editor'
+import {CodeEditor} from './components/editor'
 
 /**
  * COMPONENT
@@ -36,9 +36,9 @@ class Routes extends Component {
             {/* Displays our Login component as a fallback */}
             <Route component={Login} />
           </Switch>
-          <Editor />
+          <CodeEditor />
         </Main>
-        
+
       </Router>
     )
   }
