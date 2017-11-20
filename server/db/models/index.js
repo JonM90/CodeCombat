@@ -15,7 +15,7 @@ const Problem = require('./problem')
  * instead of: const User = require('../db/models/user')
  */
 // Problem.belongsTo(User, {as:'author'})
-User.hasMany(Problem, {as:'author'})
+Problem.hasMany(User, {as:'completed'})
 
 module.exports = {
   User,
