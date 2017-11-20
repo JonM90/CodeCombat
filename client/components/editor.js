@@ -47,30 +47,44 @@ export class CodeEditor extends Component {
   render() {
     console.log('OUTPUT!', this.state)
     return (
-      <div style={{display: 'inline'}}>
-        <ReactAce
-          mode="javascript"
-          theme="monokai"
-          enableBasicAutocompletion = {true}
-          //setReadOnly="false"
-          onChange={this.onChange}
-          style={{ height: '400px', width: '45%', float: 'left'}}
-          ref={instance => { this.ace = instance; }} // Let's put things into scope
-        />
-        <div style={{ backgroundColor: 'grey', width: '45%', float: 'right'}}>
-        { this.state.output ? (
-          <div>{this.state.output}
-          </div>
-        ) : <div><p>OUTPUT FAILED</p></div>}
+
+      <div className="main-train-container" >
+
+        <div className="question-div">
+              <h2>Write a function that can destroy the world!!!</h2>
         </div>
 
+          <div className="train-container">
+              <div className="editor-div left-train-container">
+                <ReactAce
+                      style={{ height: '50vh'}}
+                      mode="javascript"
+                      theme="monokai"
+                      enableBasicAutocompletion = {true}
+                      onChange={this.onChange}
+                      ref={instance => { this.ace = instance; }} // Let's put things into scope
+                />
 
-      <form onSubmit={this.onSubmit}>
-        <input type="submit" />
-      </form>
-      </div>
+                    <form id="train-submit" className="submit-btn" onSubmit={this.onSubmit}>
+                      <input type="submit" />
+                    </form>
+               </div>
+
+                 <div className="right-train-container">
+                  <div className="output-div" >
+                      {
+                          this.state.output ? <div> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                      }
+                  </div>
+
+                   <div className="test-specs-div">
+                      {/*<h1>Test Specs Area</h1>*/}
+                   </div>
+
+                </div>
+            </div>
+        </div>
     );
   }
 }
 
-// style={{ height: '400px', width: '50%', display: 'inline', backgroundColor: 'light-grey' }}

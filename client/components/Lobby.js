@@ -9,7 +9,7 @@ export default class Lobby extends Component{
     render(){
         return (
             <div id="lobby-main">
-                
+
                     <div id="train-div">
                         <Link to="/train">
                             <div className="train-body card-body">
@@ -19,10 +19,10 @@ export default class Lobby extends Component{
                                 <h1>Train</h1>
                                 <p>train by yourself</p>
                             </div>
-                           
+
                         </Link>
                     </div>
-                
+
 
                     <div id="battle-div">
                         <Link to="/battle">
@@ -37,7 +37,7 @@ export default class Lobby extends Component{
                     </div>
 
                     <div id="sandbox-div">
-                        <Link to="/sandbox">
+                        <Link to="/editor">
                             <div className="sandbox-body card-body">
                                 <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
                             </div>
@@ -45,10 +45,10 @@ export default class Lobby extends Component{
                                 <h1>Sandbox</h1>
                                 <p>Your Personal Code Editor</p>
                             </div>
-                
+
                         </Link>
                     </div>
             </div>
         )
     }
-} 
+}
