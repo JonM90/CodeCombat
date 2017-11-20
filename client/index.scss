@@ -19,3 +19,39 @@ body {
     display: inline-block;
   }
 }
+
+#lobby-main {
+  display: flex;
+  justify-content: center;
+  div{
+    margin: 1em;
+    text-align: center;
+
+    .card-header{
+      background-color: lightgray;
+    }
+    .card-body{
+      .card-body-img{
+        width: 50%;
+      }
+    }
+  }
+  #train-div{
+    background-color: grey;
+    border: solid 1px black;
+    width: 30%
+  }
+  #battle-div{
+    background-color: grey;
+    border: solid 1px black;
+    width: 30%
+  }
+  #sandbox-div{
+    background-color: grey;
+    border: solid 1px black;
+    width: 30%
+  }
+
+
+}
+
