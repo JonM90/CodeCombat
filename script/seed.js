@@ -10,7 +10,7 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Problem} = require('../server/db/models')
 
 async function seed () {
   await db.sync({force: true})
@@ -19,8 +19,13 @@ async function seed () {
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({email: 'cody@email.com', password: '123', name:'Samurai Jack', isAdmin:false}),
+    User.create({email: 'murphy@email.com', password: '123', name:'Jonathan', isAdmin:false})
+  ])
+
+  const problems = await Promise.all([
+    Problem.create({title: 'Sum', level:1, description:'Find sum', solution:'(a,b)=> a+b', testSpecs:['sum(1,2) === 3', 'sum(2,2) === 4']}),
+    Problem.create({title: 'Diff', level:1, description:'Find difference', solution:'(a,b)=> a-b', testSpecs:['diff(1,2) === -1', 'diff(2,1) === 1']})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
