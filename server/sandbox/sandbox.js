@@ -16,17 +16,18 @@ const {VM} = require('vm2');
 //   shouldBroadcast &&
 //       events.emit('mssg', msg);
 // }
-
-var log3 = [], err3 = [];
+//at: new Error().stack}
+// var log3 = [], err3 = [];
 var vmThree = new VM({
   sandbox: {
     console: {
-      log(...args) {
-        log3.push({args: args, at: new Error().stack})
-      },
-      error(...args) {
-        err3.push(args)
-      }
+      log: function(...args) {
+        // log3.push(...args)
+        return args+''
+      }//,
+      // error(...args) {
+      //   // err3.push(args)
+      // }
     }
   }
 })
@@ -41,12 +42,13 @@ var vmThree = new VM({
 
 // var vmFour = new VM({
 //   sandbox: {
+//     log: [],
 //     console: {
 //       log(...args) {
-//         log4.push({args: args, at: new Error().stack})
+//         log.push({args: args, at: new Error().stack})
 //       },
 //       error(...args) {
-//         err4.push(args)
+//         err.push(args)
 //       }
 //     }
 //   }
@@ -62,7 +64,18 @@ console.log('before cats!!!')
 // console.log(outPut);
 // console.log('END!');
 
-var runner = (data) => vmThree.run(`${data}`)
+var runner = function(data) {
+  console.log('DATA:', data)
+  console.log('TEST!!!!!', `
+  ${data}
+  `)
+  // return vmThree.run(`
+  // ${data}
+  // `)
+  return vmThree.run(`
+  ${data}
+  `)
+}
 // console.log('TEST!');
 // console.log(runner);
 // console.log('END!');

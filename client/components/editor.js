@@ -42,10 +42,10 @@ export class CodeEditor extends Component {
     // console.log('SUBMIT!', socket)
     events.emit('mssg', this.state.attempt)
     console.log('attempt:', this.state.attempt)
-    events.on('output',(output)=> {this.setState({output})})
-
+    events.on('output', (output) => {this.setState({output})})
   }
   render() {
+    console.log('OUTPUT!', this.state)
     return (
       <div style={{display: 'inline'}}>
         <ReactAce
@@ -58,10 +58,10 @@ export class CodeEditor extends Component {
           ref={instance => { this.ace = instance; }} // Let's put things into scope
         />
         <div style={{ backgroundColor: 'grey', width: '45%', float: 'right'}}>
-        { this.state.output? (
+        { this.state.output ? (
           <div>{this.state.output}
           </div>
-        ): <div><p>OUTPUT FAILED</p></div>}
+        ) : <div><p>OUTPUT FAILED</p></div>}
         </div>
 
 

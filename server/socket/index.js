@@ -21,10 +21,12 @@ module.exports = (io) => {
 
     socket.on('mssg', (msg) => {
       console.log('SOCKETS WORKS BITCHES', msg)
-      var outPut = sandbox(`${msg}`);
+      var outPut = sandbox(`
+      ${msg}
+      `);
       // var outPut = vmThree.run(`${msg}`)
       // message = msg;
-      console.log('TEST!');
+      console.log('RCVD OUTPUT!');
       console.log(outPut);
       console.log('END!');
       socket.emit('console', outPut)
