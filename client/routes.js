@@ -34,7 +34,7 @@ class Routes extends Component {
                   <Route exact path="/home" component={UserHome} />
                   <Route exact path="/train" component={Train} />
                   <Route exact path="/battle" component={Battle} />
-                  <Route exact path="/Sandbox" component={Sandbox} />
+                  <Route exact path="/editor" component={CodeEditor} />
 
                 </Switch>
             }
