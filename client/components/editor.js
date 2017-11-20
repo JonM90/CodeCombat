@@ -11,7 +11,7 @@ export default class CodeEditor extends Component {
  
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
-    editor.getSession.setBehaviorEnabled(true)
+    // editor.getSession.setBehaviorEnabled(true)
     console.log(editor.getValue()); // Outputs the value of the editor
   }
   render() {
