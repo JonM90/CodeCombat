@@ -13,7 +13,7 @@
 //   }
 // })
 // let message;
-const sandbox = require('../sandbox/sandbox');
+const run = require('../sandbox/sandbox');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
@@ -21,9 +21,10 @@ module.exports = (io) => {
 
     socket.on('userSubmit', (usersFunc) => {
       console.log('"userSubmit emit from editor.js"', usersFunc)
-      var outPut = sandbox(`
-      ${usersFunc}
-      `);
+      var outPut = run(usersFunc, [
+        `assert.equal(hello(1), 1)`,
+        `assert.equal(hello(2), 2)`
+      ])
       // var outPut = vmThree.run(`${msg}`)
       // message = msg;
       console.log("********this is outPut in socket/index.js:",outPut);

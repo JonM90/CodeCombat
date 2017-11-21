@@ -11,7 +11,7 @@ events.on('userSubmit', (userFunc) => {
   socket.emit('userSubmit', userFunc);
 })
 socket.on('result',(outPut)=> {
-  console.log("SOCKET CONNECTED MOTHERFUCKERS!!!",outPut)
+  console.log("SOCKET CONNECTED ",outPut)
   events.emit("output", outPut);
 })
 
