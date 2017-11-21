@@ -18,6 +18,7 @@ export class CodeEditor extends Component {
 
     this.state = {
       attempt: '',
+      currentProblem: {},
       output: '',
       test: [
         {input: 2, output: 4},
@@ -28,7 +29,13 @@ export class CodeEditor extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.tester = this.tester.bind(this);
+    
 
+  }
+  componentDidMount(){
+    axios.get('api/problems/5')
+      .then(currentProblem=>this.setState({currentProblem}))
+      .catch(next)
   }
   onChange(newValue, e) {
     console.log(newValue, e);
@@ -50,8 +57,7 @@ export class CodeEditor extends Component {
   onSubmit(e) {
     e.preventDefault();
     // console.log('SUBMIT!', socket)
-    events.emit('userSubmit', this.state.attempt)
-    
+    events.emit('userSubmit', this.state.attempt, this.state.currentProblem.testSpecs)
     events.on('output', (output) => {this.setState({output})})
   }
   render() {
@@ -84,23 +90,14 @@ export class CodeEditor extends Component {
                  <div className="right-train-container">
                   <div className="output-div" >
                       <h4 className="right-container-headers">Output:</h4>
-                      {
-                          this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
-                      }
+                      
                   </div>
 
                    <div className="test-specs-div">
                       <h4 className="right-container-headers">Test Specs:</h4>
-                      {/* {
-                        this.state.test.map((spec)=>{
-                          if(this.state.attempt(spec.input) === spec.output){
-                            return (<div>correct</div>)
-                          } else {
-                            return (<div>incorrect</div>)
-                          }
-                          
-                        })
-                      } */}
+                      {
+                        this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                      }
                    </div>
 
                 </div>

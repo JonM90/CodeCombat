@@ -24,6 +24,16 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  rank: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1,
+    allowNull: false
+  },
+  points: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0
   }
 })
 
