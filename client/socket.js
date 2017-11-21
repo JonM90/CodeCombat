@@ -6,12 +6,12 @@ const socket = io(window.location.origin)
 socket.on('connect', () => {
   console.log('Connected!')
 })
-events.on('mssg', (pLoad) => {
-  console.log('pLoad!:', pLoad)
-  socket.emit('mssg', pLoad);
+events.on('userSubmit', (userFunc) => {
+  console.log('user submitted userFunc is:', userFunc)
+  socket.emit('userSubmit', userFunc);
 })
-socket.on('console',(outPut)=> {
-  console.log("SOCKET CONNECTED MOTHERFUCKERS!!!",outPut)
+socket.on('result',(outPut)=> {
+  console.log("SOCKET CONNECTED ",outPut)
   events.emit("output", outPut);
 })
 

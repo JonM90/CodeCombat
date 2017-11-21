@@ -13,23 +13,23 @@
 //   }
 // })
 // let message;
-const sandbox = require('../sandbox/sandbox');
+const run = require('../sandbox/sandbox');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    socket.on('mssg', (msg) => {
-      console.log('SOCKETS WORKS BITCHES', msg)
-      var outPut = sandbox(`
-      ${msg}
-      `);
+    socket.on('userSubmit', (usersFunc) => {
+      console.log('"userSubmit emit from editor.js"', usersFunc)
+      var outPut = run(usersFunc, [
+        `assert.equal(hello(1), 1)`,
+        `assert.equal(hello(2), 2)`
+      ])
       // var outPut = vmThree.run(`${msg}`)
       // message = msg;
-      console.log('RCVD OUTPUT!');
-      console.log(outPut);
+      console.log("********this is outPut in socket/index.js:",outPut);
       console.log('END!');
-      socket.emit('console', outPut)
+      socket.emit('result', outPut)
     })
 
     socket.on('disconnect', () => {

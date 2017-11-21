@@ -6,11 +6,11 @@ const events = new EventEmitter()
 
 export default events;
 
-export function mssg(msg, shouldBroadcast = true) {
-  // If shouldBroadcast is truthy, we will emit an event to listeners w. msg
-  shouldBroadcast &&
-      events.emit('mssg', msg);
-}
+// export function mssg(msg, shouldBroadcast = true) {
+//   // If shouldBroadcast is truthy, we will emit an event to listeners w. msg
+//   shouldBroadcast &&
+//       events.emit('mssg', msg);
+// }
 
 export class CodeEditor extends Component {
   constructor() {
@@ -18,10 +18,16 @@ export class CodeEditor extends Component {
 
     this.state = {
       attempt: '',
-      output: ''
+      output: '',
+      test: [
+        {input: 2, output: 4},
+        {input: 4, output: 8},
+        {input: 8, output: 16}
+      ]
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.tester = this.tester.bind(this);
 
   }
   onChange(newValue, e) {
@@ -37,15 +43,20 @@ export class CodeEditor extends Component {
     this.setState({attempt})
   }
 
+  tester(num){
+    return num*2;
+  }
+
   onSubmit(e) {
     e.preventDefault();
     // console.log('SUBMIT!', socket)
-    events.emit('mssg', this.state.attempt)
-    console.log('attempt:', this.state.attempt)
+    events.emit('userSubmit', this.state.attempt)
+    
     events.on('output', (output) => {this.setState({output})})
   }
   render() {
     console.log('OUTPUT!', this.state)
+    
     return (
 
       <div className="main-train-container" >
@@ -66,19 +77,30 @@ export class CodeEditor extends Component {
                 />
 
                     <form id="train-submit" className="submit-btn" onSubmit={this.onSubmit}>
-                      <input type="submit" />
+                      <input id="train-submit-btn"type="submit" />
                     </form>
                </div>
 
                  <div className="right-train-container">
                   <div className="output-div" >
+                      <h4 className="right-container-headers">Output:</h4>
                       {
-                          this.state.output ? <div> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                          this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
                       }
                   </div>
 
                    <div className="test-specs-div">
-                      {/*<h1>Test Specs Area</h1>*/}
+                      <h4 className="right-container-headers">Test Specs:</h4>
+                      {/* {
+                        this.state.test.map((spec)=>{
+                          if(this.state.attempt(spec.input) === spec.output){
+                            return (<div>correct</div>)
+                          } else {
+                            return (<div>incorrect</div>)
+                          }
+                          
+                        })
+                      } */}
                    </div>
 
                 </div>
