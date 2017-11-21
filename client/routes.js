@@ -4,7 +4,7 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, Lobby, Train, Battle, Sandbox} from './components'
+import {Main, Navbar, Login, Signup, Footer, UserHome, Lobby, Train, Battle, Sandbox} from './components'
 import {me} from './store'
 import {CodeEditor} from './components/editor'
 
@@ -22,16 +22,19 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
+          <Navbar />
           <Switch>
-            {/* Routes placed here are available to all visitors */}
+
+              {/* Routes placed here are available to all visitors */}
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+
             {
               isLoggedIn &&
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route exact path="/" component={Lobby} />
-                  <Route exact path="/home" component={UserHome} />
+                  <Route exact path="/profile" component={UserHome} />
                   <Route exact path="/train" component={Train} />
                   <Route exact path="/battle" component={Battle} />
                   <Route exact path="/editor" component={CodeEditor} />
@@ -43,6 +46,7 @@ class Routes extends Component {
           </Switch>
           {//<CodeEditor />
           }
+          <Footer />
         </Main>
 
       </Router>

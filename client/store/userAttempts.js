@@ -10,52 +10,35 @@ const STORE_SUBMISSION = 'STORE_SUBMISSION'
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const defaultAnswer = ""
 
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+const storeAttempt = user => ({type: STORE_ATTEMPT, attempt})
+const storeSubmission = () => ({type: STORE_SUBMISSION, submission})
 
 /**
  * THUNK CREATORS
  */
-export const me = () =>
-  dispatch =>
-    axios.get('/auth/me')
-      .then(res =>
-        dispatch(getUser(res.data || defaultUser)))
-      .catch(err => console.log(err))
+export const submitAttempt = (question, answer) => 
+  dispatch => {
+    //PLACEHOLDER
+    axios.post('/api/submission', {question, answer})
+    .then(res => {
+      dispatch(storeSubmission(res.data))
+    })
+    .catch(e => console.log(e))
+  }
 
-export const auth = (email, password, method) =>
-  dispatch =>
-    axios.post(`/auth/${method}`, { email, password })
-      .then(res => {
-        dispatch(getUser(res.data))
-        history.push('/home')
-      })
-      .catch(error =>
-        dispatch(getUser({error})))
-
-export const logout = () =>
-  dispatch =>
-    axios.post('/auth/logout')
-      .then(_ => {
-        dispatch(removeUser())
-        history.push('/login')
-      })
-      .catch(err => console.log(err))
 
 /**
  * REDUCER
  */
-export default function (state = defaultUser, action) {
+export default function (state = defaultAnswer, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
-      return defaultUser
+    case STORE_SUBMISSION:
+      return action.submission
     default:
       return state
   }
