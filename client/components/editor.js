@@ -51,12 +51,12 @@ export class CodeEditor extends Component {
     e.preventDefault();
     // console.log('SUBMIT!', socket)
     events.emit('userSubmit', this.state.attempt)
-    
+
     events.on('output', (output) => {this.setState({output})})
   }
   render() {
     console.log('OUTPUT!', this.state)
-    
+
     return (
 
       <div className="main-train-container" >
@@ -85,7 +85,7 @@ export class CodeEditor extends Component {
                   <div className="output-div" >
                       <h4 className="right-container-headers">Output:</h4>
                       {
-                          this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                          // this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
                       }
                   </div>
 
@@ -98,9 +98,12 @@ export class CodeEditor extends Component {
                           } else {
                             return (<div>incorrect</div>)
                           }
-                          
+
                         })
                       } */}
+                      {
+                        this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                      }
                    </div>
 
                 </div>

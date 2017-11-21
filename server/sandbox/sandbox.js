@@ -54,7 +54,7 @@
 const {VM} = require('vm2');
 
   // *************ORIGINAL***********************************************
-  
+
   // ************************************************************
   // const {VM} = require('vm2')
   // var v = new VM({
@@ -62,23 +62,23 @@ const {VM} = require('vm2');
       //     __test__: require('./testSpecs')
       //   }
       // })
-      
+
       // *************ORIGINAL***********************************************
-      
+
       // var runner = function(usersFunc) {
         //   console.log('USERFUNC in Runner', usersFunc)
         //   console.log('***RIGHT BEFORE VM RUN', `
         //   ${usersFunc}
         //   `)
-        
+
         //   return vmThree.run(`${usersFunc}`)
-        
+
         // }
-        
+
         // module.exports = runner;
         // *************ORIGINAL***********************************************
 
-      // let userSubmittedCode; 
+      // let userSubmittedCode;
 
       function wrap(functionName, userCode) {
         return [userCode, `__test__(${functionName})`].join(';')
@@ -86,12 +86,13 @@ const {VM} = require('vm2');
       // function run(functionName, userCode) {
       //   return userCode + `${functionName}(5)`
       // }
-      
-      /**
-       * 
-       * @param {String} userFunc 
-       * @param {Array<String>} specs 
+
+      /*
+       *
+       * @param {String} userFunc
+       * @param {Array<String>} specs
        */
+
       var runner = function(userFunc, specs){
         const log = []
         var vm = new VM({
@@ -117,8 +118,8 @@ const {VM} = require('vm2');
           for (spec of specs)
             vm.run(spec)
         } catch(ex) {
-          vm.run(`console.log('boxxxo')`)
-          
+          vm.run(`console.log('')`)
+
           error = ex
           error.spec = spec
         }
@@ -128,21 +129,21 @@ const {VM} = require('vm2');
         ]
         // return log
         // const wrappedCode = wrap('hello', userFunc)
-        
+
         // console.log('*** wrappedCode:', wrappedCode)
-        
+
         // console.log('tester vmThree is: ', vmThree.run(wrappedCode))
 
 
         // return vmThree.run(`${userFunc}`)
         // return vmThree.run('hello', userFunc))
-         
-        
+
+
       }
       module.exports = runner;
 
 
-      
+
       // ************************************************************
       // const vm = new VM({
         //     timeout: 1000,
