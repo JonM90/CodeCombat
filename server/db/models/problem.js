@@ -10,20 +10,17 @@ const Problem = db.define('problem', {
   description: {
     type: Sequelize.TEXT
   },
-  level:{
-    type:Sequelize.INTEGER,
-    validate:{
-        min:1,
-        max:10
-    }
+  level: {
+    type: Sequelize.INTEGER,
+    validate: { min: 1, max: 10 }
   },
-  solution:{
-    type:Sequelize.TEXT,
-    allowNull:false
+  solution: {
+    type: Sequelize.TEXT,
+    allowNull: false
   },
-  testSpecs:{
-      type:Sequelize.ARRAY(Sequelize.TEXT),
-      allowNull:false
+  testSpecs: {
+      type: Sequelize.ARRAY(Sequelize.TEXT), //change later
+      allowNull: false
   }
 })
 
