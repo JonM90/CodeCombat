@@ -1,4 +1,3 @@
-const {VM} = require('vm2');
 // import {VM} from 'vm2'
 // import {EventEmitter} from 'events'
 // const {EventEmitter} = require('events');
@@ -12,25 +11,13 @@ const {VM} = require('vm2');
 // }
 
 // function mssg(msg, shouldBroadcast = true) {
-//   // If shouldBroadcast is truthy, we will emit an event to listeners w. msg
+  //   // If shouldBroadcast is truthy, we will emit an event to listeners w. msg
 //   shouldBroadcast &&
 //       events.emit('mssg', msg);
 // }
 //at: new Error().stack}
 // var log3 = [], err3 = [];
-var vmThree = new VM({
-  sandbox: {
-    console: {
-      log: function(...args) {
-        // log3.push(...args)
-        return args+''
-      }//,
-      // error(...args) {
-      //   // err3.push(args)
-      // }
-    }
-  }
-})
+
 //.run('console.log("hi")')
 // log
 // console.log(log3)
@@ -41,10 +28,10 @@ var vmThree = new VM({
 // var log4 = [], err4 = [];
 
 // var vmFour = new VM({
-//   sandbox: {
-//     log: [],
+  //   sandbox: {
+    //     log: [],
 //     console: {
-//       log(...args) {
+  //       log(...args) {
 //         log.push({args: args, at: new Error().stack})
 //       },
 //       error(...args) {
@@ -53,7 +40,7 @@ var vmThree = new VM({
 //     }
 //   }
 // })
-console.log('before cats!!!')
+
 
 // var outPut = vmThree.run(`
 // let addCat = (str) => str + 'cat';
@@ -63,24 +50,104 @@ console.log('before cats!!!')
 // console.log('TEST!');
 // console.log(outPut);
 // console.log('END!');
+// *************ORIGINAL***********************************************
+const {VM} = require('vm2');
 
-var runner = function(usersFunc) {
-  console.log('USERFUNC in Runner', usersFunc)
-  console.log('***RIGHT BEFORE VM RUN', `
-  ${usersFunc}
-  `)
+  // *************ORIGINAL***********************************************
   
-  return vmThree.run(`${usersFunc}`)
+  // ************************************************************
+  // const {VM} = require('vm2')
+  // var v = new VM({
+    //   sandbox: {
+      //     __test__: require('./testSpecs')
+      //   }
+      // })
+      
+      // *************ORIGINAL***********************************************
+      
+      // var runner = function(usersFunc) {
+        //   console.log('USERFUNC in Runner', usersFunc)
+        //   console.log('***RIGHT BEFORE VM RUN', `
+        //   ${usersFunc}
+        //   `)
+        
+        //   return vmThree.run(`${usersFunc}`)
+        
+        // }
+        
+        // module.exports = runner;
+        // *************ORIGINAL***********************************************
 
-}
+      // let userSubmittedCode; 
 
-module.exports = runner;
+      function wrap(functionName, userCode) {
+        return [userCode, `__test__(${functionName})`].join(';')
+      }
+      // function run(functionName, userCode) {
+      //   return userCode + `${functionName}(5)`
+      // }
+      
+      /**
+       * 
+       * @param {String} userFunc 
+       * @param {Array<String>} specs 
+       */
+      var runner = function(userFunc, specs){
+        const log = []
+        var vm = new VM({
+          timeout: 1000,
+          sandbox: {
+            assert: require('assert'),
+            console: {
+              log: function(...args) {
+                log.push(args)
+              }//,
+              // error(...args) {
+                //   // err3.push(args)
+                // }
+              }
+            }
+          })
+        // Run the user's code in the VM. This should declare
+        // the functions they need to write.
+        let error = null
+        let spec
+        try {
+          vm.run(userFunc)
+          for (spec of specs)
+            vm.run(spec)
+        } catch(ex) {
+          vm.run(`console.log('boxxxo')`)
+          
+          error = ex
+          error.spec = spec
+        }
+        return [
+          error ? `${error.spec} failed with ${error.message}` : 'OK',
+          log.join('\n'),
+        ]
+        // return log
+        // const wrappedCode = wrap('hello', userFunc)
+        
+        // console.log('*** wrappedCode:', wrappedCode)
+        
+        // console.log('tester vmThree is: ', vmThree.run(wrappedCode))
 
 
-// const vm = new VM({
-//     timeout: 1000,
-//     sandbox: {}
-// });
+        // return vmThree.run(`${userFunc}`)
+        // return vmThree.run('hello', userFunc))
+         
+        
+      }
+      module.exports = runner;
+
+
+      
+      // ************************************************************
+      // const vm = new VM({
+        //     timeout: 1000,
+        //     sandbox: {}
+        // });
 // var vm = new VM
 //VM PROPERTIES
 // => VM {
