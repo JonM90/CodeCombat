@@ -17,7 +17,7 @@ export default class Lobby extends Component{
                             </div>
                             <div className="train-header card-header">
                                 <h1>Train</h1>
-                                <p>train by yourself</p>
+                                <p>Training through Missions</p>
                             </div>
 
                         </Link>
