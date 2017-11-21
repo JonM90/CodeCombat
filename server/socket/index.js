@@ -19,17 +19,16 @@ module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    socket.on('mssg', (msg) => {
-      console.log('SOCKETS WORKS BITCHES', msg)
+    socket.on('userSubmit', (usersFunc) => {
+      console.log('"userSubmit emit from editor.js"', usersFunc)
       var outPut = sandbox(`
-      ${msg}
+      ${usersFunc}
       `);
       // var outPut = vmThree.run(`${msg}`)
       // message = msg;
-      console.log('RCVD OUTPUT!');
-      console.log(outPut);
+      console.log("********this is outPut in socket/index.js:",outPut);
       console.log('END!');
-      socket.emit('console', outPut)
+      socket.emit('result', outPut)
     })
 
     socket.on('disconnect', () => {

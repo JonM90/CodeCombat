@@ -64,21 +64,16 @@ console.log('before cats!!!')
 // console.log(outPut);
 // console.log('END!');
 
-var runner = function(data) {
-  console.log('DATA:', data)
-  console.log('TEST!!!!!', `
-  ${data}
+var runner = function(usersFunc) {
+  console.log('USERFUNC in Runner', usersFunc)
+  console.log('***RIGHT BEFORE VM RUN', `
+  ${usersFunc}
   `)
-  // return vmThree.run(`
-  // ${data}
-  // `)
-  return vmThree.run(`
-  ${data}
-  `)
+  
+  return vmThree.run(`${usersFunc}`)
+
 }
-// console.log('TEST!');
-// console.log(runner);
-// console.log('END!');
+
 module.exports = runner;
 
 
