@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems} from '../store';
+import { PopUp } from './pop_up';
+
 
 export class Train extends Component{
     constructor(){
@@ -37,7 +39,11 @@ export class Train extends Component{
 
       return (
           <div id="train-main">
+
               <h1>TRAIN COMPONENT</h1>
+             
+              <PopUp />
+              
           </div>
       )
     }

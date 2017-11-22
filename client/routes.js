@@ -4,7 +4,7 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Navbar, Login, Signup, Footer, UserHome, Lobby, Train, Battle, Sandbox} from './components'
+import {Main, Navbar, Login, Signup, Footer, UserHome, Lobby, Train, Battle } from './components'
 import {me} from './store'
 import {CodeEditor} from './components/editor'
 

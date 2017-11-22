@@ -39,6 +39,7 @@
     "react": "^16.0.0",
     "react-ace-editor": "0.0.2",
     "react-dom": "^16.0.0",
+    "react-popup": "^0.8.0",
     "react-redux": "^5.0.2",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
