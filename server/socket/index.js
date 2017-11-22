@@ -19,11 +19,10 @@ module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    socket.on('userSubmit', (...usersFunc) => {
-      console.log('"userSubmit emit from editor.js"', usersFunc)
+    socket.on('userSubmit', (usersFunc) => {
+      
       var outPut = run(usersFunc[0], usersFunc[1])
-      // var outPut = vmThree.run(`${msg}`)
-      // message = msg;
+      
       console.log("********this is outPut in socket/index.js:",outPut);
       console.log('END!');
       socket.emit('result', outPut)

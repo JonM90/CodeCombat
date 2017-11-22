@@ -93,6 +93,7 @@ const {VM} = require('vm2');
        * @param {Array<String>} specs 
        */
       var runner = function(userFunc, specs){
+        console.log('this is specs in beginning:',specs)
         const log = []
         var vm = new VM({
           timeout: 1000,
@@ -112,19 +113,48 @@ const {VM} = require('vm2');
         // the functions they need to write.
         let error = null
         let spec
-        try {
-          vm.run(userFunc)
-          for (spec of specs)
-            vm.run(spec)
-        } catch(ex) {
-          vm.run(`console.log('boxxxo')`)
+        let arr = [];
+
+        vm.run(userFunc)
+
+            for (spec of specs){
+              console.log("LOOPING SPEC",spec)
+              let sliced = spec.slice(13,spec.length-1)
+              
+              try {
+
+                vm.run(spec)
+                arr.push(`${sliced}: PASSED` )
+              }
+              catch(ex) {
+                
+                error = ex
+                error.spec = spec
+                
+                arr.push(`${sliced}: FAILED` )
+                console.log('error in catch',error)
+                // vm.run(`console.log("TRY AGAIN, DON'T GIVE UP!")`)
+              }
+              
+            }
+        // try {
+        //   for (spec of specs){
+        //     console.log("LOOPING SPEC",spec)
+        //     vm.run(spec)
+
+        //   }
+            
+        // } catch(ex) {
           
-          error = ex
-          error.spec = spec
-        }
+        //   error = ex
+        //   error.spec = spec
+        //   console.log('error in catch',error)
+        //   vm.run(`console.log("catch(ex): Did not pass specs")`)
+        // }
         return [
-          error ? `${error.spec} failed with ${error.message}` : 'OK',
-          log.join('\n'),
+          arr.join("\n"),
+          // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
+          log.join('\n')
         ]
         // return log
         // const wrappedCode = wrap('hello', userFunc)
