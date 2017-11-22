@@ -84,9 +84,6 @@ export class CodeEditor extends Component {
                  <div className="right-train-container">
                   <div className="output-div" >
                       <h4 className="right-container-headers">Output:</h4>
-                      {
-                          // this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
-                      }
                   </div>
 
                    <div className="test-specs-div">
