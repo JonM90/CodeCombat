@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // const socket = require('../client/socket')
 const {EventEmitter} = require('events');
 const events = new EventEmitter()
-
+import axios from 'axios';
 export default events;
 
 // export function mssg(msg, shouldBroadcast = true) {
@@ -18,17 +18,23 @@ export class CodeEditor extends Component {
 
     this.state = {
       attempt: '',
+      currentProblem: {},
       output: '',
-      test: [
-        {input: 2, output: 4},
-        {input: 4, output: 8},
-        {input: 8, output: 16}
-      ]
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.tester = this.tester.bind(this);
+    
 
+  }
+  componentDidMount(){
+    axios.get('api/problems/6')
+      .then(res=>res.data)
+      .then(currentProblem => {
+        this.setState({currentProblem})
+        console.log("SO WE KNO:",this.state.currentProblem)
+       })
+      
   }
   onChange(newValue, e) {
     console.log(newValue, e);
@@ -50,8 +56,8 @@ export class CodeEditor extends Component {
   onSubmit(e) {
     e.preventDefault();
     // console.log('SUBMIT!', socket)
-    events.emit('userSubmit', this.state.attempt)
-
+    console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
+    events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs])
     events.on('output', (output) => {this.setState({output})})
   }
   render() {
@@ -84,6 +90,7 @@ export class CodeEditor extends Component {
                  <div className="right-train-container">
                   <div className="output-div" >
                       <h4 className="right-container-headers">Output:</h4>
+                      
                   </div>
 
                    <div className="test-specs-div">

@@ -22,7 +22,7 @@ async function seed () {
     User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 1, score: 0, isAdmin: false}),
     User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false})
   ])
-
+//CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
   const problems = await Promise.all([
     Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: '(a,b)=> a+b', testSpecs: ['sum(1,2) === 3', 'sum(2,2) === 4'], authorId: 1}),
     Problem.create({title: 'Diff', level: 1, description: 'Return the difference of two numbers', solution: '(a,b)=> a-b', testSpecs: ['diff(1,2) === -1', 'diff(2,1) === 1'], authorId: 2}),
