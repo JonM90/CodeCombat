@@ -62,7 +62,7 @@ export class CodeEditor extends Component {
   }
   render() {
     console.log('OUTPUT!', this.state)
-    
+
     return (
 
       <div className="main-train-container" >
