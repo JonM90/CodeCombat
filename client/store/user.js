@@ -60,3 +60,39 @@ export default function (state = defaultUser, action) {
       return state
   }
 }
+
+// {
+//   questions : [
+//     {spec, title, desciption, solution},
+//     {spec, title, desciption, solution},
+//     {spec, title, desciption, solution},
+//   ]
+// }
+
+// class Battle extends React.Component {
+//   constructor() {
+//     this.state = {
+//       questions : []
+//     }
+//   },
+
+//   componentDidMount() {
+//     axios.get('/api/questions')
+//     .then(q => this.setState({questions : q}))
+//   }
+
+//   render() {
+//     let idx = Math.floor(Math.random() * this.state.questions.length)
+//     let q = this.state.questions[idx];
+//     return (
+//       <h1>{q.title}</h1>
+//       <h2>{q.description}</h2>
+//       <canvas 
+
+//     )
+
+//   }
+// }
+
+
+

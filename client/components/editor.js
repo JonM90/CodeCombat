@@ -17,7 +17,7 @@ export class CodeEditor extends Component {
     super();
 
     this.state = {
-      attempt: '',
+      attempt: 'PONIES!',
       output: '',
       test: [
         {input: 2, output: 4},
@@ -54,6 +54,12 @@ export class CodeEditor extends Component {
 
     events.on('output', (output) => {this.setState({output})})
   }
+
+  componentDidMount() {
+    const editor = this.ace.editor;
+    editor.setValue("the new text here")
+  }
+
   render() {
     console.log('OUTPUT!', this.state)
 
