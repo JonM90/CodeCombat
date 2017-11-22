@@ -4,9 +4,9 @@ module.exports = router
 
 router.get('/', (req, res, next) => {
   Problem.findAll({
-    attributes: {
-        exclude: ['solution', 'testSpecs']
-    }
+    // attributes: {
+    //     exclude: ['solution', 'testSpecs']
+    // }
   })
     .then(problems => res.json(problems))
     .catch(next)

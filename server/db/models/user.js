@@ -3,6 +3,10 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  name: {
+    type: Sequelize.STRING,
+    allowNull: true //CHANGE LATER
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -11,9 +15,13 @@ const User = db.define('user', {
   password: {
     type: Sequelize.STRING
   },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: true //CHANGE LATER
+  rank: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
+  },
+  score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,

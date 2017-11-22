@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {fetchAllProblems} from '../store';
+// import {fetchAllProblems} from '../store';
 
 /**
  * COMPONENT
@@ -19,7 +19,7 @@ export class UserHome extends Component {
   render() {
     const {email} = this.props;
     const {user} = this.props;
-    console.log('PROPS!', this.props)
+    // console.log('PROPS!', this.props)
 
     return (
       <div>
@@ -45,18 +45,18 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadAllProblems: () => {
-      dispatch(fetchAllProblems())
-    }
-  }
-}
-
+// const mapDispatch = dispatch => {
+//   return {
+//     loadAllProblems: () => {
+//       dispatch(fetchAllProblems())
+//     }
+//   }
+// }
 // const mapDispatch = dispatch => ({ loadData: (id) => dispatch(fetchOrders(id)) })
 
 
-export default connect(mapState, mapDispatch)(UserHome)
+export default connect(mapState)(UserHome)
+// export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES
