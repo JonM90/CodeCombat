@@ -1,7 +1,7 @@
 // import {VM} from 'vm2'
 // import {EventEmitter} from 'events'
 // const {EventEmitter} = require('events');
-// const socket = require('../client/socket')
+
 // const events = new EventEmitter()
 // export default events
 
@@ -114,7 +114,7 @@ const {VM} = require('vm2');
         let error = null
         let spec
         let arr = [];
-
+        let pass = true
         vm.run(userFunc)
 
             for (spec of specs){
@@ -127,7 +127,7 @@ const {VM} = require('vm2');
                 arr.push(`${sliced}: PASSED` )
               }
               catch(ex) {
-                
+                pass = false
                 error = ex
                 error.spec = spec
                 
@@ -137,24 +137,12 @@ const {VM} = require('vm2');
               }
               
             }
-        // try {
-        //   for (spec of specs){
-        //     console.log("LOOPING SPEC",spec)
-        //     vm.run(spec)
-
-        //   }
             
-        // } catch(ex) {
-          
-        //   error = ex
-        //   error.spec = spec
-        //   console.log('error in catch',error)
-        //   vm.run(`console.log("catch(ex): Did not pass specs")`)
-        // }
         return [
-          arr.join("\n"),
+          arr.join('\n'),
           // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
-          log.join('\n')
+          log.join('\n'),
+          pass
         ]
         // return log
         // const wrappedCode = wrap('hello', userFunc)
@@ -173,12 +161,7 @@ const {VM} = require('vm2');
 
 
       
-      // ************************************************************
-      // const vm = new VM({
-        //     timeout: 1000,
-        //     sandbox: {}
-        // });
-// var vm = new VM
+// ************************************************************
 //VM PROPERTIES
 // => VM {
 //   domain:
@@ -208,19 +191,3 @@ const {VM} = require('vm2');
 //         byteLength: [Function: byteLength],
 //         [Symbol(node.isEncoding)]: [Function] } } }
 
-// export function draw(start, end, strokeColor='black', shouldBroadcast=true) {
-//   // Draw the line between the start and end positions
-//   // that is colored with the given color.
-//   ctx.beginPath();
-//   ctx.strokeStyle = strokeColor;
-//   ctx.moveTo(...start);
-//   ctx.lineTo(...end);
-//   ctx.closePath();
-//   ctx.stroke();
-
-//   // If shouldBroadcast is truthy, we will emit a draw event to listeners
-//   // with the start, end and color data.
-//   shouldBroadcast &&
-//       events.emit('draw', start, end, strokeColor);
-
-// };

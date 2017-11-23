@@ -24,8 +24,8 @@ async function seed () {
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
   const problems = await Promise.all([
-    Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: '(a,b)=> a+b', testSpecs: ['sum(1,2) === 3', 'sum(2,2) === 4'], authorId: 1}),
-    Problem.create({title: 'Diff', level: 1, description: 'Return the difference of two numbers', solution: '(a,b)=> a-b', testSpecs: ['diff(1,2) === -1', 'diff(2,1) === 1'], authorId: 2}),
+    Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
+    Problem.create({title: 'Diff', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature:'diff(a, b)'}),
     Problem.create({title: 'FizzBuzz', level: 2, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function fizzBuzz(num){
         if (num%15 === 0) {
           return "FizzBuzz";
@@ -37,7 +37,7 @@ async function seed () {
           return false;
         }
       }
-    `, testSpecs: ['FizzBuzz(15) === "FizzBuzz"', 'FizzBuzz(3) === "Buzz"', 'FizzBuzz(5) === "Fizz"','FizzBuzz(12) === "Fizz"' ], authorId: 1}),
+    `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Buzz")', 'assert.equal(FizzBuzz(5),"Fizz")','assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature:'FizzBuzz(num)'}),
     Problem.create({title: 'bactrianCase', level: 3, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
       var newString = '';
 
@@ -50,7 +50,7 @@ async function seed () {
       }
 
       return newString;
-    }`, testSpecs: ['bactrianCase("hello") === "HeLlO"', 'bactrianCase("stephanie") === "StEpHaNiE"', 'bactrianCase("fullstack") === "FuLlStAcK"'], authorId: 2}),
+    }`, testSpecs: ['assert.equal(bactrianCase("hello"),"HeLlO")', 'assert.equal(bactrianCase("stephanie"),"StEpHaNiE")', 'assert.equal(bactrianCase("fullstack"), "FuLlStAcK")'], authorId: 2, signature:'bactrianCase(str)'}),
     Problem.create({title: 'exponentiate', level: 4, description: 'Write a function exponentiate that accepts a number and a power to raise that number to. For the present, assume the power argument will always be a positive integer value.', solution: `function exponentiate(base, power) {
       var expResult = 1;
 
@@ -59,7 +59,7 @@ async function seed () {
       }
 
      return expResult;
-    }`, testSpecs: ['assert.equal(exponentiate(1,1), 1)', 'assert.equal(exponentiate(3,3), 27)', 'assert.equal(exponentiate(6,7), 279936)' ], authorId: 2}),
+    }`, testSpecs: ['assert.equal(exponentiate(1,1), 1)', 'assert.equal(exponentiate(3,3), 27)', 'assert.equal(exponentiate(6,7), 279936)' ], authorId: 2, signature:'exponentiate(base, power)'}),
     Problem.create({title: 'mostVowels', level: 4, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
       var vowels = "aeiou";
       var wordsArr = str.split(" ");
@@ -81,7 +81,7 @@ async function seed () {
       }
 
      return leadWord;
-    }`, testSpecs: ['assert.equal(mostVowels("I am a keeper with some real rhythms"), "keeper")', 'assert.equal(mostVowels("Tenacious Tony Trains Today, Tomorrow Till The Time Ticks"), "Tenacious")'], authorId: 1})
+    }`, testSpecs: ['assert.equal(mostVowels("I am a keeper with some real rhythms"), "keeper")', 'assert.equal(mostVowels("Tenacious Tony Trains Today, Tomorrow Till The Time Ticks"), "Tenacious")'], authorId: 1, signature:'mostVowels(str)'})
   ])
 
   const complete = await Promise.all([

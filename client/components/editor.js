@@ -1,46 +1,39 @@
 import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 // const socket = require('../client/socket')
 const {EventEmitter} = require('events');
-const events = new EventEmitter()
+export const events = new EventEmitter()
+import {fetchAllProblems, fetchCompletedProblems} from '../store';
 import axios from 'axios';
-export default events;
-
-// export function mssg(msg, shouldBroadcast = true) {
-//   // If shouldBroadcast is truthy, we will emit an event to listeners w. msg
-//   shouldBroadcast &&
-//       events.emit('mssg', msg);
-// }
 
 export class CodeEditor extends Component {
   constructor() {
     super();
-
     this.state = {
       attempt: '',
       currentProblem: {},
       output: '',
+      problems: [],
+      eligibleQs: [],
+      pass: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.tester = this.tester.bind(this);
-    
+  }
 
-  }
   componentDidMount(){
-    axios.get('api/problems/6')
-      .then(res=>res.data)
-      .then(currentProblem => {
-        this.setState({currentProblem})
-        console.log("SO WE KNO:",this.state.currentProblem)
-       })
-      
+    console.log("THIS.PROPS DID MOUNT!!", this.props) 
+    // this.props.loadAllProblems(this.props.user.id);
+    // this.props.loadCompletedProblems(this.props.user.id)
+    // this.setState({currentProblem: this.state.eligibleQs[0]})   
+    const editor = this.ace.editor
+    this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[0]).signature}{}`)
   }
+
   onChange(newValue, e) {
     console.log(newValue, e);
-
     let attempt = newValue;
-
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
     // editor.getSession.setBehaviorEnabled(true)
@@ -49,27 +42,27 @@ export class CodeEditor extends Component {
     this.setState({attempt})
   }
 
-  tester(num){
-    return num*2;
-  }
-
   onSubmit(e) {
     e.preventDefault();
-    // console.log('SUBMIT!', socket)
-    console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
-    events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs])
+    events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[0].testSpecs])
     events.on('output', (output) => {this.setState({output})})
+    events.on('pass', (pass)=>{
+      this.setState({pass})
+    })
   }
   render() {
-    console.log('OUTPUT!', this.state)
-
+    // console.log("CURRENT PROBLEM RENDER", this.state.currentProblem)
+    console.log('PASS', this.state.pass) 
+    let quest = this.props.allQuestions  
+    // if (!quest.length) return null
     return (
 
       <div className="main-train-container" >
 
-        <div className="question-div">
-              <h2>Write a function that can destroy the world!!!</h2>
-        </div>
+        {quest && <div className="question-div">
+              <h2 className="question-title-text">{quest && quest[0].title}</h2>
+              <h6 className="question-description-text">{quest && quest[0].description}</h6>
+        </div>}
 
           <div className="train-container">
               <div className="editor-div left-train-container">
@@ -107,3 +100,26 @@ export class CodeEditor extends Component {
   }
 }
 
+const mapState = (state) => {
+  console.log('STATE:', state)
+  return {
+    email: state.user.email,
+    user: state.user,
+    allQuestions: state.problems.allProblems,
+    completedQuestions: state.problems.completedProblems
+  }
+}
+
+// const mapDispatch = dispatch => {
+//   return {
+//     loadAllProblems: (userId) => {
+//       dispatch(fetchAllProblems())
+//       dispatch(fetchCompletedProblems(userId))
+//     }
+//     // loadCompletedProblems: (userId) => {
+//     //   dispatch(fetchCompletedProblems(userId))
+//     // }
+//   }
+// }
+
+export default connect(mapState)(CodeEditor)
