@@ -1,71 +1,25 @@
 import React, { Component } from 'react';
-import Popup from 'react-popup';
 
 export class PopUp extends Component{
-   constructor(){
-    super();
+   constructor(props){
+    super(props);
    }
 
-  componentDidMount(){
-    Popup.create({
-      title: null,
-      content: 'This popup uses the create method directly to get more control. This popup demonstrates custom buttons.',
-      buttons: {
-          left: [{
-              text: 'Cancel',
-              className: 'danger',
-              key: 'esc',
-              action: function () {
-                  Popup.alert('You pressed the Cancel btn');
-  
-                  /** Close this popup. Close will always close the current visible one, if one is visible */
-                  Popup.close();
-              }
-          }],
-          right: [{
-              text: 'Alt',
-              key: '⌘+enter',
-              action: function () {
-                  // Passing true as the second argument to the create method
-                  // displays it directly, without interupting the queue.
-                  Popup.create({
-                      title: null,
-                      content: 'I was configured to display right away, without affecting the queue. Closing this will display the previously visible popup.',
-                      buttons: {
-                          left: ['cancel'],
-                          right: []
-                      }
-                  }, true);
-              }
-          }, {
-              text: 'Save',
-              className: 'success',
-              action: function () {
-                  Popup.alert('You pressed the Save btn');
-  
-                  /** Close this popup. Close will always close the current visible one, if one is visible */
-                  Popup.close();
-              }
-          }]
-      }
-  });
-  }
+  componentDidMount(){}
 
   render(){
     return (
-      <div id="pop-up-main">
-
-        <Popup
-          className="mm-popup"
-          btnClass="mm-popup__btn"
-          closeBtn={true}
-          closeHtml={null}
-          defaultOk="Ok"
-          defaultCancel="Cancel"
-          wildClasses={false}
-          closeOnOutsideClick={true} />
-
-      </div>
+      (
+        <div className='popup-div' style={{zIndex:'10'}}>
+          <div className='popup-inner-div'>
+            <h1 className='popup-header-text'>This should be a dynamic Heading</h1>
+            <p className='popup-p-text'>...and this a dynamic paragraph</p>
+            <button className='pop-btn-yes'onClick={this.props.func}>close me</button>
+            <button className='pop-btn-no'onClick={this.props.func}>close me</button>
+            <button className='pop-btn-close'onClick={this.props.func}>close me</button>
+          </div>
+        </div>
+      )
     )
   }
 }

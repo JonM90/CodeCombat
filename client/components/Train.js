@@ -2,33 +2,34 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems} from '../store';
 import { PopUp } from './pop_up';
+import {CodeEditor} from './editor';
 
 
 export class Train extends Component{
     constructor(){
         super();
         this.state = {
-          eligibleQs: []
+          eligibleQs: [],
+          showPopup: false
         }
+        this.togglePopup = this.togglePopup.bind(this);
     }
-
+    togglePopup() {
+      this.setState({
+        showPopup: !this.state.showPopup
+      });
+    }
     componentDidMount() {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
+      this.setState({showPopup:true})
     }
 
     componentWillReceiveProps(nextProps) {
       let allQs = nextProps.allQuestions.allProblems;
       let compQs = nextProps.allQuestions.completedProblems;
-      let Qs = [];
-      if (allQs && compQs) {
-        allQs.forEach( q => {
-          compQs.forEach( p => {
-            if (p.id !== q.id) Qs.push(q)
-          })
-        })
-      }
-      let eligibleQs = Qs.filter(q => {
+      let compIds = compQs.map(q => q.id)
+      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
         return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
       })
       this.setState({eligibleQs})
@@ -41,10 +42,25 @@ export class Train extends Component{
           <div id="train-main">
 
               <h1>TRAIN COMPONENT</h1>
-             
-              <PopUp />
-              
-          </div>
+              <button onClick={this.togglePopup}>show popup</button>
+
+                            {this.state.showPopup ? <PopUp func={this.togglePopup}/>
+                              // (
+                              //   <div className='popup' style={{zIndex:'10'}}>
+                              //     <div className='popup_inner'>
+                              //       <h1>HELLO</h1>
+                              //       <button onClick={this.togglePopup}>close me</button>
+                              //     </div>
+                              //   </div>
+                              // )
+                              : null
+                            }
+
+              <div className="editor-div">
+                <CodeEditor />
+              </div>
+
+        </div>
       )
     }
 }
@@ -70,3 +86,16 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Train)
+
+// const Popup = function (){
+
+//     return (
+//       <div className='popup'>
+//         <div className='popup_inner'>
+//           <h1>{this.props.text}</h1>
+//         <button onClick={this.props.closePopup}>close me</button>
+//         </div>
+//       </div>
+//     );
+
+// }
