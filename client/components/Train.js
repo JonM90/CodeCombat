@@ -22,21 +22,25 @@ export class Train extends Component{
     componentDidMount() {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
-      this.setState({showPopup:true})
+      this.setState({showPopup: true})
     }
 
     componentWillReceiveProps(nextProps) {
       let allQs = nextProps.allQuestions.allProblems;
       let compQs = nextProps.allQuestions.completedProblems;
       let compIds = compQs.map(q => q.id)
-      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
-        return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
-      })
-      this.setState({eligibleQs})
+      console.log('about to FILTER allQs and compQs', allQs, compQs)
+      if (allQs.length && compQs.length) {
+        let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
+          return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
+        })
+        // console.log('SET STATE eligibleQs:', eligibleQs)
+        this.setState({eligibleQs})
+      }
     }
 
     render() {
-      if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
+      // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
 
       return (
           <div id="train-main">
@@ -44,20 +48,20 @@ export class Train extends Component{
               <h1>TRAIN COMPONENT</h1>
               <button onClick={this.togglePopup}>show popup</button>
 
-                            {this.state.eligibleQs && this.state.showPopup ? <PopUp func={this.togglePopup} quest={this.state.eligibleQs[0]} />
-                              // (
-                              //   <div className='popup' style={{zIndex:'10'}}>
-                              //     <div className='popup_inner'>
-                              //       <h1>HELLO</h1>
-                              //       <button onClick={this.togglePopup}>close me</button>
-                              //     </div>
-                              //   </div>
-                              // )
-                              : null
-                            }
+                  {this.state.eligibleQs && this.state.showPopup ? <PopUp func={this.togglePopup} quest={this.state.eligibleQs[0]} />
+                    // (
+                    //   <div className='popup' style={{zIndex:'10'}}>
+                    //     <div className='popup_inner'>
+                    //       <h1>HELLO</h1>
+                    //       <button onClick={this.togglePopup}>close me</button>
+                    //     </div>
+                    //   </div>
+                    // )
+                    : null
+                  }
 
               <div className="editor-div">
-                <CodeEditor />
+                {this.state.eligibleQs && <CodeEditor questions={this.state.eligibleQs} />}
               </div>
 
         </div>
@@ -88,7 +92,6 @@ const mapDispatch = dispatch => {
 export default connect(mapState, mapDispatch)(Train)
 
 // const Popup = function (){
-
 //     return (
 //       <div className='popup'>
 //         <div className='popup_inner'>
@@ -97,5 +100,4 @@ export default connect(mapState, mapDispatch)(Train)
 //         </div>
 //       </div>
 //     );
-
 // }
