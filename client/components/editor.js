@@ -15,11 +15,12 @@ export class CodeEditor extends Component {
       currentProblem: {},
       output: '',
       problems: [],
-      eligibleQs: [],
+      problemNum: 0,
       pass: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount(){
@@ -28,7 +29,7 @@ export class CodeEditor extends Component {
     // this.props.loadCompletedProblems(this.props.user.id)
     // this.setState({currentProblem: this.state.eligibleQs[0]})   
     const editor = this.ace.editor
-    this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[0]).signature}{}`)
+    this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
   }
 
   onChange(newValue, e) {
@@ -42,9 +43,15 @@ export class CodeEditor extends Component {
     this.setState({attempt})
   }
 
+  nextQuestion(){
+    this.setState({problemNum:this.state.problemNum+1})
+    const editor = this.ace.editor
+    this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum+1]).signature}{}`)
+  }
+
   onSubmit(e) {
     e.preventDefault();
-    events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[0].testSpecs])
+    events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[this.state.problemNum].testSpecs])
     events.on('output', (output) => {this.setState({output})})
     events.on('pass', (pass)=>{
       this.setState({pass})
@@ -52,7 +59,7 @@ export class CodeEditor extends Component {
   }
   render() {
     // console.log("CURRENT PROBLEM RENDER", this.state.currentProblem)
-    console.log('PASS', this.state.pass) 
+    console.log('POSITION', this.state.problemNum) 
     let quest = this.props.allQuestions  
     // if (!quest.length) return null
     return (
@@ -60,8 +67,8 @@ export class CodeEditor extends Component {
       <div className="main-train-container" >
 
         {quest && <div className="question-div">
-              <h2 className="question-title-text">{quest && quest[0].title}</h2>
-              <h6 className="question-description-text">{quest && quest[0].description}</h6>
+              <h2 className="question-title-text">{quest && quest[this.state.problemNum].title}</h2>
+              <h6 className="question-description-text">{quest && quest[this.state.problemNum].description}</h6>
         </div>}
 
           <div className="train-container">
@@ -78,6 +85,11 @@ export class CodeEditor extends Component {
                     <form id="train-submit" className="submit-btn" onSubmit={this.onSubmit}>
                       <input id="train-submit-btn"type="submit" />
                     </form>
+                    <button
+                    onClick={this.nextQuestion}
+                    > 
+                      NEXT
+                    </button>
                </div>
 
                  <div className="right-train-container">
