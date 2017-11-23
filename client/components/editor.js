@@ -24,7 +24,7 @@ export class CodeEditor extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.tester = this.tester.bind(this);
-    
+
 
   }
   componentDidMount(){
@@ -32,19 +32,19 @@ export class CodeEditor extends Component {
       .then(res=>res.data)
       .then(currentProblem => {
         this.setState({currentProblem})
-        console.log("SO WE KNO:",this.state.currentProblem)
+        // console.log("SO WE KNO:",this.state.currentProblem)
        })
-      
+
   }
   onChange(newValue, e) {
-    console.log(newValue, e);
+    // console.log(newValue, e);
 
     let attempt = newValue;
 
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
     // editor.getSession.setBehaviorEnabled(true)
-    console.log(editor.getValue()); // Outputs the value of the editor
+    // console.log(editor.getValue()); // Outputs the value of the editor
 
     this.setState({attempt})
   }
@@ -56,12 +56,12 @@ export class CodeEditor extends Component {
   onSubmit(e) {
     e.preventDefault();
     // console.log('SUBMIT!', socket)
-    console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
+    // console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
     events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs])
     events.on('output', (output) => {this.setState({output})})
   }
   render() {
-    console.log('OUTPUT!', this.state)
+    // console.log('OUTPUT!', this.state)
 
     return (
 
@@ -90,7 +90,7 @@ export class CodeEditor extends Component {
                  <div className="right-train-container">
                   <div className="output-div" >
                       <h4 className="right-container-headers">Output:</h4>
-                      
+
                   </div>
 
                    <div className="test-specs-div">

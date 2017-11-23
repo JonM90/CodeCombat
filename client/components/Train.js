@@ -44,7 +44,7 @@ export class Train extends Component{
               <h1>TRAIN COMPONENT</h1>
               <button onClick={this.togglePopup}>show popup</button>
 
-                            {this.state.showPopup ? <PopUp func={this.togglePopup}/>
+                            {this.state.eligibleQs && this.state.showPopup ? <PopUp func={this.togglePopup} quest={this.state.eligibleQs[0]} />
                               // (
                               //   <div className='popup' style={{zIndex:'10'}}>
                               //     <div className='popup_inner'>

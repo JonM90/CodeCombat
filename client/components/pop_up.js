@@ -8,14 +8,20 @@ export class PopUp extends Component{
   componentDidMount(){}
 
   render(){
+    let quest = this.props.quest
+    if (!quest) return null;
+    console.log('this.props:', this.props)
+    let qName = this.props.quest.title
+    if (!qName) return null;
+    console.log('qName:', qName)
     return (
       (
         <div className='popup-div' style={{zIndex:'10'}}>
           <div className='popup-inner-div'>
-            <h1 className='popup-header-text'>This should be a dynamic Heading</h1>
-            <p className='popup-p-text'>...and this a dynamic paragraph</p>
-            <button className='pop-btn-yes'onClick={this.props.func}>close me</button>
-            <button className='pop-btn-no'onClick={this.props.func}>close me</button>
+            <h1>{`Do you wish to accept this mission?`}</h1>
+            <h2>{`Mission: ${qName}`}</h2>
+            <button className='pop-btn-yes btn btn-success'onClick={this.props.func}>YES</button>
+            <button className='pop-btn-no'onClick={this.props.func}>NO</button>
             <button className='pop-btn-close'onClick={this.props.func}>close me</button>
           </div>
         </div>
