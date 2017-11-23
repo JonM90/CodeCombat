@@ -25,7 +25,8 @@ module.exports = (io) => {
       
       console.log("********this is outPut in socket/index.js:",outPut);
       console.log('END!');
-      socket.emit('result', outPut)
+      socket.emit('result', outPut.slice(0,2))
+      socket.emit('pass', outPut[2])
     })
 
     socket.on('disconnect', () => {
