@@ -44,9 +44,10 @@ export class CodeEditor extends Component {
   }
 
   nextQuestion(){
-    this.setState({problemNum:this.state.problemNum+1})
+    this.setState({problemNum:this.state.problemNum+1, output:''})
     const editor = this.ace.editor
     this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum+1]).signature}{}`)
+    console.log("OUTPUT ON NEXT CLICK:",this.state.output)
   }
 
   onSubmit(e) {
@@ -63,8 +64,8 @@ export class CodeEditor extends Component {
     let quest = this.props.allQuestions  
     // if (!quest.length) return null
     return (
-
-      <div className="main-train-container" >
+      this.state.problemNum !== this.props.allQuestions.length ?
+      (<div className="main-train-container" >
 
         {quest && <div className="question-div">
               <h2 className="question-title-text">{quest && quest[this.state.problemNum].title}</h2>
@@ -101,13 +102,13 @@ export class CodeEditor extends Component {
                    <div className="test-specs-div">
                       <h4 className="right-container-headers">Test Specs:</h4>
                       {
-                        this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                        this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p> </div>
                       }
                    </div>
 
                 </div>
             </div>
-        </div>
+        </div>):<p>CONGRATULATIONS!!!</p>
     );
   }
 }
