@@ -150,7 +150,7 @@ async function seed () {
     {
     title: 'Temperature Converter', 
     level: 1, 
-  description: 'Write a converter function that accepts a temperature in Fahrenheit and returns the temperature in Celsius. For your reference, here is the                             equation for converting Fahrenheit to Celsius: T(°C) = (T(°F) - 32) × 5/9', 
+  description: 'Write a converter function that accepts a temperature in Fahrenheit and returns the temperature in Celsius. For your reference, here is the equation for converting Fahrenheit to Celsius: T(°C) = (T(°F) - 32) × 5/9', 
     solution: `function converter(temp) {
                   return (temp - 32) * 5/9; 
                }`,
@@ -168,7 +168,7 @@ Problem.create(
   {
     title: 'Frequency Analysis', 
     level: 2, 
-    description: 'Write a function that takes a string of text and returns an object containing the count for each character in the string.Note: The input string                       will only contain lowercase letters. There will not be any whitespace, capital letters, numbers, or special characters.',
+    description: 'Write a function that takes a string of text and returns an object containing the count for each character in the string.Note: The input string  will only contain lowercase letters. There will not be any whitespace, capital letters, numbers, or special characters.',
     solution: `function frequencyAnalysis(str) {
                   var countObj = {};
   
@@ -196,7 +196,7 @@ Problem.create(
   {
     title: 'isPrime', 
     level: 3, 
-    description: 'Create the function isPrime(num) which will take the num parameter being passed and return true if the parameter is a prime number, otherwise return false.           Note: A prime number is any number that can only be evenly divided by 1 or itself',
+    description: 'Create the function isPrime(num) which will take the num parameter being passed and return true if the parameter is a prime number, otherwise return false. Note: A prime number is any number that can only be evenly divided by 1 or itself',
     solution: `function isPrime(num){
                   for(var i=2; i < num; i++){
                 	 	if(num%i === 0){
@@ -219,7 +219,7 @@ Problem.create(
   {
     title: 'Flatten Arrays', 
     level: 3, 
-    description: 'Write a function, flatten, that accepts a two-dimensional array as its argument and returns a flattened one-dimensional copy of the array.The argument                array will never be more than 2 levels deep. Remember to return a copy, meaning you should not modify the original 2D array passed in!',
+    description: 'Write a function, flatten, that accepts a two-dimensional array as its argument and returns a flattened one-dimensional copy of the array.The argument array will never be more than 2 levels deep. Remember to return a copy, meaning you should not modify the original 2D array passed in!',
     solution: `function flatten(arr) {
                  var flatArray = [];
                   for (var i=0; i<arr.length; i++) {
@@ -262,7 +262,7 @@ Problem.create(
   {
     title: 'Proper Noun Filter', 
     level: 3, 
-    description: "Write a function, properNounFilter, that determines whether the string argument is a proper noun. A word is considered a proper noun if only the first                letter is capitalized. If the argument is a proper noun, properNounFilter should return true. It should return false if the word isn't a proper noun, if              the word is mixed case, or if it is all caps.", 
+    description: "Write a function, properNounFilter, that determines whether the string argument is a proper noun. A word is considered a proper noun if only the first letter is capitalized. If the argument is a proper noun, properNounFilter should return true. It should return false if the word isn't a proper noun, if the word is mixed case, or if it is all caps.", 
     solution: `function properNounFilter(word) {
                   var charCode;
                 
@@ -288,7 +288,7 @@ Problem.create(
   {
     title: 'Underscore to CamelCase', 
     level: 2, 
-  description: `Write a function to convert a variable name from under_score format to camelCase.Make sure you support an unlimited number of underscores in the input! You             will not have to worry about white space in your input, only alphanumeric characters and underscore                  
+  description: `Write a function to convert a variable name from under_score format to camelCase.Make sure you support an unlimited number of underscores in the input! You will not have to worry about white space in your input, only alphanumeric characters and underscore                  
                 Background Info:
                 Different programming languages use different ways of formatting the names of their variables. For example, some separate words with undersc(i_am_a_function_name). Others, including JavaScript, separate the words inside a  variable name by capitalizing the first letter of each new word. This convention is called camel case (iAmAFunctionName). Note that in camelcase, the first word is not capitalized!`, 
     solution: `function underToCamel(underName) {
