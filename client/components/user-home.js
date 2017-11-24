@@ -19,7 +19,6 @@ export class UserHome extends Component {
   render() {
     const {email} = this.props;
     const {user} = this.props;
-    // console.log('PROPS!', this.props)
 
     return (
       <div>
@@ -45,14 +44,7 @@ const mapState = (state) => {
   }
 }
 
-// const mapDispatch = dispatch => {
-//   return {
-//     loadAllProblems: () => {
-//       dispatch(fetchAllProblems())
-//     }
-//   }
-// }
-// const mapDispatch = dispatch => ({ loadData: (id) => dispatch(fetchOrders(id)) })
+// const mapDispatch = dispatch => ({ loadAllProblems: () => dispatch(fetchAllProblems()) })
 
 
 export default connect(mapState)(UserHome)

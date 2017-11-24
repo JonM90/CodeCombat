@@ -25,12 +25,6 @@ export class CodeEditor extends Component {
   }
   componentDidMount() {
     console.log("THIS.PROPS DID MOUNT!!", this.props)
-    // axios.get('api/problems/6')
-    //   .then(res=>res.data)
-    //   .then(currentProblem => {
-    //     this.setState({currentProblem})
-    //     // console.log("SO WE KNO:",this.state.currentProblem)
-    //    })
     console.log('EDITOR.props.questions!', this.props.questions.length)
 
     // const editor = this.ace.editor
@@ -44,7 +38,6 @@ export class CodeEditor extends Component {
     if (nP.questions.length) {
       console.log('ENTERED IF:', !!nP.questions.length)
       this.setState({eligibleQueue: nP.questions})
-      // console.log('SET QUEUE STATE:', this.state.eligibleQueue)
       const editor = this.ace.editor
       if (this.state.eligibleQueue.length) {
         console.log('INJECTING EDITOR with:!', this.state.eligibleQueue[this.state.problemNum])
@@ -58,7 +51,6 @@ export class CodeEditor extends Component {
     let attempt = newValue;
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
-    // editor.getSession.setBehaviorEnabled(true)
     // console.log(editor.getValue()); // Outputs the value of the editor
     this.setState({attempt})
   }
@@ -66,15 +58,12 @@ export class CodeEditor extends Component {
   nextQuestion(){
     this.setState({problemNum: this.state.problemNum + 1, outPut: ''})
     const editor = this.ace.editor
-    // this.state.eligibleQueue[this.state.problemNum])
-    // editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
 
     this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
   }
 
   onSubmit(e) {
     e.preventDefault();
-    // console.log('SUBMIT!', socket)
     // console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
     // events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[this.state.problemNum].testSpecs])
     events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])

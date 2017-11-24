@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PopUp from './pop_up'
+// import PopUp from './pop_up'
 
 export default class Lobby extends Component{
     constructor(){

@@ -29,12 +29,10 @@ export class Train extends Component{
       let allQs = nextProps.allQuestions.allProblems;
       let compQs = nextProps.allQuestions.completedProblems;
       let compIds = compQs.map(q => q.id)
-      console.log('about to FILTER allQs and compQs', allQs, compQs)
       if (allQs.length && compQs.length) {
         let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
           return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
         })
-        // console.log('SET STATE eligibleQs:', eligibleQs)
         this.setState({eligibleQs})
       }
     }
@@ -48,17 +46,11 @@ export class Train extends Component{
               <h1>TRAIN COMPONENT</h1>
               <button onClick={this.togglePopup}>show popup</button>
 
-                  {this.state.eligibleQs && this.state.showPopup ? <PopUp func={this.togglePopup} quest={this.state.eligibleQs[0]} />
-                    // (
-                    //   <div className='popup' style={{zIndex:'10'}}>
-                    //     <div className='popup_inner'>
-                    //       <h1>HELLO</h1>
-                    //       <button onClick={this.togglePopup}>close me</button>
-                    //     </div>
-                    //   </div>
-                    // )
-                    : null
-                  }
+                  {this.state.eligibleQs && this.state.showPopup ?
+                    <PopUp
+                    func={this.togglePopup}
+                    quest={this.state.eligibleQs[0]}
+                    /> : null}
 
               <div className="editor-div">
                 {this.state.eligibleQs && <CodeEditor questions={this.state.eligibleQs} />}
@@ -90,14 +82,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Train)
-
-// const Popup = function (){
-//     return (
-//       <div className='popup'>
-//         <div className='popup_inner'>
-//           <h1>{this.props.text}</h1>
-//         <button onClick={this.props.closePopup}>close me</button>
-//         </div>
-//       </div>
-//     );
-// }
