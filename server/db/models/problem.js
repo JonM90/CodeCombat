@@ -21,6 +21,10 @@ const Problem = db.define('problem', {
   testSpecs: {
       type: Sequelize.ARRAY(Sequelize.TEXT), //change later
       allowNull: false
+  },
+  signature: {
+    type: Sequelize.STRING,
+    allowNull: false
   }
 })
 

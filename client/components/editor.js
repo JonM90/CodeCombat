@@ -14,12 +14,17 @@ export class CodeEditor extends Component {
       attempt: '',
       currentProblem: {},
       output: '',
-      eligibleQueue: []
+      eligibleQueue: [],
+      // problems: [],
+      problemNum: 0,
+      pass: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
   componentDidMount() {
+    console.log("THIS.PROPS DID MOUNT!!", this.props)
     // axios.get('api/problems/6')
     //   .then(res=>res.data)
     //   .then(currentProblem => {
@@ -28,6 +33,8 @@ export class CodeEditor extends Component {
     //    })
     console.log('EDITOR.props.questions!', this.props.questions.length)
 
+    // const editor = this.ace.editor
+    // this.state.eligibleQueue.length && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
     // if (this.props.questions.length) {this.setState({eligibleQueue: this.props.questions})}
   }
 
@@ -38,13 +45,17 @@ export class CodeEditor extends Component {
       console.log('ENTERED IF:', !!nP.questions.length)
       this.setState({eligibleQueue: nP.questions})
       // console.log('SET QUEUE STATE:', this.state.eligibleQueue)
+      const editor = this.ace.editor
+      if (this.state.eligibleQueue.length) {
+        console.log('INJECTING EDITOR with:!', this.state.eligibleQueue[this.state.problemNum])
+        editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+      }
     }
   }
 
   onChange(newValue, e) {
     // console.log(newValue, e);
     let attempt = newValue;
-
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
     // editor.getSession.setBehaviorEnabled(true)
@@ -52,15 +63,31 @@ export class CodeEditor extends Component {
     this.setState({attempt})
   }
 
+  nextQuestion(){
+    this.setState({problemNum: this.state.problemNum + 1, outPut: ''})
+    const editor = this.ace.editor
+    // this.state.eligibleQueue[this.state.problemNum])
+    // editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+
+    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+  }
+
   onSubmit(e) {
     e.preventDefault();
     // console.log('SUBMIT!', socket)
     // console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
-    events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs])
+    // events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[this.state.problemNum].testSpecs])
+    events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
     events.on('output', (output) => {this.setState({output})})
+    events.on('pass', (pass) => {
+      this.setState({pass})
+    })
   }
   render() {
     console.log('this.state.eligibleQueue!', this.state.eligibleQueue)
+    console.log('POSITION', this.state.problemNum)
+    let quest = this.state.eligibleQueue
+    console.log('quest', quest)
     // console.log('EDITOR.props.questions!', this.props.questions.length)
     // if (this.props.questions.length) {this.setState({eligibleQueue: this.props.questions})}
     // let queue = this.state.eligibleQueue;
@@ -68,9 +95,10 @@ export class CodeEditor extends Component {
     return (
       <div className="main-train-container" >
 
-        <div className="question-div">
-          <h2>Write a function that can destroy the world!!!</h2>
-        </div>
+        {quest.length && <div className='question-div'>
+          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
+          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
+        </div>}
 
         <div className="train-container">
           <div className="editor-div left-train-container">
@@ -85,6 +113,9 @@ export class CodeEditor extends Component {
 
             <form id="train-submit" className="submit-btn" onSubmit={this.onSubmit}>
               <input id="train-submit-btn"type="submit" />
+              <button onClick={this.nextQuestion}>
+                NEXT
+              </button>
             </form>
           </div>
 
@@ -97,7 +128,7 @@ export class CodeEditor extends Component {
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
               {
-                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p>OUTPUT FAILED</p> </div>
+                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p> </div>
               }
             </div>
 
