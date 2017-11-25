@@ -24,24 +24,17 @@ export class CodeEditor extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
   }
   componentDidMount() {
-    console.log("THIS.PROPS DID MOUNT!!", this.props)
-    console.log('EDITOR.props.questions!', this.props.questions.length)
-
-    // const editor = this.ace.editor
-    // this.state.eligibleQueue.length && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
-    // if (this.props.questions.length) {this.setState({eligibleQueue: this.props.questions})}
+    if (!this.ace) return null;
+    this.editor = this.ace.editor
+    console.log('MOUNTED', this.editor)
+    // this.state.eligibleQueue.length && this.editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
   }
 
   componentWillReceiveProps(nP) {
-    console.log('NP:', nP)
-    console.log('EDITOR.props.questions!', nP.questions.length)
     if (nP.questions.length) {
-      console.log('ENTERED IF:', !!nP.questions.length)
       this.setState({eligibleQueue: nP.questions})
-      const editor = this.ace.editor
       if (this.state.eligibleQueue.length) {
-        console.log('INJECTING EDITOR with:!', this.state.eligibleQueue[this.state.problemNum])
-        editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+        this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
       }
     }
   }
@@ -55,17 +48,15 @@ export class CodeEditor extends Component {
     this.setState({attempt})
   }
 
-  nextQuestion(){
+  nextQuestion(e){
+    e.preventDefault();
     this.setState({problemNum: this.state.problemNum + 1, outPut: ''})
     const editor = this.ace.editor
-
     this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
   }
 
   onSubmit(e) {
     e.preventDefault();
-    // console.log('this.state.currentProblem.testSpecs:',this.state.currentProblem.testSpecs)
-    // events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[this.state.problemNum].testSpecs])
     events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
     events.on('output', (output) => {this.setState({output})})
     events.on('pass', (pass) => {
@@ -73,16 +64,11 @@ export class CodeEditor extends Component {
     })
   }
   render() {
-    console.log('this.state.eligibleQueue!', this.state.eligibleQueue)
-    console.log('POSITION', this.state.problemNum)
     let quest = this.state.eligibleQueue
     console.log('quest', quest)
-    // console.log('EDITOR.props.questions!', this.props.questions.length)
-    // if (this.props.questions.length) {this.setState({eligibleQueue: this.props.questions})}
-    // let queue = this.state.eligibleQueue;
-    // console.log('QUEUE:', queue)
     return (
-      <div className="main-train-container" >
+      this.state.problemNum !== this.state.eligibleQueue.length ?
+      (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
           <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
@@ -117,13 +103,13 @@ export class CodeEditor extends Component {
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
               {
-                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p> </div>
+                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p></div>
               }
             </div>
 
           </div>
         </div>
-      </div>
+      </div>) : <div><h2>CONGRATULATIONS!!!</h2></div>
     );
   }
 }
