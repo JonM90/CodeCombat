@@ -50,7 +50,8 @@ export class CodeEditor extends Component {
 
   nextQuestion(e){
     e.preventDefault();
-    this.setState({problemNum: this.state.problemNum + 1, outPut: ''})
+    this.setState({problemNum: this.state.problemNum + 1})
+    this.setState({output: ''})
     const editor = this.ace.editor
     this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
   }
