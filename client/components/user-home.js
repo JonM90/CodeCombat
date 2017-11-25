@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {fetchAllProblems, fetchCompletedProblems} from '../store';
 
 /**
  * COMPONENT
@@ -13,8 +12,8 @@ export class UserHome extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAllProblems();
-    this.props.loadCompletedProblems(this.props.user.id);
+    // this.props.loadAllProblems();
+    // this.props.loadCompletedProblems(this.props.user.id);
   }
 
   render() {
