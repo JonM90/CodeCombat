@@ -13,14 +13,13 @@ export class UserHome extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAllProblems();    
+    this.props.loadAllProblems();
     this.props.loadCompletedProblems(this.props.user.id);
   }
 
   render() {
     const {email} = this.props;
     const {user} = this.props;
-    console.log('PROPS!', this.props)
 
     return (
       <div>
@@ -46,20 +45,9 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadAllProblems: () => {
-      dispatch(fetchAllProblems())
-    },
-    loadCompletedProblems: (userId) => {
-      dispatch(fetchCompletedProblems(userId))
-    }
-  }
-}
+// const mapDispatch = dispatch => ({ loadAllProblems: () => dispatch(fetchAllProblems()) })
 
-// const mapDispatch = dispatch => ({ loadData: (id) => dispatch(fetchOrders(id)) })
-
-export default connect(mapState, mapDispatch)(UserHome)
+export default connect(mapState)(UserHome)
 // export default connect(mapState, mapDispatch)(UserHome)
 
 /**

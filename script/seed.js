@@ -85,30 +85,30 @@ async function seed () {
     }`, testSpecs: ['assert.equal(mostVowels("I am a keeper with some real rhythms"), "keeper")', 'assert.equal(mostVowels("Tenacious Tony Trains Today, Tomorrow Till The Time Ticks"), "Tenacious")'], authorId: 1, signature:'mostVowels(str)'}),
     Problem.create(
       {
-      title: 'Temperature Converter', 
-      level: 1, 
-    description: 'Write a converter function that accepts a temperature in Fahrenheit and returns the temperature in Celsius. For your reference, here is the equation for converting Fahrenheit to Celsius: T(°C) = (T(°F) - 32) × 5/9', 
+      title: 'Temperature Converter',
+      level: 1,
+    description: 'Write a converter function that accepts a temperature in Fahrenheit and returns the temperature in Celsius. For your reference, here is the equation for converting Fahrenheit to Celsius: T(°C) = (T(°F) - 32) × 5/9',
       solution: `function converter(temp) {
-                    return (temp - 32) * 5/9; 
+                    return (temp - 32) * 5/9;
                  }`,
       signature: 'converter(temp)',
       testSpecs: [
-                  'assert.equal(converter(77), 25)', 
-                  'assert.equal(converter(-5), -20.555555555555557)', 
+                  'assert.equal(converter(77), 25)',
+                  'assert.equal(converter(-5), -20.555555555555557)',
                   'assert.equal(converter(32), 0)'
-                 ], 
+                 ],
       authorId: 1
      }
   ),
-  
+
   Problem.create(
     {
-      title: 'Frequency Analysis', 
-      level: 2, 
+      title: 'Frequency Analysis',
+      level: 2,
       description: 'Write a function that takes a string of text and returns an object containing the count for each character in the string.Note: The input string  will only contain lowercase letters. There will not be any whitespace, capital letters, numbers, or special characters.',
       solution: `function frequencyAnalysis(str) {
                     var countObj = {};
-    
+
                     for (var i=0; i<str.length; i++) {
                       if (countObj[str[i]]) {
                         countObj[str[i]]++;
@@ -116,23 +116,23 @@ async function seed () {
                         countObj[str[i]] = 1;
                       }
                     }
-  
+
                      return countObj;
                   }`,
       signature: 'frequencyAnalysis(str)',
       testSpecs: [
-                 'assert.deepEqual(frequencyAnalysis("abca"), {a: 2, b: 1, c: 1})', 
-                 'assert.deepEqual(frequencyAnalysis(""), {})', 
+                 'assert.deepEqual(frequencyAnalysis("abca"), {a: 2, b: 1, c: 1})',
+                 'assert.deepEqual(frequencyAnalysis(""), {})',
                  'assert.deepEqual(frequencyAnalysis("xxyyyz"), { x: 2, y: 3, z: 1 })'
-                 ], 
+                 ],
       authorId: 1
     }
   ),
-  
+
   Problem.create(
     {
-      title: 'isPrime', 
-      level: 3, 
+      title: 'isPrime',
+      level: 3,
       description: 'Create the function isPrime(num) which will take the num parameter being passed and return true if the parameter is a prime number, otherwise return false. Note: A prime number is any number that can only be evenly divided by 1 or itself',
       solution: `function isPrime(num){
                     for(var i=2; i < num; i++){
@@ -144,18 +144,18 @@ async function seed () {
                   }`,
       signature: 'isPrime(num)',
       testSpecs: [
-                 'assert.equal(isPrime(5), true)', 
-                 'assert.equal(isPrime(10), false)', 
+                 'assert.equal(isPrime(5), true)',
+                 'assert.equal(isPrime(10), false)',
                  'assert.equal(isPrime(17), true)'
-                 ], 
+                 ],
       authorId: 1
     }
   ),
-  
+
   Problem.create(
     {
-      title: 'Flatten Arrays', 
-      level: 3, 
+      title: 'Flatten Arrays',
+      level: 3,
       description: 'Write a function, flatten, that accepts a two-dimensional array as its argument and returns a flattened one-dimensional copy of the array.The argument array will never be more than 2 levels deep. Remember to return a copy, meaning you should not modify the original 2D array passed in!',
       solution: `function flatten(arr) {
                    var flatArray = [];
@@ -170,7 +170,6 @@ async function seed () {
                      }
                       return flatArray;
                   }
-              
               // USING Array.isArray():
                 function flatten(arr) {
                     var flatArray = [];
@@ -187,24 +186,24 @@ async function seed () {
                   }`,
       signature: 'flatten(arr)',
       testSpecs: [
-                 'assert.deepEqual(flatten([1,[2,3],4]), [1,2,3,4])', 
-                 'assert.deepEqual(flatten([2, [3, 4, 11, 13]]), [ 2, 3, 4, 11, 13 ])', 
+                 'assert.deepEqual(flatten([1,[2,3],4]), [1,2,3,4])',
+                 'assert.deepEqual(flatten([2, [3, 4, 11, 13]]), [ 2, 3, 4, 11, 13 ])',
                  'assert.deepEqual(flatten([11, [0], 19, 7]), [ 11, 0, 19, 7 ])'
-                 ], 
+                 ],
       authorId: 1
    }
   ),
-  
+
   Problem.create(
     {
-      title: 'Proper Noun Filter', 
-      level: 3, 
-      description: "Write a function, properNounFilter, that determines whether the string argument is a proper noun. A word is considered a proper noun if only the first letter is capitalized. If the argument is a proper noun, properNounFilter should return true. It should return false if the word isn't a proper noun, if the word is mixed case, or if it is all caps.", 
+      title: 'Proper Noun Filter',
+      level: 3,
+      description: "Write a function, properNounFilter, that determines whether the string argument is a proper noun. A word is considered a proper noun if only the first letter is capitalized. If the argument is a proper noun, properNounFilter should return true. It should return false if the word isn't a proper noun, if the word is mixed case, or if it is all caps.",
       solution: `function properNounFilter(word) {
                     var charCode;
-                  
+
                     if(word.charCodeAt(0) > 90) return false;
-                  
+
                     for(var i = 1; i < word.length; i++){
                       charCode = word.charCodeAt(i);
                       if(charCode >= 65 && charCode < 90) return false;
@@ -213,19 +212,19 @@ async function seed () {
                   }`,
       signature: 'properNounFilter(word)',
       testSpecs: [
-                  'assert.equal(properNounFilter("coffee"), false)', 
-                  'assert.equal(properNounFilter("Einstein"), true)', 
+                  'assert.equal(properNounFilter("coffee"), false)',
+                  'assert.equal(properNounFilter("Einstein"), true)',
                   'assert.equal(properNounFilter("ApoLLo"), false)'
-                 ], 
+                 ],
       authorId: 1
     }
   ),
-  
+
   Problem.create(
     {
-      title: 'Underscore to CamelCase', 
-      level: 2, 
-    description: 'Write a function to convert a variable name from under_score format to camelCase.Make sure you support an unlimited number of underscores in the input! You will not have to worry about white space in your input, only alphanumeric characters and underscore', 
+      title: 'Underscore to CamelCase',
+      level: 2,
+    description: 'Write a function to convert a variable name from under_score format to camelCase.Make sure you support an unlimited number of underscores in the input! You will not have to worry about white space in your input, only alphanumeric characters and underscore',
       solution: `function underToCamel(underName) {
                     var camelCaseOutput = '';
                     var foundUnder = false;
@@ -245,10 +244,10 @@ async function seed () {
                  }`,
       signature: 'underToCamel(underName)',
       testSpecs: [
-                  'assert.equal(underToCamel("first_name"), "firstName")', 
-                  'assert.equal(underToCamel("my_income_tax_from_2015"), "myIncomeTaxFrom2015")', 
+                  'assert.equal(underToCamel("first_name"), "firstName")',
+                  'assert.equal(underToCamel("my_income_tax_from_2015"), "myIncomeTaxFrom2015")',
                   'assert.equal(underToCamel("i_love_javascript"), "iLoveJavascript")'
-                 ], 
+                 ],
       authorId: 1})
   ])
 

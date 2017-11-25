@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Problem, CompletedProblem} = require('../db/models')
+const {User, Problem} = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.route('/:userId/profile')
-.all ( (req, res, next) => {
+.all( (req, res, next) => {
   User.findById(req.params.userId)
   .then(user => {
     req.user = user;
@@ -45,7 +45,7 @@ router.get('/:userId/problemHistory', (req, res, next) => {
 router.get('/:userId/problemAuthored', (req, res, next) => {
   Problem.findAll({
     where:{
-      authorId:req.params.userId
+      authorId: req.params.userId
     }
   })
   .then(authoredProblems => res.json(authoredProblems))
@@ -61,8 +61,8 @@ router.get('/:userId/problemAuthored/:problemId', (req, res, next) => {
 router.delete('/:userId/problemAuthored/:problemId/delete', (req, res, next) => {
   Problem.destroy({
     where:{
-      authorId:req.params.userId,
-      id:req.params.problemId
+      authorId: req.params.userId,
+      id: req.params.problemId
     }
   })
   .then(prob => console.log(prob))

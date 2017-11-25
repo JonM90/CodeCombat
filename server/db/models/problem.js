@@ -23,8 +23,8 @@ const Problem = db.define('problem', {
       allowNull: false
   },
   signature: {
-    type:Sequelize.STRING,
-    allowNull:false
+    type: Sequelize.STRING,
+    allowNull: false
   }
 })
 

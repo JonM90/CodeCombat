@@ -1,20 +1,21 @@
 import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
 // const socket = require('../client/socket')
 const {EventEmitter} = require('events');
-export const events = new EventEmitter()
-import {fetchAllProblems, fetchCompletedProblems} from '../store';
-import axios from 'axios';
+const events = new EventEmitter()
+// import axios from 'axios';
+export default events;
 
 export class CodeEditor extends Component {
   constructor() {
     super();
+
     this.state = {
       attempt: '',
       currentProblem: {},
       output: '',
-      problems: [],
+      eligibleQueue: [],
+      // problems: [],
       problemNum: 0,
       pass: false
     }
@@ -22,117 +23,95 @@ export class CodeEditor extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
   }
+  componentDidMount() {
+    if (!this.ace) return null;
+    this.editor = this.ace.editor
+    console.log('MOUNTED', this.editor)
+    // this.state.eligibleQueue.length && this.editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
+  }
 
-  componentDidMount(){
-    console.log("THIS.PROPS DID MOUNT!!", this.props) 
-    // this.props.loadAllProblems(this.props.user.id);
-    // this.props.loadCompletedProblems(this.props.user.id)
-    // this.setState({currentProblem: this.state.eligibleQs[0]})   
-    const editor = this.ace.editor
-    this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
+  componentWillReceiveProps(nP) {
+    if (nP.questions.length) {
+      this.setState({eligibleQueue: nP.questions})
+      if (this.state.eligibleQueue.length) {
+        this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+      }
+    }
   }
 
   onChange(newValue, e) {
-    console.log(newValue, e);
+    // console.log(newValue, e);
     let attempt = newValue;
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
-    // editor.getSession.setBehaviorEnabled(true)
-    console.log(editor.getValue()); // Outputs the value of the editor
-
+    // console.log(editor.getValue()); // Outputs the value of the editor
     this.setState({attempt})
   }
 
-  nextQuestion(){
-    this.setState({problemNum:this.state.problemNum+1, output:''})
+  nextQuestion(e){
+    e.preventDefault();
+    this.setState({problemNum: this.state.problemNum + 1})
+    this.setState({output: ''})
     const editor = this.ace.editor
-    this.props.allQuestions && editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum+1]).signature}{}`)
-    console.log("OUTPUT ON NEXT CLICK:",this.state.output)
+    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
   }
 
   onSubmit(e) {
     e.preventDefault();
-    events.emit('userSubmit', [this.state.attempt, this.props.allQuestions[this.state.problemNum].testSpecs])
+    events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
     events.on('output', (output) => {this.setState({output})})
-    events.on('pass', (pass)=>{
+    events.on('pass', (pass) => {
       this.setState({pass})
     })
   }
   render() {
-    // console.log("CURRENT PROBLEM RENDER", this.state.currentProblem)
-    console.log('POSITION', this.state.problemNum) 
-    let quest = this.props.allQuestions  
-    // if (!quest.length) return null
+    let quest = this.state.eligibleQueue
+    console.log('quest', quest)
     return (
-      this.state.problemNum !== this.props.allQuestions.length ?
+      this.state.problemNum !== this.state.eligibleQueue.length ?
       (<div className="main-train-container" >
 
-        {quest && <div className="question-div">
-              <h2 className="question-title-text">{quest && quest[this.state.problemNum].title}</h2>
-              <h6 className="question-description-text">{quest && quest[this.state.problemNum].description}</h6>
+        {quest.length && <div className='question-div'>
+          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
+          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
         </div>}
 
-          <div className="train-container">
-              <div className="editor-div left-train-container">
-                <ReactAce
-                      style={{ height: '50vh'}}
-                      mode="javascript"
-                      theme="monokai"
-                      enableBasicAutocompletion = {true}
-                      onChange={this.onChange}
-                      ref={instance => { this.ace = instance; }} // Let's put things into scope
-                />
+        <div className="train-container">
+          <div className="editor-div left-train-container">
+            <ReactAce
+              style={{ height: '50vh'}}
+              mode="javascript"
+              theme="monokai"
+              enableBasicAutocompletion = {true}
+              onChange={this.onChange}
+              ref={instance => { this.ace = instance; }} // Let's put things into scope
+            />
 
-                    <form id="train-submit" className="submit-btn" onSubmit={this.onSubmit}>
-                      <input id="train-submit-btn"type="submit" />
-                    </form>
-                    <button
-                    onClick={this.nextQuestion}
-                    > 
-                      NEXT
-                    </button>
-               </div>
+            <form id="train-submit" className="submit-btn" onSubmit={this.onSubmit}>
+              <input id="train-submit-btn"type="submit" />
+              <button onClick={this.nextQuestion}>
+                NEXT
+              </button>
+            </form>
+          </div>
 
-                 <div className="right-train-container">
-                  <div className="output-div" >
-                      <h4 className="right-container-headers">Output:</h4>
-                      
-                  </div>
+          <div className="right-train-container">
+            <div className="output-div" >
+              <h4 className="right-container-headers">Output:</h4>
 
-                   <div className="test-specs-div">
-                      <h4 className="right-container-headers">Test Specs:</h4>
-                      {
-                        this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p> </div>
-                      }
-                   </div>
-
-                </div>
             </div>
-        </div>):<p>CONGRATULATIONS!!!</p>
+
+            <div className="test-specs-div">
+              <h4 className="right-container-headers">Test Specs:</h4>
+              {
+                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p></div>
+              }
+            </div>
+
+          </div>
+        </div>
+      </div>) : <div><h2>CONGRATULATIONS!!!</h2></div>
     );
   }
 }
 
-const mapState = (state) => {
-  console.log('STATE:', state)
-  return {
-    email: state.user.email,
-    user: state.user,
-    allQuestions: state.problems.allProblems,
-    completedQuestions: state.problems.completedProblems
-  }
-}
-
-// const mapDispatch = dispatch => {
-//   return {
-//     loadAllProblems: (userId) => {
-//       dispatch(fetchAllProblems())
-//       dispatch(fetchCompletedProblems(userId))
-//     }
-//     // loadCompletedProblems: (userId) => {
-//     //   dispatch(fetchCompletedProblems(userId))
-//     // }
-//   }
-// }
-
-export default connect(mapState)(CodeEditor)

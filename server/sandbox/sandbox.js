@@ -54,7 +54,7 @@
 const {VM} = require('vm2');
 
   // *************ORIGINAL***********************************************
-  
+
   // ************************************************************
   // const {VM} = require('vm2')
   // var v = new VM({
@@ -62,23 +62,23 @@ const {VM} = require('vm2');
       //     __test__: require('./testSpecs')
       //   }
       // })
-      
+
       // *************ORIGINAL***********************************************
-      
+
       // var runner = function(usersFunc) {
         //   console.log('USERFUNC in Runner', usersFunc)
         //   console.log('***RIGHT BEFORE VM RUN', `
         //   ${usersFunc}
         //   `)
-        
+
         //   return vmThree.run(`${usersFunc}`)
-        
+
         // }
-        
+
         // module.exports = runner;
         // *************ORIGINAL***********************************************
 
-      // let userSubmittedCode; 
+      // let userSubmittedCode;
 
       function wrap(functionName, userCode) {
         return [userCode, `__test__(${functionName})`].join(';')
@@ -86,14 +86,14 @@ const {VM} = require('vm2');
       // function run(functionName, userCode) {
       //   return userCode + `${functionName}(5)`
       // }
-      
+
       /**
-       * 
-       * @param {String} userFunc 
-       * @param {Array<String>} specs 
+       *
+       * @param {String} userFunc
+       * @param {Array<String>} specs
        */
       var runner = function(userFunc, specs){
-        console.log('this is specs in beginning:',specs)
+        console.log('this is specs in beginning:', specs)
         const log = []
         var vm = new VM({
           timeout: 1000,
@@ -118,26 +118,26 @@ const {VM} = require('vm2');
         vm.run(userFunc)
 
             for (spec of specs){
-              console.log("LOOPING SPEC",spec)
-              let sliced = spec.slice(13,spec.length-1)
-              
+              console.log("LOOPING SPEC", spec)
+              let sliced = spec.slice(13, spec.length - 1)
+
               try {
 
                 vm.run(spec)
                 arr.push(`${sliced}: PASSED` )
               }
-              catch(ex) {
+              catch (ex) {
                 pass = false
                 error = ex
                 error.spec = spec
-                
+
                 arr.push(`${sliced}: FAILED` )
-                console.log('error in catch',error)
+                console.log('error in catch', error)
                 // vm.run(`console.log("TRY AGAIN, DON'T GIVE UP!")`)
               }
-              
+
             }
-            
+
         return [
           arr.join('\n'),
           // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
@@ -146,21 +146,19 @@ const {VM} = require('vm2');
         ]
         // return log
         // const wrappedCode = wrap('hello', userFunc)
-        
+
         // console.log('*** wrappedCode:', wrappedCode)
-        
+
         // console.log('tester vmThree is: ', vmThree.run(wrappedCode))
 
 
         // return vmThree.run(`${userFunc}`)
         // return vmThree.run('hello', userFunc))
-         
-        
+
+
       }
       module.exports = runner;
 
-
-      
 // ************************************************************
 //VM PROPERTIES
 // => VM {
@@ -190,4 +188,3 @@ const {VM} = require('vm2');
 //         concat: [Function],
 //         byteLength: [Function: byteLength],
 //         [Symbol(node.isEncoding)]: [Function] } } }
-

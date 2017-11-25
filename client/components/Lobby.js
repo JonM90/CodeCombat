@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+// import PopUp from './pop_up'
 
 export default class Lobby extends Component{
     constructor(){
         super();
-
     }
+
     render(){
         return (
             <div id="lobby-main">
 
-                    <div id="train-div">
+              <div id="train-div">
                         <Link to="/train">
                             <div className="train-body card-body">
                                 <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
