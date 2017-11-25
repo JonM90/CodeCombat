@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-// import {fetchAllProblems} from '../store';
+import {fetchAllProblems, fetchCompletedProblems} from '../store';
 
 /**
  * COMPONENT
@@ -13,7 +13,8 @@ export class UserHome extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAllProblems()
+    this.props.loadAllProblems();
+    this.props.loadCompletedProblems(this.props.user.id);
   }
 
   render() {
@@ -45,7 +46,6 @@ const mapState = (state) => {
 }
 
 // const mapDispatch = dispatch => ({ loadAllProblems: () => dispatch(fetchAllProblems()) })
-
 
 export default connect(mapState)(UserHome)
 // export default connect(mapState, mapDispatch)(UserHome)
