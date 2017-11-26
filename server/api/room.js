@@ -23,20 +23,24 @@ router.route('/matches')
       .catch(next)
     })
     .put((req, res, next) => {
-        // Room.findOne({
-        //   where: {
-        //     status: 'open',
-        //     level: req.user.rank
-        //     players: {
-        //       [Op.contains]: req.body.userId
-        //     }
-        //   }
-        // })
-        console.log('REQ.BODY.ROOM', req.body.room)
-        let room = req.body.room
-        room.update(req.body)
-        .then(rm => {
-          res.json(rm)
+        Room.findOne({
+          where: {
+            id: req.body.roomId
+          }
         })
+        .then(room => {
+          console.log('ROOM TO UPDATE', room)
+          return room.update({
+            status: req.body.status,
+            playerJoin: req.body.playerJoin
+          })
+        })
+        .then(updatedRoom => res.json(updatedRoom))
+
+        // let room = req.body.room
+        // room.update({status: 'closed'})
+        // .then(rm => {
+        //   res.json(rm)
+        // })
     })
 

@@ -58,7 +58,7 @@ export class Battle extends Component{
 
     if (this.state.activeMatch.id) {
       console.log('sending ROOM:', this.state.activeMatch)
-      this.props.updateRoom(this.state.activeMatch, this.props.user.id, 'closed')
+      this.props.updateRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
     } else {
      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
@@ -111,8 +111,8 @@ const mapDispatch = dispatch => {
     createRoom: (roomId, level, player1) => {
       dispatch(makeRoom(roomId, level, player1))
     },
-    updateRoom: (room, playerJoin, status) => {
-      dispatch(putRoom(room, playerJoin, status))
+    updateRoom: (roomId, playerJoin, status) => {
+      dispatch(putRoom(roomId, playerJoin, status))
     }
   }
 }

@@ -43,9 +43,9 @@ export const makeRoom = (roomId, level, player1) =>
         dispatch(createRoom(res.data || defaultRoom)))
       .catch(err => console.error(err))
 
-export const putRoom = (room, playerJoin, status) =>
+export const putRoom = (roomId, playerJoin, status) =>
     dispatch =>
-    axios.put('/api/room/matches', {room, playerJoin, status})
+    axios.put('/api/room/matches', {roomId, playerJoin, status})
         .then(res =>
             dispatch(updateRoom(res.data || defaultRoom)))
         .catch(err => console.error(err))
