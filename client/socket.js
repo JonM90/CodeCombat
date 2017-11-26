@@ -11,9 +11,9 @@ events.on('userSubmit', (userFunc) => {
   console.log('user submitted userFunc is:', userFunc)
   socket.emit('userSubmit', userFunc);
 })
-socket.on('result',(outPut)=> {
-  console.log("SOCKET CONNECTED ",outPut)
-  events.emit("output", outPut);
+socket.on('result', (outPut) => {
+  console.log('SOCKET CONNECTED ', outPut)
+  events.emit('output', outPut);
 })
 socket.on('pass', (value) => {
   events.emit('pass', value)

@@ -52,13 +52,13 @@ export class Battle extends Component{
   handleMatch(e) {
     e.preventDefault();
     // events.emit('findOrCreateMatch', socket.id)// =>
-    socket.emit('findOrJoinRoom', socket.id)
     // this.props.findRoom(this.props.user.rank)
     console.log('this.state.activeMatch!', this.state.activeMatch)
 
-    if (this.state.activeMatch.id) {
-      console.log('sending ROOM:', this.state.activeMatch)
+    if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
+      console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updateRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
+      socket.emit('joinRoom', this.state.activeMatch.roomId)
     } else {
      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }

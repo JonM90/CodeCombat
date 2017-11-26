@@ -22,16 +22,17 @@ module.exports = (io) => {
     socket.on('userSubmit', (usersFunc) => {
       var outPut = run(usersFunc[0], usersFunc[1])
 
-      console.log("********this is outPut in socket/index.js:",outPut);
+      console.log('********this is outPut in socket/index.js:', outPut);
       console.log('END!');
-      socket.emit('result', outPut.slice(0,2))
+      socket.emit('result', outPut.slice(0, 2))
       socket.emit('pass', outPut[2])
     })
 
-    socket.on('findOrJoinRoom', socketID => {
-      console.log('In findOrJoinRoom:', socketID)
-      socket.join(socketID)
+    socket.on('joinRoom', roomId => {
+      console.log('In joinRoom:', roomId)
+      socket.join(roomId)
       // socket.join('hotel')
+
       let myRoom = socket.rooms
       console.log('SOCKET SERVER', myRoom)
     });
