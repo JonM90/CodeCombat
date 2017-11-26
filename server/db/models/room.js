@@ -4,8 +4,6 @@ const db = require('../db')
 const Room = db.define('room', {
   roomId: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
   },
   level: {
     type: Sequelize.INTEGER,
@@ -13,16 +11,20 @@ const Room = db.define('room', {
   },
   status: {
     type: Sequelize.ENUM('open', 'closed'),
-    allowNull: false,
     defaultValue: 'open'
   },
-  players: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER), 
-      allowNull: false
+  // players: {
+  //     type: Sequelize.ARRAY(Sequelize.INTEGER)
+  // },
+  playerHost: {
+    type: Sequelize.INTEGER
+  },
+  playerJoin: {
+    type: Sequelize.INTEGER
   },
   winner: {
-      type: Sequelize.INTEGER,
-      default: null
+    type: Sequelize.INTEGER,
+    defaultValue: null
   }
 })
 

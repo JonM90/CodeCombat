@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import {Train} from './Train';
 import {connect} from 'react-redux'
-import {fetchAllProblems, fetchCompletedProblems, fetchRoom, putRoom} from '../store';
+import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
 // import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 const {EventEmitter} = require('events');
@@ -14,7 +14,8 @@ export class Battle extends Component{
     super();
     this.state = {
       eligibleQs: [],
-      showPopup: false
+      showPopup: false,
+      activeMatch: {}
     }
     this.togglePopup = this.togglePopup.bind(this);
     this.handleMatch = this.handleMatch.bind(this);
@@ -28,6 +29,7 @@ export class Battle extends Component{
     if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
+      this.props.findRoom(this.props.user.rank);
     }
     this.setState({showPopup: true})
   }
@@ -35,6 +37,7 @@ export class Battle extends Component{
   componentWillReceiveProps(nextProps) {
     let allQs = nextProps.allQuestions.allProblems;
     let compQs = nextProps.allQuestions.completedProblems;
+    let active = nextProps.activeRoom;
     let compIds = compQs.map(q => q.id)
     if (allQs.length && compQs.length) {
       let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
@@ -42,17 +45,24 @@ export class Battle extends Component{
       })
       this.setState({eligibleQs})
     }
+  this.setState({activeMatch: active})
+  console.log('SET STATE W:', active)
   }
 
   handleMatch(e) {
     e.preventDefault();
     // events.emit('findOrCreateMatch', socket.id)// =>
     socket.emit('findOrJoinRoom', socket.id)
+    // this.props.findRoom(this.props.user.rank)
+    console.log('this.state.activeMatch!', this.state.activeMatch)
 
-    this.props.findRoom(socket.id, this.props.user.level)
-
+    if (this.state.activeMatch.id) {
+      console.log('sending ROOM:', this.state.activeMatch)
+      this.props.updateRoom(this.state.activeMatch, this.props.user.id, 'closed')
+    } else {
+     this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
+    }
     console.log('socketID:', socket.id)
-
   }
 
   render() {
@@ -82,7 +92,8 @@ const mapState = (state) => {
   return {
     email: state.user.email,
     user: state.user,
-    allQuestions: state.problems
+    allQuestions: state.problems,
+    activeRoom: state.room.activeRoom
   }
 }
 
@@ -94,8 +105,14 @@ const mapDispatch = dispatch => {
     loadCompletedProblems: (userId) => {
       dispatch(fetchCompletedProblems(userId))
     },
-    findRoom: (roomId,level) => {
-      dispatch(fetchRoom(roomId,level))
+    findRoom: (level) => {
+      dispatch(fetchRoom(level))
+    },
+    createRoom: (roomId, level, player1) => {
+      dispatch(makeRoom(roomId, level, player1))
+    },
+    updateRoom: (room, playerJoin, status) => {
+      dispatch(putRoom(room, playerJoin, status))
     }
   }
 }
