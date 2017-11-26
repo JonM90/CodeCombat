@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 // import {Train} from './Train';
 import {connect} from 'react-redux'
-import {fetchAllProblems, fetchCompletedProblems} from '../store';
+import {fetchAllProblems, fetchCompletedProblems, fetchRoom, putRoom} from '../store';
 // import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 const {EventEmitter} = require('events');
 export const events = new EventEmitter()
-// import axios from 'axios';
+//import axios from 'axios';
 import socket from '../socket';
 
 export class Battle extends Component{
@@ -47,8 +47,10 @@ export class Battle extends Component{
   handleMatch(e) {
     e.preventDefault();
     // events.emit('findOrCreateMatch', socket.id)// =>
-
     socket.emit('findOrJoinRoom', socket.id)
+
+    this.props.findRoom(socket.id, this.props.user.level)
+
     console.log('socketID:', socket.id)
 
   }
@@ -91,6 +93,9 @@ const mapDispatch = dispatch => {
     },
     loadCompletedProblems: (userId) => {
       dispatch(fetchCompletedProblems(userId))
+    },
+    findRoom: (roomId,level) => {
+      dispatch(fetchRoom(roomId,level))
     }
   }
 }

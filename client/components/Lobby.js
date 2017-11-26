@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import PopUp from './pop_up'
+// import { connect } from 'react-redux'
+
 
 export default class Lobby extends Component{
     constructor(){
@@ -53,3 +54,15 @@ export default class Lobby extends Component{
         )
     }
 }
+
+// const mapState = (state) => {
+//     return {
+//       userId: state.user.id,
+//     }
+//   }
+  
+  //export default connect(mapState)(Lobby)
+  
+
+  
+

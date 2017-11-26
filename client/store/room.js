@@ -1,0 +1,58 @@
+import axios from 'axios'
+import history from '../history'
+
+/**
+ * ACTION TYPES
+ */
+const GET_ROOM = 'GET_ROOM'
+const UPDATE_ROOM = 'UPDATE_ROOM'
+
+/**
+ * INITIAL STATE
+ */
+const defaultRoom = {};
+
+/**
+ * ACTION CREATORS
+ */
+const getRoom = room => ({type: GET_ROOM, room})
+const updateRoom = room => ({type: UPDATE_ROOM, room})
+
+// const removeProblem = () => ({type: REMOVE_PROBLEM})
+
+/**
+ * THUNK CREATORS
+ */
+export const fetchRoom = (roomId,level) =>
+  dispatch =>
+    axios.post('/api/room/matches', {
+        roomId,
+        level
+    })
+      .then(res =>
+        dispatch(getRoom(res.data || defaultRoom)))
+      .catch(err => console.error(err))
+
+export const putRoom = (status,winner) =>
+    dispatch =>
+    axios.pput('/api/room/matches', {
+        status,
+        winner
+    })
+        .then(res =>
+            dispatch(updateRoom(res.data || defaultRoom)))
+        .catch(err => console.error(err))
+
+
+//REDUCER
+export default function (state = defaultRoom, action) {
+  switch (action.type) {
+    case GET_ROOM:
+      // return [...state, action.problem]
+      return Object.assign({}, state, {activeRoom: action.room})
+    case UPDATE_ROOM:
+      return Object.assign({},state,{updatedRoom: action.room})
+    default:
+      return state
+  }
+}

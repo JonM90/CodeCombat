@@ -34,10 +34,10 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route exact path="/" component={Lobby} />
-                  <Route exact path="/profile" component={UserHome} />
                   <Route exact path="/train" component={Train} />
                   <Route exact path="/battle" component={Battle} />
                   <Route exact path="/editor" component={CodeEditor} />
+                  <Route exact path="/users/:userId/profile" component={UserHome} />
 
                 </Switch>
             }
