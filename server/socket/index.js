@@ -20,7 +20,6 @@ module.exports = (io) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
     socket.on('userSubmit', (usersFunc) => {
-
       var outPut = run(usersFunc[0], usersFunc[1])
 
       console.log("********this is outPut in socket/index.js:",outPut);
@@ -28,6 +27,16 @@ module.exports = (io) => {
       socket.emit('result', outPut.slice(0,2))
       socket.emit('pass', outPut[2])
     })
+
+    socket.on('JoinRoom', socketID => {
+      console.log('Joining room:', socketID)
+      // socket.join(socketID)
+      socket.join('hotel')
+      let myRoom = socket.rooms
+      // let myRoom2 = socket.room()
+      // let myRoom = io.sockets.manager.roomClients[socket.id]
+      console.log('SOCKET SERVER', myRoom)
+    });
 
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)

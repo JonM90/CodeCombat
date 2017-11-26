@@ -5,6 +5,7 @@ const socket = io(window.location.origin)
 
 socket.on('connect', () => {
   console.log('Connected!')
+  console.log(`A socket connection has been made: ${socket.id}`)
 })
 events.on('userSubmit', (userFunc) => {
   console.log('user submitted userFunc is:', userFunc)
@@ -17,5 +18,14 @@ socket.on('result',(outPut)=> {
 socket.on('pass', (value) => {
   events.emit('pass', value)
 })
+events.on('findOrCreateMatch', (ID) => {
+  console.log('user room ID is:', ID)
+  socket.emit('findOrCreateMatch', ID);
+  socket.emit('JoinRoom', ID);
+})
+socket.on('JoinRoom', socketID => {
+  console.log('Joining room:', socketID)
+  socket.join(socketID)
+});
 
 export default socket
