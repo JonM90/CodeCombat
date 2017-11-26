@@ -10,7 +10,7 @@ class PieChart extends Component {
         this.state={
             allProblems:[],
             comlpetedProblems:[],
-            rankedData:{}
+            
         }
     }
 
