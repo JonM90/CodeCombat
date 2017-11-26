@@ -23,7 +23,7 @@ module.exports = (io) => {
 
       var outPut = run(usersFunc[0], usersFunc[1])
 
-      console.log("********this is outPut in socket/index.js:",outPut);
+      console.log("********this is outPut in socket/index.js:",outPut.join('\n'));
       console.log('END!');
       socket.emit('result', outPut.slice(0,2))
       socket.emit('pass', outPut[2])

@@ -33,8 +33,10 @@ export class CodeEditor extends Component {
   componentWillReceiveProps(nP) {
     if (nP.questions.length) {
       this.setState({eligibleQueue: nP.questions})
-      if (this.state.eligibleQueue.length) {
-        this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+      if (this.props.eligibleQueue.length) {
+        this.ace.editor.setValue(`function ${(this.props.eligibleQueue[this.props.problemNum]).signature}{
+  //write your code here!  
+}`)
       }
     }
   }
@@ -59,21 +61,26 @@ export class CodeEditor extends Component {
   onSubmit(e) {
     e.preventDefault();
     events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
-    events.on('output', (output) => {this.setState({output})})
+    events.on('output', (output) => {this.setState({output:output[0]})})
     events.on('pass', (pass) => {
       this.setState({pass})
     })
   }
   render() {
-    let quest = this.state.eligibleQueue
+
+    // const result =   this.state.output ? this.state.output : ''
+
+    // this.state.output ?  console.log('OUTPUT in EDITOR: ', result) : ''
+
+    let quest = this.props.eligibleQueue
     console.log('quest', quest)
     return (
       this.state.problemNum !== this.state.eligibleQueue.length ?
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
-          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
-          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
+          <h2 className='question-title-text'>{quest.length && quest[this.props.problemNum].title}</h2>
+          <h4 className='question-description-text'>{quest.length && quest[this.props.problemNum].description}</h4>
         </div>}
 
         <div className="train-container">
@@ -104,7 +111,7 @@ export class CodeEditor extends Component {
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
               {
-                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p></div>
+                this.state.output ? <div id="output-text"> {this.state.output.map(elem => (<div> { elem  }</div> ))} </div>  : <div><p></p></div>
               }
             </div>
 
