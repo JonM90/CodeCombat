@@ -24,10 +24,10 @@ socket.on('findOrJoinRoom', socketID => {
   socket.join(socketID)
 });
 
-events.on('findOrCreateMatch', (ID) => {
-  console.log('user room ID is:', ID)
-  socket.emit('findOrCreateMatch', ID);
-  socket.emit('JoinRoom', ID);
-})
+// events.on('findOrCreateMatch', (ID) => {
+//   console.log('user room ID is:', ID)
+//   // socket.emit('findOrCreateMatch', ID);
+//   socket.emit('JoinRoom', ID);
+// })
 
 export default socket

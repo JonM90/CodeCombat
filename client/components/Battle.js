@@ -46,25 +46,11 @@ export class Battle extends Component{
 
   handleMatch(e) {
     e.preventDefault();
-    events.emit('findOrCreateMatch', socket.id)// =>
+    // events.emit('findOrCreateMatch', socket.id)// =>
 
     socket.emit('findOrJoinRoom', socket.id)
     console.log('socketID:', socket.id)
-      // socket.broadcast.emit('Join my room', socket.id)
-    //)
 
-    // socket.join(`${socket.id}`)
-    // io.on('connection', function(socket){
-      // socket.on('say to someone', function(id, msg){
-      //   socket.broadcast.to(id).emit('my message', msg);
-      // });
-      // io.on('connection', function(socket){
-      //   socket.join('some room');
-      // });
-    // });
-    // events.on('pass', (pass) => {
-    //   this.setState({pass})
-    // })
   }
 
   render() {

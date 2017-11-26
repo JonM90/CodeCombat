@@ -29,20 +29,20 @@ module.exports = (io) => {
     })
 
     socket.on('findOrJoinRoom', socketID => {
-      console.log('Joining room:', socketID)
-      // socket.join(socketID)
-      socket.join('hotel')
+      console.log('In findOrJoinRoom:', socketID)
+      socket.join(socketID)
+      // socket.join('hotel')
       let myRoom = socket.rooms
       console.log('SOCKET SERVER', myRoom)
     });
 
-    socket.on('JoinRoom', socketID => {
-      console.log('In JOINROOM:', socketID)
-      // socket.join(socketID)
-      socket.join('hotel')
-      let myRoom = socket.rooms
-      console.log('SOCKET SERVER', myRoom)
-    });
+    // socket.on('JoinRoom', socketID => {
+    //   console.log('In JOINROOM:', socketID)
+    //   socket.join(socketID)
+    //   // socket.join('hotel')
+    //   let myRoom = socket.rooms
+    //   console.log('SOCKET SERVER', myRoom)
+    // });
 
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
