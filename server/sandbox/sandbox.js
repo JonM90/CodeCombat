@@ -139,9 +139,9 @@ const {VM} = require('vm2');
             }
 
         return [
-          arr.join('\n'),
+          arr,
           // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
-          log.join('\n'),
+          log,
           pass
         ]
         // return log

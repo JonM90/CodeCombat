@@ -73,13 +73,15 @@ export class CodeEditor extends Component {
   }
 
   onSubmit(e) {
-
     e.preventDefault();
     events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
-    events.on('output', (output) => {this.setState({output})})
+    events.on('output', (output) => {
+      let newOutput = output[0]
+      this.setState({output:newOutput})})
     events.on('pass', (pass) => {
       this.setState({pass})
     })
+    
   }
   render() {
     let quest = this.state.eligibleQueue
@@ -127,7 +129,7 @@ export class CodeEditor extends Component {
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
               {
-                this.state.output ? <div id="output-text"> {this.state.output} </div>  : <div><p></p></div>
+                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div id="output-text"> {this.state.output.map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
               }
             </div>
 
