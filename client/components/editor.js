@@ -13,10 +13,11 @@ export class CodeEditor extends Component {
     this.state = {
       attempt: '',
       currentProblem: {},
-      output: '',
+      output: [],
       eligibleQueue: [],
       // problems: [],
       problemNum: 0,
+      logger:[],
       pass: false,
       error:false
     }
@@ -73,14 +74,15 @@ export class CodeEditor extends Component {
   }
 
   onSubmit(e) {
+
     e.preventDefault();
     events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
     events.on('output', (output) => {
-      let newOutput = output[0]
-      this.setState({output:newOutput})})
+      this.setState({output:output[0], logger:output[1]})})
     events.on('pass', (pass) => {
       this.setState({pass})
     })
+    
     
   }
   render() {
@@ -122,12 +124,17 @@ export class CodeEditor extends Component {
 
           <div className="right-train-container">
             <div className="output-div" >
-              <h4 className="right-container-headers">Output:</h4>
+              <h4 className="right-container-headers">CONSOLE:</h4>
+              {console.log("DON'T MIND ME IM JUST A LOGGER", this.state.logger)}
+              {
+                this.state.logger ? <div id="output-text"> {this.state.logger.slice(0, this.state.logger.length/2).map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
+              }
 
             </div>
 
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
+              
               {
                 this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div id="output-text"> {this.state.output.map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
               }
