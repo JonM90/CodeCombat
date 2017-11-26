@@ -20,8 +20,10 @@ export class Train extends Component{
       });
     }
     componentDidMount() {
-      this.props.loadAllProblems();
-      this.props.loadCompletedProblems(this.props.user.id);
+      if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
+        this.props.loadAllProblems();
+        this.props.loadCompletedProblems(this.props.user.id);
+      }
       this.setState({showPopup: true})
     }
 

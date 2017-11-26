@@ -1,10 +1,11 @@
 import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
-// const socket = require('../client/socket')
+import {connect} from 'react-redux'
 const {EventEmitter} = require('events');
-const events = new EventEmitter()
+export const events = new EventEmitter()
+// import socket from '../socket';
+// export default events;
 // import axios from 'axios';
-export default events;
 
 export class CodeEditor extends Component {
   constructor() {
@@ -15,15 +16,15 @@ export class CodeEditor extends Component {
       currentProblem: {},
       output: [],
       eligibleQueue: [],
-      // problems: [],
       problemNum: 0,
-      logger:[],
+      logger: [],
       pass: false,
-      error:false
+      error: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+
   }
   componentDidMount() {
     if (!this.ace) return null;
@@ -38,6 +39,11 @@ export class CodeEditor extends Component {
       if (this.state.eligibleQueue.length) {
         this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
       }
+    }
+    console.log('NP:', nP)
+
+    if (nP.match && nP.match.id) {
+      this.setState({match: nP.match})
     }
   }
 
@@ -59,7 +65,7 @@ export class CodeEditor extends Component {
         this.setState({error})
       }
     })
-    
+
     this.setState({attempt, error})
     console.log("ANNOTATIONS OVER HERE AFTER:", comments)
     console.log("ARE THERE ERRORS???? AFTER", this.state.error)
@@ -76,15 +82,32 @@ export class CodeEditor extends Component {
   onSubmit(e) {
 
     e.preventDefault();
-    events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
-    events.on('output', (output) => {
-      this.setState({output:output[0], logger:output[1]})})
-    events.on('pass', (pass) => {
-      this.setState({pass})
-    })
-    
-    
+    let currMatch = this.state.match
+    // console.log('currMATCH:', currMatch)
+    console.log('this.props:', this.props)
+    if (this.props.battleProps) {
+      var myID = +this.props.battleProps.match.params.userId
+      var player = myID && currMatch.playerHost === myID ? 'host' : 'guest'
+      console.log('PLAYERTYPE', player, 'currMatch.playerHost:', typeof currMatch.playerHost, 'myID:', typeof myID)
+    }
+
+    currMatch && currMatch.id ?
+      events.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
+    :
+      events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+
+      console.log("SECOND EVENT", events)
+      events.on('output', (output) => {
+        console.log('LOGGER SHIET:', output[1])
+        this.setState({output: output[0]})
+        this.setState({logger: output[1]})
+      })
+      events.on('pass', (pass) => this.setState({pass}))
+      console.log("THIRD EVENT", events)
+      // events.on('output', (output) => {
+      //   this.setState({output:output[0], logger:output[1]})})
   }
+
   render() {
     let quest = this.state.eligibleQueue
     console.log('quest', quest)
@@ -108,9 +131,9 @@ export class CodeEditor extends Component {
               ref={instance => { this.ace = instance; }} // Let's put things into scope
             />
 
-            <form 
-              id="train-submit" 
-              className="submit-btn" 
+            <form
+              id="train-submit"
+              className="submit-btn"
               onSubmit={!this.state.error ? this.onSubmit : (e) => {
                 e.preventDefault()
                 this.setState({output:"FIX YOUR ERRORS"})
@@ -127,14 +150,14 @@ export class CodeEditor extends Component {
               <h4 className="right-container-headers">CONSOLE:</h4>
               {console.log("DON'T MIND ME IM JUST A LOGGER", this.state.logger)}
               {
-                this.state.logger ? <div id="output-text"> {this.state.logger.slice(0, this.state.logger.length/2).map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
+                this.state.logger.length ? <div id="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
               }
 
             </div>
 
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
-              
+
               {
                 this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div id="output-text"> {this.state.output.map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
               }
@@ -147,3 +170,11 @@ export class CodeEditor extends Component {
   }
 }
 
+const mapState = (state) => {
+  console.log('STATE:', state)
+  return {
+    user: state.user,
+  }
+}
+
+export default connect(mapState)(CodeEditor)
