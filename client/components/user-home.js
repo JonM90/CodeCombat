@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import UserGraph from './UserGraph';
 
 /**
  * COMPONENT
@@ -16,7 +17,7 @@ export class UserHome extends Component {
     // this.props.loadCompletedProblems(this.props.user.id);
   }
 
-  render() {
+  render(props) {
     const {email} = this.props;
     const {user} = this.props;
 
@@ -28,6 +29,9 @@ export class UserHome extends Component {
           <br />
           Email: {email}
           <br />
+        </div>
+        <div>
+          <UserGraph />
         </div>
       </div>
     )

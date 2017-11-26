@@ -38,7 +38,7 @@ class Routes extends Component {
                   <Route exact path="/train" component={Train} />
                   <Route exact path="/battle" component={Battle} />
                   <Route exact path="/editor" component={CodeEditor} />
-
+                  <Route exact path={`/users/:userId/profile`} component={UserHome} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
