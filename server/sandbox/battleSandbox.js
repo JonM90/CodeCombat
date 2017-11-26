@@ -53,12 +53,13 @@ const {VM} = require('vm2');
         }
 
       }
-    return [
-      arr.join('\n'),
+    return [arr, log, pass]
+      //.join('\n'),
       // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
-      log.join('\n'),
-      pass
-    ]
+    //   log,
+    //   //.join('\n'),
+    //   pass
+    // ]
     // return log
     // const wrappedCode = wrap('hello', userFunc)
     // console.log('*** wrappedCode:', wrappedCode)
@@ -109,12 +110,7 @@ const {VM} = require('vm2');
         }
 
       }
-    return [
-      arr.join('\n'),
-      // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
-      log.join('\n'),
-      pass
-    ]
+      return [arr, log, pass]
     // return log
     // const wrappedCode = wrap('hello', userFunc)
     // console.log('*** wrappedCode:', wrappedCode)
