@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-// import {Train} from './Train';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
-// import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
-const {EventEmitter} = require('events');
-export const events = new EventEmitter()
-//import axios from 'axios';
 import socket from '../socket';
+// import {Train} from './Train';
+// import { PopUp } from './pop_up';
+// const {EventEmitter} = require('events');
+// export const events = new EventEmitter()
+// import axios from 'axios';
 
 export class Battle extends Component{
   constructor(){
@@ -17,6 +17,7 @@ export class Battle extends Component{
       showPopup: false,
       activeMatch: {}
     }
+    // console.log('EVENTS IN BATTLE', events)
     this.togglePopup = this.togglePopup.bind(this);
     this.handleMatch = this.handleMatch.bind(this);
   }
@@ -78,7 +79,11 @@ export class Battle extends Component{
 
 
             <div className="editor-div">
-              {this.state.eligibleQs && <CodeEditor questions={this.state.eligibleQs} />}
+              {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && <CodeEditor
+                questions={this.state.eligibleQs}
+                match={this.state.activeMatch}
+                battleProps={this.props}
+              />}
             </div>
 
 

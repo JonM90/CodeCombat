@@ -1,10 +1,11 @@
 import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
-// const socket = require('../client/socket')
+import {connect} from 'react-redux'
 const {EventEmitter} = require('events');
-const events = new EventEmitter()
+export const events = new EventEmitter()
+// import socket from '../socket';
+// export default events;
 // import axios from 'axios';
-export default events;
 
 export class CodeEditor extends Component {
   constructor() {
@@ -22,6 +23,7 @@ export class CodeEditor extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+
   }
   componentDidMount() {
     if (!this.ace) return null;
@@ -36,6 +38,11 @@ export class CodeEditor extends Component {
       if (this.state.eligibleQueue.length) {
         this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
       }
+    }
+    console.log('NP:', nP)
+
+    if (nP.match && nP.match.id) {
+      this.setState({match: nP.match})
     }
   }
 
@@ -58,12 +65,26 @@ export class CodeEditor extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs])
-    events.on('output', (output) => {this.setState({output})})
-    events.on('pass', (pass) => {
-      this.setState({pass})
-    })
+    let currMatch = this.state.match
+    // console.log('currMATCH:', currMatch)
+    console.log('this.props:', this.props)
+    let myID = +this.props.battleProps.match.params.userId
+
+    let player = myID && currMatch.playerHost === myID ? 'host' : 'guest'
+
+    console.log('PLAYERTYPE', player, 'currMatch.playerHost:', typeof currMatch.playerHost, 'myID:', typeof myID)
+
+    currMatch.id ?
+      events.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
+    :
+      events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+
+      console.log("SECOND EVENT", events)
+      events.on('output', (output) => {this.setState({output})})
+      events.on('pass', (pass) => this.setState({pass}))
+      console.log("THIRD EVENT", events)
   }
+
   render() {
     let quest = this.state.eligibleQueue
     console.log('quest', quest)
@@ -115,3 +136,11 @@ export class CodeEditor extends Component {
   }
 }
 
+const mapState = (state) => {
+  console.log('STATE:', state)
+  return {
+    user: state.user,
+  }
+}
+
+export default connect(mapState)(CodeEditor)

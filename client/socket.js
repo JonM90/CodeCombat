@@ -1,7 +1,9 @@
 import io from 'socket.io-client'
 // import {mssg} from './components/editor'
-import events from './components/editor'
+import {events} from './components/editor'
 const socket = io(window.location.origin)
+
+console.log('WTF IS WRONG???', events)
 
 socket.on('connect', () => {
   console.log('Connected!')
@@ -10,6 +12,10 @@ socket.on('connect', () => {
 events.on('userSubmit', (userFunc) => {
   console.log('user submitted userFunc is:', userFunc)
   socket.emit('userSubmit', userFunc);
+})
+events.on('battleSubmit', (userFunc) => {
+  console.log('player1 submitted userFunc is:', userFunc)
+  socket.emit('battleSubmit', userFunc);
 })
 socket.on('result', (outPut) => {
   console.log('SOCKET CONNECTED ', outPut)
