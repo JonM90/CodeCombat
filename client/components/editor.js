@@ -55,7 +55,9 @@ export class CodeEditor extends Component {
     this.setState({problemNum: this.state.problemNum + 1})
     this.setState({output: ''})
     const editor = this.ace.editor
-    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{
+  //write your code here!
+}`)
   }
 
   onSubmit(e) {
@@ -72,7 +74,7 @@ export class CodeEditor extends Component {
 
     // this.state.output ?  console.log('OUTPUT in EDITOR: ', result) : ''
 
-    let quest = this.props.eligibleQueue
+    let quest = this.state.eligibleQueue
     console.log('quest', quest)
     return (
       this.state.problemNum !== this.state.eligibleQueue.length ?

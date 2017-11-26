@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
 import {Redirect} from 'react-router'
 import {fetchAllProblems, fetchCompletedProblems} from '../store';
 import { PopUp } from './pop_up';
@@ -18,10 +17,12 @@ export class Train extends Component{
         }
         this.togglePopup = this.togglePopup.bind(this);
         this.handleSkip = this.handleSkip.bind(this);
+        // this.handleQuit = this.handleQuit.bind(this);
     }
     togglePopup() {
       this.setState({
-        showPopup: !this.state.showPopup
+        showPopup: !this.state.showPopup,
+        //currInd: (this.state.currInd + 1) 
       });
     }
 
