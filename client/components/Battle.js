@@ -47,7 +47,8 @@ export class Battle extends Component{
   handleMatch(e) {
     e.preventDefault();
     events.emit('findOrCreateMatch', socket.id)// =>
-    socket.emit('JoinRoom', socket.id)
+
+    socket.emit('findOrJoinRoom', socket.id)
     console.log('socketID:', socket.id)
       // socket.broadcast.emit('Join my room', socket.id)
     //)

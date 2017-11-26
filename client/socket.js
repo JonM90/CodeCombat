@@ -18,14 +18,16 @@ socket.on('result',(outPut)=> {
 socket.on('pass', (value) => {
   events.emit('pass', value)
 })
+
+socket.on('findOrJoinRoom', socketID => {
+  console.log('Joining room in FRONT:', socketID)
+  socket.join(socketID)
+});
+
 events.on('findOrCreateMatch', (ID) => {
   console.log('user room ID is:', ID)
   socket.emit('findOrCreateMatch', ID);
   socket.emit('JoinRoom', ID);
 })
-socket.on('JoinRoom', socketID => {
-  console.log('Joining room:', socketID)
-  socket.join(socketID)
-});
 
 export default socket

@@ -28,13 +28,19 @@ module.exports = (io) => {
       socket.emit('pass', outPut[2])
     })
 
-    socket.on('JoinRoom', socketID => {
+    socket.on('findOrJoinRoom', socketID => {
       console.log('Joining room:', socketID)
       // socket.join(socketID)
       socket.join('hotel')
       let myRoom = socket.rooms
-      // let myRoom2 = socket.room()
-      // let myRoom = io.sockets.manager.roomClients[socket.id]
+      console.log('SOCKET SERVER', myRoom)
+    });
+
+    socket.on('JoinRoom', socketID => {
+      console.log('In JOINROOM:', socketID)
+      // socket.join(socketID)
+      socket.join('hotel')
+      let myRoom = socket.rooms
       console.log('SOCKET SERVER', myRoom)
     });
 
