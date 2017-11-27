@@ -60,24 +60,33 @@ export class CodeEditor extends Component {
     this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
   }
 
-  onChange(newValue, e) {
+  onChange(newValue,e ) {
     // console.log("NEW VALUE", newValue, "EVENT", e);
+    console.log("in change", e)
     let attempt = newValue;
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
     // console.log(editor.getValue()); // Outputs the value of the editor
     // console.log("ARE THERE ERRORS???? BEFORE", this.state.error)
     //USED TO GET ANNOTATIOINS FROM THE CODE EDITOR
-    let comments = editor.getSession().getAnnotations()
     let error = false;
+    editor.getSession().on("changeAnnotation", () => {
+
+      let comments = editor.getSession().getAnnotations();
+       console.log("COMMENTS: ", comments)
+      comments.forEach(val => {
+
+        if (val.type === 'error'){
+          error = true
+          this.setState({error})
+          return;
+        }
+      })
+    })
+
     // console.log("ANNOTATIONS OVER HERE BEFORE:", comments)
     //LOOP THROUGH THE EDITOR SO THAT WE CAN SEE IF THERE IS AN ERROR
-    comments.forEach(val => {
-      if (val.type === 'error'){
-        error = true
-        this.setState({error})
-      }
-    })
+
 
     this.setState({attempt, error})
     // console.log("ANNOTATIONS OVER HERE AFTER:", comments)
