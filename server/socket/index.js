@@ -46,12 +46,20 @@ module.exports = (io) => {
     socket.on('joinRoom', roomId => {
       console.log('In joinRoom:', roomId)
       socket.join(roomId)
+      setTimeout(() => {
+        console.log(`joined room: ${roomId}`)
+        let myRoom = socket.rooms
+        console.log('SOCKET SERVER MY ROOM', myRoom)
+      }, 3000)
       // socket.join('hotel')
-      socket.emit('ready')
-      let myRoom = socket.rooms
-      console.log('SOCKET SERVER', myRoom)
+      // socket.emit('ready')
+      // io.in('room404').emit('mssg', 'Hyaa!');
+      io.in(roomId).emit('mssg', 'Hyaa!');
+      // io.sockets.in('room404').emit('mssg', 'Hyaa!');
     });
 
+    // io.in('room404').emit('mssg', 'Hyaa!');
+    // io.sockets.in('room404').emit('mssg', 'Hyaa!');
     // socket.on('JoinRoom', socketID => {
     //   console.log('In JOINROOM:', socketID)
     //   socket.join(socketID)
@@ -59,13 +67,12 @@ module.exports = (io) => {
     //   let myRoom = socket.rooms
     //   console.log('SOCKET SERVER', myRoom)
     // });
-
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
-
-
   })
+
+  // io.in()
 }
 
 // console.log('MESSAGE!!!', message)

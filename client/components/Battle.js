@@ -63,15 +63,19 @@ export class Battle extends Component{
       console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
 
-      // socket.on('ready', () => {
-      //   console.log("READY IS RUNINNG BRUNCH FOR LIFE")
-      //   this.setState({show:true})
-      // })
       setTimeout(() => {
         this.setState({show:true})
       }, 1000)
       socket.emit('joinRoom', this.state.activeMatch.roomId)
+      // socket.broadcast.emit('joinRoom', this.state.activeMatch.roomId)
+      // socket.emit('joinRoom', 'room404')
+      // socket.emit('createRoom', this.state.activeMatch.roomId)
       console.log('STATE: ', this.state)
+
+      // socket.on('mssg', (msg) => {
+      //   console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
+      //   // this.setState({show: true})
+      // })
     } else {
      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }

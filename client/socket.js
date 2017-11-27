@@ -24,12 +24,14 @@ socket.on('result', (outPut) => {
 socket.on('pass', (value) => {
   events.emit('pass', value)
 })
-
+socket.on('mssg', (msg) => {
+  console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
+  // this.setState({show: true})
+})
 socket.on('findOrJoinRoom', socketID => {
   console.log('Joining room in FRONT:', socketID)
   socket.join(socketID)
 });
-
 // events.on('findOrCreateMatch', (ID) => {
 //   console.log('user room ID is:', ID)
 //   // socket.emit('findOrCreateMatch', ID);
