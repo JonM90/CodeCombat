@@ -4,8 +4,8 @@ import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} 
 import {CodeEditor} from './editor';
 import socket from '../socket';
 import { setTimeout } from 'timers';
+import { PopUp } from './pop_up';
 // import {Train} from './Train';
-// import { PopUp } from './pop_up';
 // const {EventEmitter} = require('events');
 // export const events = new EventEmitter()
 // import axios from 'axios';
@@ -17,7 +17,7 @@ export class Battle extends Component{
       eligibleQs: [],
       showPopup: false,
       activeMatch: {},
-      show:false
+      show: false
     }
     // console.log('EVENTS IN BATTLE', events)
     this.togglePopup = this.togglePopup.bind(this);
@@ -34,7 +34,7 @@ export class Battle extends Component{
       this.props.loadCompletedProblems(this.props.user.id);
       this.props.findRoom(this.props.user.rank);
     }
-    this.setState({showPopup: true})
+    // this.setState({showPopup: true})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,6 +47,7 @@ export class Battle extends Component{
         return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
       })
       this.setState({eligibleQs})
+      this.setState({showPopup: true})
     }
   this.setState({activeMatch: active})
   console.log('SET STATE W:', active)
@@ -61,14 +62,14 @@ export class Battle extends Component{
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
       console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
-      
+
       // socket.on('ready', () => {
       //   console.log("READY IS RUNINNG BRUNCH FOR LIFE")
       //   this.setState({show:true})
       // })
       setTimeout(() => {
         this.setState({show:true})
-      }, 6000)
+      }, 1000)
       socket.emit('joinRoom', this.state.activeMatch.roomId)
       console.log('STATE: ', this.state)
     } else {
@@ -80,8 +81,9 @@ export class Battle extends Component{
   render() {
     // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
     //<Train />
-    if(this.props.updateRoom && this.props.updateRoom.status){
-      console.log("RENDERING", this.props.updateRoom.status, this.state.show)
+    console.log('this.state.activeMatch', this.state.activeMatch)
+    if (this.props.updateRoom && this.props.updateRoom.status){
+      console.log('RENDERING', this.props.updateRoom.status, this.state.show)
     }
     return (
         <div id="battle-main">
@@ -92,13 +94,18 @@ export class Battle extends Component{
 
 
             <div className="editor-div">
-              {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <CodeEditor
-                questions={this.state.eligibleQs}
-                match={this.state.activeMatch}
-                battleProps={this.props}
-              />}
+            {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <CodeEditor
+            questions={this.state.eligibleQs}
+            match={this.state.activeMatch}
+            battleProps={this.props}
+            />}
             </div>
 
+            {this.state.eligibleQs && this.props.updateRoom && this.state.showPopup ?
+              <PopUp
+              func={this.togglePopup}
+              quest={this.state.eligibleQs[0]}
+              /> : null}
 
       </div>
     )

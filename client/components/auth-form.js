@@ -42,6 +42,7 @@ const mapLogin = (state) => {
     name: 'login',
     displayName: 'Login',
     error: state.user.error
+    // userId: state.user.id
   }
 }
 
@@ -50,6 +51,7 @@ const mapSignup = (state) => {
     name: 'signup',
     displayName: 'Sign Up',
     error: state.user.error
+    // userId: state.user.id
   }
 }
 
@@ -57,6 +59,7 @@ const mapDispatch = (dispatch) => {
   return {
     handleSubmit (evt) {
       evt.preventDefault()
+      // const userId = this.props.userId
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value

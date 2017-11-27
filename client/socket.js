@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 import {events} from './components/editor'
 const socket = io(window.location.origin)
 
-console.log('WTF IS WRONG???', events)
+// console.log('WTF IS WRONG???', events)
 
 socket.on('connect', () => {
   console.log('Connected!')
