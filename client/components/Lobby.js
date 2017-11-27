@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux'
 // import PopUp from './pop_up'
 
-export default class Lobby extends Component{
+export class Lobby extends Component{
     constructor(){
         super();
     }
@@ -26,7 +27,7 @@ export default class Lobby extends Component{
 
 
             <div id="battle-div" className="card">
-                <Link to="/battle">
+              <Link to={`/users/${this.props.userId}/battle`}>
                     <div className="card-header">
                         <h1>BATTLE</h1>
                         <p>Battle Opponents For Glory!</p>
