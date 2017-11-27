@@ -10,24 +10,29 @@ export const Navbar = (props) => {
 
   return (
     <div>
-      <h1>Code Combat</h1>
       <nav>
-        {
-          isLoggedIn
-            ? <div>
-              {/* The navbar will show these links after you log in */}
-              <Link to="/">Home</Link>
-              <a href="#" onClick={handleClick}>Logout</a>
-              <Link to={`/users/${props.userId}/profile`}>Profile</Link>
-            </div>
-            : <div>
-              {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-            </div>
-        }
+        <div id="main-game-title">
+          <h1>CODE COMBAT</h1>
+          <p>put your javascript skills to the test</p>
+        </div> 
+        <div id="nav-links">
+          {
+            isLoggedIn
+              ? <div>
+                  {/* The navbar will show these links after you log in */}
+                  <Link to="/">Home</Link>
+                  <Link to={`/users/${props.userId}/profile`}>Profile</Link>
+                  <a href="#" onClick={handleClick}>Logout</a>
+              </div>
+              : <div>
+                  {/* The navbar will show these links before you log in */}
+                  <Link to="/login">Login</Link>
+                  <Link to="/signup">Sign Up</Link>
+              </div>
+          }
+        </div>
       </nav>
-      <hr />
+      
     </div>
   )
 }
