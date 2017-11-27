@@ -47,7 +47,7 @@ module.exports = (io) => {
       console.log('In joinRoom:', roomId)
       socket.join(roomId)
       // socket.join('hotel')
-
+      socket.emit('ready')
       let myRoom = socket.rooms
       console.log('SOCKET SERVER', myRoom)
     });

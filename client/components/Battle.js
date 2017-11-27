@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
 import {CodeEditor} from './editor';
 import socket from '../socket';
+import { setTimeout } from 'timers';
 // import {Train} from './Train';
 // import { PopUp } from './pop_up';
 // const {EventEmitter} = require('events');
@@ -15,7 +16,8 @@ export class Battle extends Component{
     this.state = {
       eligibleQs: [],
       showPopup: false,
-      activeMatch: {}
+      activeMatch: {},
+      show:false
     }
     // console.log('EVENTS IN BATTLE', events)
     this.togglePopup = this.togglePopup.bind(this);
@@ -51,15 +53,24 @@ export class Battle extends Component{
   }
 
   handleMatch(e) {
-    e.preventDefault();
+    // e.preventDefault();
     // events.emit('findOrCreateMatch', socket.id)// =>
     // this.props.findRoom(this.props.user.rank)
     console.log('this.state.activeMatch!', this.state.activeMatch)
 
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
       console.log('Updating ROOM:', this.state.activeMatch)
-      this.props.updateRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
+      this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
+      
+      // socket.on('ready', () => {
+      //   console.log("READY IS RUNINNG BRUNCH FOR LIFE")
+      //   this.setState({show:true})
+      // })
+      setTimeout(() => {
+        this.setState({show:true})
+      }, 6000)
       socket.emit('joinRoom', this.state.activeMatch.roomId)
+      console.log('STATE: ', this.state)
     } else {
      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
@@ -69,7 +80,9 @@ export class Battle extends Component{
   render() {
     // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
     //<Train />
-
+    if(this.props.updateRoom && this.props.updateRoom.status){
+      console.log("RENDERING", this.props.updateRoom.status, this.state.show)
+    }
     return (
         <div id="battle-main">
 
@@ -79,7 +92,7 @@ export class Battle extends Component{
 
 
             <div className="editor-div">
-              {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && <CodeEditor
+              {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <CodeEditor
                 questions={this.state.eligibleQs}
                 match={this.state.activeMatch}
                 battleProps={this.props}
@@ -98,7 +111,8 @@ const mapState = (state) => {
     email: state.user.email,
     user: state.user,
     allQuestions: state.problems,
-    activeRoom: state.room.activeRoom
+    activeRoom: state.room.activeRoom,
+    updateRoom: state.room.updatedRoom
   }
 }
 
@@ -116,7 +130,7 @@ const mapDispatch = dispatch => {
     createRoom: (roomId, level, player1) => {
       dispatch(makeRoom(roomId, level, player1))
     },
-    updateRoom: (roomId, playerJoin, status) => {
+    updatingRoom: (roomId, playerJoin, status) => {
       dispatch(putRoom(roomId, playerJoin, status))
     }
   }

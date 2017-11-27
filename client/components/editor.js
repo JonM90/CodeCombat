@@ -36,8 +36,10 @@ export class CodeEditor extends Component {
   componentWillReceiveProps(nP) {
     if (nP.questions.length) {
       this.setState({eligibleQueue: nP.questions})
-      if (this.state.eligibleQueue.length) {
+      if (nP.questions.length) {
+        console.log("ELIGIBLE Q", this.state.eligibleQueue)
         this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+        this.ace.editor.setValue(`function ${(nP.questions[this.state.problemNum]).signature}{}`)
       }
     }
     console.log('NP:', nP)
