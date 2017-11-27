@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 // import PopUp from './pop_up'
 
-export default class Lobby extends Component{
+export class Lobby extends Component{
     constructor(){
         super();
     }

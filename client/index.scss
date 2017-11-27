@@ -29,6 +29,8 @@ body {
     height: 3em;
     background-color: #000;
     color: rgb(223, 223, 223);
+    bottom: 0;
+    width: 100%;
     a {
      display: inline-block;
      margin: 1em;
@@ -109,8 +111,10 @@ body {
     }
   }
   .card:hover{
-    -webkit-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
-    box-shadow: 0 19px 38px rgba(255, 54, 3, 0.3), 0 15px 12px rgba(0,0,0,0.22);
+    -webkit-boxbox-shadow: 0px 19px 80px 8px #2869fc;
+    box-shadow: 0px 19px 80px 8px #2869fc;
+    // -webkit-box-shadow: 0 19px 38px rgba(255, 54, 3, 0.3), 0 15px 12px rgba(0,0,0,0.22); 
+    // box-shadow: 0 0 45px 15px rgba(255, 54, 3, 0.3), 0 15px 12px rgba(0,0,0,0.22);
 }
 
   
