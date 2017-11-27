@@ -95,6 +95,7 @@ const {VM} = require('vm2');
       var runner = function(userFunc, specs){
         console.log('this is specs in beginning:', specs)
         const log = []
+        console.log("NEW VM INSTANCE")
         var vm = new VM({
           timeout: 1000,
           sandbox: {
@@ -141,7 +142,7 @@ const {VM} = require('vm2');
         return [
           arr,
           // error ? `${error.spec} failed with ${error.message}` : arr.join(","),
-          log.join('\n'),
+          log,
           pass
         ]
         // return log

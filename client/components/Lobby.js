@@ -1,55 +1,61 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import PopUp from './pop_up'
+import { connect } from 'react-redux'
 
-export default class Lobby extends Component{
-    constructor(){
-        super();
-    }
+export class Lobby extends Component{
+  constructor(){
+      super();
+  }
 
-    render(){
-        return (
-            <div id="lobby-main">
+  render(){
+    return (
+      <div id="lobby-main">
 
-              <div id="train-div">
-                        <Link to="/train">
-                            <div className="train-body card-body">
-                                <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
-                            </div>
-                            <div className="train-header card-header">
-                                <h1>Train</h1>
-                                <p>Training through Missions</p>
-                            </div>
+        <div id="train-div">
+          <Link to="/train">
+              <div className="train-body card-body">
+                  <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
+              </div>
+              <div className="train-header card-header">
+                  <h1>Train</h1>
+                  <p>Training through Missions</p>
+              </div>
+          </Link>
+        </div>
 
-                        </Link>
-                    </div>
 
+        <div id="battle-div">
+          <Link to={`/users/${this.props.userId}/battle`}>
+              <div className="battle-body card-body">
+                  <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
+              </div>
+              <div className="battle-header card-header">
+                  <h1>Battle</h1>
+                  <p>Battle Opponents For Glory!</p>
+              </div>
+          </Link>
+        </div>
 
-                    <div id="battle-div">
-                        <Link to="/battle">
-                            <div className="battle-body card-body">
-                                <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
-                            </div>
-                            <div className="battle-header card-header">
-                                <h1>Battle</h1>
-                                <p>Battle Opponents For Glory!</p>
-                            </div>
-                        </Link>
-                    </div>
-
-                    <div id="sandbox-div">
-                        <Link to="/editor">
-                            <div className="sandbox-body card-body">
-                                <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
-                            </div>
-                            <div className="sandbox-header card-header">
-                                <h1>Sandbox</h1>
-                                <p>Your Personal Code Editor</p>
-                            </div>
-
-                        </Link>
-                    </div>
-            </div>
-        )
-    }
+        <div id="sandbox-div">
+          <Link to="/editor">
+              <div className="sandbox-body card-body">
+                  <img className="card-body-img" src="http://ray-bansunglasses.us/wp-content/uploads/2017/08/games-1.png"/>
+              </div>
+              <div className="sandbox-header card-header">
+                  <h1>Sandbox</h1>
+                  <p>Your Personal Code Editor</p>
+              </div>
+          </Link>
+        </div>
+      </div>
+    )
+  }
 }
+
+const mapState = (state) => {
+  return {
+    userId: state.user.id,
+  }
+}
+
+export default connect(mapState)(Lobby)
