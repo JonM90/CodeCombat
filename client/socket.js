@@ -26,7 +26,6 @@ socket.on('pass', (value) => {
 })
 socket.on('mssg', (msg) => {
   console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
-  socket.emit("imStarting", true)
   // this.setState({show: true})
 })
 socket.on('findOrJoinRoom', socketID => {

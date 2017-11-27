@@ -55,7 +55,7 @@ export class Battle extends Component{
       this.setState({showPopup: true})
     }
   this.setState({activeMatch: active})
-  console.log('SET STATE W:', active)
+  // console.log('SET STATE W:', active)
 
   }
 
@@ -63,20 +63,20 @@ export class Battle extends Component{
     // e.preventDefault();
     // events.emit('findOrCreateMatch', socket.id)// =>
     // this.props.findRoom(this.props.user.rank)
-    console.log('this.state.activeMatch!', this.state.activeMatch)
+    // console.log('this.state.activeMatch!', this.state.activeMatch)
 
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
       console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
 
-      setTimeout(() => {
-        this.setState({show:true})
-      }, 1000)
       socket.emit('joinRoom', this.state.activeMatch.roomId)
+      setTimeout(() => {
+        this.setState({show: true})
+      }, 1000)
       // socket.broadcast.emit('joinRoom', this.state.activeMatch.roomId)
       // socket.emit('joinRoom', 'room404')
       // socket.emit('createRoom', this.state.activeMatch.roomId)
-      console.log('STATE: ', this.state)
+      // console.log('STATE: ', this.state)
 
       // socket.on('mssg', (msg) => {
       //   console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
@@ -85,7 +85,7 @@ export class Battle extends Component{
     } else {
      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
-    console.log('socketID:', socket.id)
+    // console.log('socketID:', socket.id)
   }
 
   render() {
@@ -114,8 +114,9 @@ export class Battle extends Component{
             {/*
               TODO: MAKE SURE YOU HAVE NECESSARY LOGIC FOR INSTANTIATING PROPER BATTLE
             */}
+
             {
-              this.state.show ? <CodeEditor
+              this.state.eligibleQs && this.state.show ? <CodeEditor
               questions={this.state.eligibleQs}
               match={this.state.activeMatch}
               battleProps={this.props}
@@ -123,7 +124,7 @@ export class Battle extends Component{
             }
             </div>
 
-            {this.state.eligibleQs && this.props.updateRoom && this.state.showPopup ?
+            {this.state.eligibleQs && this.state.showPopup && (this.props.updateRoom || this.state.show) ?
               <PopUp
               func={this.togglePopup}
               quest={this.state.eligibleQs[0]}
@@ -139,7 +140,7 @@ const mapState = (state) => {
   return {
     email: state.user.email,
     user: state.user,
-    show : state.show,
+    // show : state.show,
     allQuestions: state.problems,
     activeRoom: state.room.activeRoom,
     updateRoom: state.room.updatedRoom
