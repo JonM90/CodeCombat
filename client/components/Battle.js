@@ -110,6 +110,7 @@ export class Battle extends Component{
             match={this.state.activeMatch}
             battleProps={this.props}
             />*/}
+
             {/*
               TODO: MAKE SURE YOU HAVE NECESSARY LOGIC FOR INSTANTIATING PROPER BATTLE
             */}
