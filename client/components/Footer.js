@@ -8,7 +8,6 @@ export const Footer = (props) => {
   const {isLoggedIn} = props
   return (
     <div>
-      <hr />
       <footer>
         <div id="footer-btns">
           { isLoggedIn ?
