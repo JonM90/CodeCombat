@@ -19,6 +19,10 @@ export class Battle extends Component{
       activeMatch: {},
       show: false
     }
+    socket.on('mssg', (payload) => {
+      console.log("YA HIT ME!!!!!")
+      this.setState({show : true})
+    })
     // console.log('EVENTS IN BATTLE', events)
     this.togglePopup = this.togglePopup.bind(this);
     this.handleMatch = this.handleMatch.bind(this);
@@ -34,6 +38,7 @@ export class Battle extends Component{
       this.props.loadCompletedProblems(this.props.user.id);
       this.props.findRoom(this.props.user.rank);
     }
+
     // this.setState({showPopup: true})
   }
 
@@ -51,6 +56,7 @@ export class Battle extends Component{
     }
   this.setState({activeMatch: active})
   console.log('SET STATE W:', active)
+
   }
 
   handleMatch(e) {
@@ -83,6 +89,7 @@ export class Battle extends Component{
   }
 
   render() {
+    console.log("THE BATTLE STATE *********", this.state)
     // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
     //<Train />
     console.log('this.state.activeMatch', this.state.activeMatch)
@@ -98,11 +105,21 @@ export class Battle extends Component{
 
 
             <div className="editor-div">
-            {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <CodeEditor
+             {/*this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <CodeEditor
             questions={this.state.eligibleQs}
             match={this.state.activeMatch}
             battleProps={this.props}
-            />}
+            />*/}
+            {/*
+              TODO: MAKE SURE YOU HAVE NECESSARY LOGIC FOR INSTANTIATING PROPER BATTLE
+            */}
+            {
+              this.state.show ? <CodeEditor
+              questions={this.state.eligibleQs}
+              match={this.state.activeMatch}
+              battleProps={this.props}
+              /> : <h3> No code baby!</h3>
+            }
             </div>
 
             {this.state.eligibleQs && this.props.updateRoom && this.state.showPopup ?
@@ -121,6 +138,7 @@ const mapState = (state) => {
   return {
     email: state.user.email,
     user: state.user,
+    show : state.show,
     allQuestions: state.problems,
     activeRoom: state.room.activeRoom,
     updateRoom: state.room.updatedRoom
