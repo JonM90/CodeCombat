@@ -49,7 +49,7 @@ export class Train extends Component{
     }
 
     render() {
-       if (this.state.eligibleQs) console.log('this.state.eligibleQs in Train: ', this.state.eligibleQs[0])
+      //  if (this.state.eligibleQs) console.log('this.state.eligibleQs in Train: ', this.state.eligibleQs[0])
 
       return (
           <div id="train-main">

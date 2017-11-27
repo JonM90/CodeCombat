@@ -37,6 +37,10 @@ describe('User model', () => {
 }) // end describe('User model')
 
 
+
+
+
+//Problem Specs
 describe('Problem model', () => {
    beforeEach(() => {
      return db.sync({ force: true })
