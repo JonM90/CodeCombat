@@ -10,7 +10,7 @@ class PieChart extends Component {
         this.state={
             allProblems:[],
             comlpetedProblems:[],
-            
+            rank:{}
         }
     }
 
@@ -25,10 +25,14 @@ class PieChart extends Component {
             display:'flex',
             direction:'row'
         }
-        console.log("ITS YOUR FRIEND MR.PROPS: ", this.props)
         let questions = this.props.allQuestions.allProblems
         let completedQuestions = this.props.allQuestions.completedProblems
-        console.log("STATE", this.state)
+        let rankObj = {}
+        if(completedQuestions.length){
+            completedQuestions.forEach(val => {
+                rankObj[val.level+''] = rankObj[val.level+''] + 1 || 1
+            })
+        }
         return (
         <div style={styles}>
             <div>
@@ -42,11 +46,14 @@ class PieChart extends Component {
             </div>
             <div>
                 <VictoryPie
-                colorScale={['#FFC107'/*Orange*/, '#4CAF50'/*Green*/]} 
+                colorScale={['#90A4AE'/*BLUE GREY*/, '#7986CB'/*INDIGO*/, '#F06292'/*PINK*/, '#FFF176'/*YELLOW*/, '#FF8A65'/*DEEP ORANGE*/]} 
                 animate={{duration: 3000}}
                 data={[
-                    { x: "Incomplete", y: (questions && questions.length) },
-                    { x: "Completed", y: (completedQuestions && completedQuestions.length) }
+                    { x: "1", y: (rankObj[1] || 0) },
+                    { x: "2", y: (rankObj[2] || 0) },
+                    { x: "3", y: (rankObj[3] || 0) },
+                    { x: "4", y: (rankObj[4] || 0) },
+                    { x: "5", y: (rankObj[5] || 0) }
                 ]}/>
             </div>
         </div>
