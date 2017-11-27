@@ -40,3 +40,11 @@ export default class Lobby extends Component{
         )
     }
 }
+
+const mapState = (state) => {
+  return {
+    userId: state.user.id,
+  }
+}
+
+export default connect(mapState)(Lobby)

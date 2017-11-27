@@ -1,6 +1,7 @@
 const User = require('./user')
 const Problem = require('./problem')
 const CompletedProblem = require('./CompletedProblem')
+const Room = require('./room')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -27,5 +28,6 @@ User.belongsToMany(Problem, {through: CompletedProblem})
 module.exports = {
   User,
   Problem,
-  CompletedProblem
+  CompletedProblem,
+  Room
 }
