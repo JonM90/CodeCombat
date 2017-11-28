@@ -4,9 +4,9 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Navbar, Login, Signup, Footer, UserHome, Lobby, Train, Battle } from './components'
+import {Main, Navbar, Login, Signup, Footer, UserHome, Lobby, Train, Battle, CodeEditor } from './components'
 import {me} from './store'
-import {CodeEditor} from './components/editor'
+// import {CodeEditor} from './components/editor'
 
 /**
  * COMPONENT
@@ -34,11 +34,11 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route exact path="/" component={Lobby} />
-                  <Route exact path="/profile" component={UserHome} />
                   <Route exact path="/train" component={Train} />
-                  <Route exact path="/battle" component={Battle} />
+                  <Route exact path="/users/:userId/battle" component={Battle} />
                   <Route exact path="/editor" component={CodeEditor} />
-                  <Route exact path={`/users/:userId/profile`} component={UserHome} />
+                  <Route exact path="/users/:userId/profile" component={UserHome} />
+
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}

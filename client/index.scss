@@ -1,60 +1,145 @@
 body {
-  font-family: sans-serif;
-
+  margin:0;
+  padding:0;
+  font-family: 'Open Sans';
   a {
     text-decoration: none;
   }
-
+  h1{
+    margin:0;
+  }
   label {
     display: block;
   }
 
-  nav a {
-    display: inline-block;
-    margin: 1em;
+  nav {
+    background-color: #222;
+    padding-top: 2em;
+    a {
+      display: inline-block;
+      margin: 0 1em 1em 3em;
+      color: #d0d0d0;
+    }
+    #nav-links{
+      font-family: Avenir;
+      letter-spacing: 2.2px;  
+    }
   }
-  footer a {
-    display: inline-block;
-    margin: 1em;
+  footer{
+    height: 3em;
+    background-color: #000;
+    color: rgb(223, 223, 223);
+    a {
+     display: inline-block;
+     margin: 1em;
+     color: rgb(223, 223, 223);
+     font-family: "Avenir"
+    }
   }
 
   form div {
-    margin: 1em;
+    //margin: 1em;
     display: inline-block;
+  }
+}
+#main-game-title { 
+  text-align: center;
+  color: #d0d0d0;
+  h1{
+    font-family: 'Press Start 2P';
+    margin: 0;
+  }
+  p{
+    font-family: 'Open Sans';
+    font-weight: 400;
+    word-spacing: 3px;
+    letter-spacing: 3px;
+    font-size: 0.75em;
+    color: #c98304;
+    margin-top: 10px;
   }
 }
 
 #lobby-main {
   display: flex;
   justify-content: center;
+  padding-top: 4em;
+  background-color: #2d2d2d;
+  height: 33em;  
   div{
-    margin: 1em;
+    // margin: 1em;
     text-align: center;
+  }
+  a{
+    text-decoration: none;
+    h1{
+      font-family: 'Press Start 2P';
+      background-image: -webkit-linear-gradient(#f48008, #d32020);
+      // background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+      // background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+      color:transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    p{
+      font-family: 'Open Sans';
+      font-weight: 800;
+      color: #d0d0d0;
+    }
+    
+    /* color: white; */
+  }
+  
+  .card{
+    text-align: center;
+    height: 375px;
+    width: 30%;
+    background-color: #222;;
+    margin: 0 15px;
+    box-shadow: 1px black;
+    // border: solid 1px black;
 
     .card-header{
-      background-color: lightgray;
+      background-color: #444;;
+      height: 25%;
+      padding-top: 2em;
     }
     .card-body{
+      height: 75%;
+    }
+  }
+  .card:hover{
+    -webkit-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
+    box-shadow: 0 19px 38px rgba(255, 54, 3, 0.3), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+  
+  // #train-div{
+    
+  // }
+  #train-div{
+    .card-body{
+      background-color: rgb(197, 101, 12);
       .card-body-img{
-        width: 50%;
+        width: 30%;
+        padding-top: 20%;
       }
     }
   }
-  #train-div{
-    background-color: grey;
-    border: solid 1px black;
-    width: 30%
-  }
   #battle-div{
-    background-color: grey;
-    border: solid 1px black;
-    width: 30%
+    .card-body{
+      background-color: skyblue;
+      .card-body-img{
+        padding-top: 15%;
+      }
+      
+    }
   }
-  #sandbox-div{
-    background-color: grey;
-    border: solid 1px black;
-    width: 30%
-  }
+  // #sandbox-div{
+  //   background-color: grey;
+  //   border: solid 1px black;
+  //   width: 30%
+  // }
 }
 
 .train-container {

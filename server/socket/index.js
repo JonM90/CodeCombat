@@ -13,28 +13,66 @@
 //   }
 // })
 // let message;
-const run = require('../sandbox/sandbox');
+const RUN = require('../sandbox/sandbox');
+const {runnerONE, runnerTWO} = require('../sandbox/battleSandbox');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
     socket.on('userSubmit', (usersFunc) => {
+      var outPut = RUN(usersFunc[0], usersFunc[1])
 
-      var outPut = run(usersFunc[0], usersFunc[1])
-
-      console.log("********this is outPut in socket/index.js:",outPut);
+      console.log('********this is outPut in socket/index.js:', outPut);
       console.log('END!');
-      socket.emit('result', outPut.slice(0,2))
+      socket.emit('result', outPut.slice(0, 2))
       socket.emit('pass', outPut[2])
     })
+    socket.on('battleSubmit', (usersFunc) => {
+      if (usersFunc[2] === 'host') {
+        var outPutOne = runnerONE(usersFunc[0], usersFunc[1])
+        socket.emit('result', outPutOne.slice(0, 2))
+        socket.emit('pass', outPutOne[2])
+        console.log('********this is outPutONE in socket/index.js:', outPutOne);
+      } else if (usersFunc[2] === 'guest') {
+        var outPutTwo = runnerTWO(usersFunc[0], usersFunc[1])
+        socket.emit('result', outPutTwo.slice(0, 2))
+        socket.emit('pass', outPutTwo[2])
+        console.log('********this is outPutTWO in socket/index.js:', outPutTwo);
+      }
+      console.log('playerTYPE:', usersFunc[2])
+    })
 
+    socket.on('joinRoom', roomId => {
+      console.log('In joinRoom:', roomId)
+      socket.join(roomId)
+      setTimeout(() => {
+        console.log(`joined room: ${roomId}`)
+        let myRoom = socket.rooms
+        console.log('SOCKET SERVER MY ROOM', myRoom)
+      }, 3000)
+      // socket.join('hotel')
+      // socket.emit('ready')
+      // io.in('room404').emit('mssg', 'Hyaa!');
+      io.in(roomId).emit('mssg', 'Hyaa!');
+      // io.sockets.in('room404').emit('mssg', 'Hyaa!');
+    });
+
+    // io.in('room404').emit('mssg', 'Hyaa!');
+    // io.sockets.in('room404').emit('mssg', 'Hyaa!');
+    // socket.on('JoinRoom', socketID => {
+    //   console.log('In JOINROOM:', socketID)
+    //   socket.join(socketID)
+    //   // socket.join('hotel')
+    //   let myRoom = socket.rooms
+    //   console.log('SOCKET SERVER', myRoom)
+    // });
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
-
-
   })
+
+  // io.in()
 }
 
 // console.log('MESSAGE!!!', message)
