@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
-import {fetchAllProblems, fetchCompletedProblems} from '../store';
+import {fetchAllProblems, fetchCompletedProblems, getPoints} from '../store';
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 
@@ -52,7 +52,7 @@ export class Train extends Component{
 
     render() {
       //  if (this.state.eligibleQs) console.log('this.state.eligibleQs in Train: ', this.state.eligibleQs[0])
-
+         //console.log("THIS.PROPS IN TRAIN...USERID", this.props.user.id);
       return (
           <div id="train-main">
 
@@ -74,6 +74,8 @@ export class Train extends Component{
                 questions={this.state.eligibleQs} 
                 eligibleQueue = {this.state.eligibleQs}
                 problemNum = {this.state.currInd}
+                updatePoints={this.props.updatePoints}
+                userId={this.props.user.id}
                 />}
               </div>
 
@@ -98,6 +100,9 @@ const mapDispatch = dispatch => {
     },
     loadCompletedProblems: (userId) => {
       dispatch(fetchCompletedProblems(userId))
+    },
+    updatePoints: (userId) => {
+      dispatch(getPoints(userId))
     }
   }
 }
