@@ -25,7 +25,7 @@ const styles = {
 
 const tabStyles = {
   backgroundColor:'black', 
-  color:'white'
+  color:'#c98304'
 }
 
 export class UserHome extends Component {
@@ -53,7 +53,7 @@ export class UserHome extends Component {
               <Tab label="GRAPHS" icon={<EditorPieChartOutlined />} style={tabStyles}>
                 <UserGraph />
               </Tab>
-              <Tab label="INFO" icon={<ActionInfoOutline />} style={tabStyles}>
+              <Tab label="INFO" icon={<ActionInfoOutline />} iconStyle={{fill:'#c98304'}} style={tabStyles}>
                 <UserInfo />
               </Tab>
               <Tab label="History" icon={<ActionDoneAll />} style={tabStyles}>
