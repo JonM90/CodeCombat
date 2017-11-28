@@ -5,6 +5,7 @@ import {BattleEditor} from './BattleEditor';
 import socket from '../socket';
 import { setTimeout } from 'timers';
 import { PopUp } from './pop_up';
+import Loading from './Loading'
 // import {Train} from './Train';
 // const {EventEmitter} = require('events');
 // export const events = new EventEmitter()
@@ -21,6 +22,8 @@ export class Battle extends Component{
     }
     socket.on('mssg', (payload) => {
       console.log("YA HIT ME!!!!!")
+      let loadGif = document.getElementById('loadingGif');
+      loadGif.classList.toggle('loading')
       this.setState({show : true})
     })
     // console.log('EVENTS IN BATTLE', events)
@@ -28,6 +31,7 @@ export class Battle extends Component{
     this.handleMatch = this.handleMatch.bind(this);
   }
   togglePopup() {
+    var start = new Date();
     this.setState({
       showPopup: !this.state.showPopup
     });
@@ -64,11 +68,17 @@ export class Battle extends Component{
     // events.emit('findOrCreateMatch', socket.id)// =>
     // this.props.findRoom(this.props.user.rank)
     // console.log('this.state.activeMatch!', this.state.activeMatch)
-
+    let loadGif = document.getElementById('loadingGif');
+    console.log('TOGGLE ONE')
+    
+    
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
+      console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
+      console.log("THE ACTUAL VALUES", this.state.activeMatch.roomId, socket.id)
       console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
-
+      console.log('TOGGLE TWO')
+      loadGif.classList.toggle('loading')
       socket.emit('joinRoom', this.state.activeMatch.roomId)
       setTimeout(() => {
         this.setState({show: true})
@@ -83,9 +93,11 @@ export class Battle extends Component{
       //   // this.setState({show: true})
       // })
     } else {
-     this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
+      loadGif.classList.toggle('loading')
+      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
     // console.log('socketID:', socket.id)
+    
   }
 
   render() {
@@ -100,9 +112,9 @@ export class Battle extends Component{
         <div id="battle-main">
 
             <h1>BATTLE COMPONENT</h1>
-            <button onClick={this.togglePopup}>show popup</button>
+            
             <button onClick={this.handleMatch}>Find Match</button>
-
+            <Loading />
 
             <div className="editor-div">
              {/*this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <BattleEditor

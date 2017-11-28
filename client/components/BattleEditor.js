@@ -2,6 +2,7 @@ import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {EventEmitter} from 'events';
+
 export const battleEvents = new EventEmitter()
 
 export class BattleEditor extends Component {
@@ -21,7 +22,6 @@ export class BattleEditor extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.nextQuestion = this.nextQuestion.bind(this);
     this.setSig = this.setSig.bind(this);
   }
 
@@ -34,6 +34,7 @@ export class BattleEditor extends Component {
   }
 
   componentWillReceiveProps(nP) {
+    this.startTime = new Date();
     console.log('NP:', nP)
     if (nP.questions.length) { this.setSig() }
     if (nP.match && nP.match.id) {
@@ -66,16 +67,10 @@ export class BattleEditor extends Component {
     this.setState({attempt, error})
   }
 
-  nextQuestion(e){
-    e.preventDefault();
-    this.setState({problemNum: this.state.problemNum + 1})
-    this.setState({output: ''})
-    const editor = this.ace.editor
-    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
-  }
-
   onSubmit(e) {
     e.preventDefault();
+    var total = new Date() - this.startTime;
+    console.log('TIMESTAMP ', total)
     let currMatch = this.state.currentMatch
     let currProb = this.state.currentProblem
     // console.log('currMATCH:', currMatch, 'currPROB:', currProb)
@@ -109,7 +104,7 @@ export class BattleEditor extends Component {
     return (
       this.state.problemNum !== quest.length ?
       (<div className="main-train-container" >
-
+        
         {quest.length && <div className='question-div'>
           <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
           <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
@@ -134,9 +129,6 @@ export class BattleEditor extends Component {
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
               <input id="train-submit-btn"type="submit" />
-              <button onClick={this.nextQuestion}>
-                NEXT
-              </button>
             </form>
           </div>
 

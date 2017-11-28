@@ -186,7 +186,7 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(154, 54, 54, 0.50);
+  background-color: rgba(241, 111, 78, 0.94);
   padding: 25px;
 
   .popup-inner-div {
@@ -204,6 +204,13 @@ body {
     p{
 
     }
+    
   }
+
+  
+}
+
+.loading {
+  display: none;
 }
 
