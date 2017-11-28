@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
 import {BattleEditor} from './BattleEditor';
 import socket from '../socket';
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 import { PopUp } from './pop_up';
 import Loading from './Loading'
 // import {Train} from './Train';
@@ -20,18 +20,17 @@ export class Battle extends Component{
       activeMatch: {},
       show: false
     }
-    socket.on('mssg', (payload) => {
-      console.log("YA HIT ME!!!!!")
-      let loadGif = document.getElementById('loadingGif');
-      loadGif.classList.toggle('loading')
-      this.setState({show : true})
-    })
-    // console.log('EVENTS IN BATTLE', events)
+    // socket.on('mssg', (payload) => {
+    //   console.log("YA HIT ME!!!!!")
+    //   let loadGif = document.getElementById('loadingGif');
+    //   loadGif.classList.toggle('loading')
+    //   this.setState({show : true})
+    // })
     this.togglePopup = this.togglePopup.bind(this);
     this.handleMatch = this.handleMatch.bind(this);
   }
   togglePopup() {
-    var start = new Date();
+    // var start = new Date();
     this.setState({
       showPopup: !this.state.showPopup
     });
@@ -42,8 +41,17 @@ export class Battle extends Component{
       this.props.loadCompletedProblems(this.props.user.id);
       this.props.findRoom(this.props.user.rank);
     }
-
+    socket.on('mssg', (payload) => {
+      console.log("YA HIT ME!!!!!")
+      let loadGif = document.getElementById('loadingGif');
+      loadGif.classList.toggle('loading')
+      this.setState({show : true})
+    })
     // this.setState({showPopup: true})
+  }
+
+  componentWillUnmount() {
+    socket.off('mssg')
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,8 +78,8 @@ export class Battle extends Component{
     // console.log('this.state.activeMatch!', this.state.activeMatch)
     let loadGif = document.getElementById('loadingGif');
     console.log('TOGGLE ONE')
-    
-    
+
+
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
       console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
       console.log("THE ACTUAL VALUES", this.state.activeMatch.roomId, socket.id)
@@ -97,7 +105,7 @@ export class Battle extends Component{
       this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
     // console.log('socketID:', socket.id)
-    
+
   }
 
   render() {
@@ -112,7 +120,7 @@ export class Battle extends Component{
         <div id="battle-main">
 
             <h1>BATTLE COMPONENT</h1>
-            
+
             <button onClick={this.handleMatch}>Find Match</button>
             <Loading />
 
