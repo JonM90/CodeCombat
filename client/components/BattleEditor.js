@@ -29,7 +29,7 @@ export class BattleEditor extends Component {
   }
 
   componentDidMount() {
-    console.log('MOUNTED this.PROPS', this.props)
+    
     this.setState({eligibleQueue: this.props.questions})
     this.setState({currentProblem: this.props.questions[this.state.problemNum]})
     if (!this.ace) return null;
@@ -46,7 +46,6 @@ export class BattleEditor extends Component {
 
   componentWillReceiveProps(nP) {
     this.startTime = new Date();
-    console.log('NP:', nP)
     if (nP.questions.length) { this.setSig() }
     if (nP.match && nP.match.id) {
       this.setState({currentMatch: nP.match})
@@ -94,19 +93,12 @@ export class BattleEditor extends Component {
       battleEvents.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
     : null
 
-
-
-
     if(this.state.player2){
-      battleEvents.on('p2Pending', (msg,p1Total, p1Socket) => {
+      battleEvents.on('p2Pending', function p2Pending(msg,p1Total, p1Socket){
         console.log('OBTAINED p1Submit Emitter', p1Socket)
         this.setState({opponentTotal:p1Total, opponent:p1Socket})
       })
     }
-
-
-
-
 
       // console.log("SECOND EVENT", battleEvents)
       battleEvents.on('battleOutput', (output) => {
@@ -114,16 +106,18 @@ export class BattleEditor extends Component {
         this.setState({output: output[0]})
         this.setState({logger: output[1]})
       })
-      console.log("OUTSIDE STATE: ", this.state)
+
       battleEvents.on('battlePass', (pass) => {
         // console.log('PASS SHIET:', pass)
         if(pass){
           if(this.state.opponentTotal){
+            console.log("P2Submit is about to Fire")
             battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent)
           }else{
             console.log("P1 SUBMIT STATE: ", this.state)
-            battleEvents.emit('p1Submit', total)
             this.setState({player2:false})
+            battleEvents.removeListener('p2Pending', p2Pending)
+            battleEvents.emit('p1Submit', total)
           }
         }
         this.setState({pass})
@@ -133,7 +127,6 @@ export class BattleEditor extends Component {
 
   render() {
     let quest = this.state.eligibleQueue
-    console.log('quest', quest)
     console.log('STATE', this.state)
 
     return (
@@ -192,7 +185,6 @@ export class BattleEditor extends Component {
 }
 
 const mapState = (state) => {
-  console.log('MAP STATE:', state)
   return {
     user: state.user,
   }
