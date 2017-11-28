@@ -29,6 +29,14 @@ module.exports = (io) => {
       socket.emit('pass', outPut[2])
     })
 
+    socket.on('p2PendingSetup', (msg, p1Total, p1Socket) => {
+      socket.broadcast.emit('p1SubmitFinish', msg, p1Total, p1Socket)
+    })
+
+    socket.on('determineWinner', (winner, roomId) => {
+      socket.to(roomId).emit('foundWinner', winner)
+    })
+
     socket.on('battleSubmit', (usersFunc) => {
       if (usersFunc[2] === 'host') {
         var outPutOne = runnerONE(usersFunc[0], usersFunc[1])

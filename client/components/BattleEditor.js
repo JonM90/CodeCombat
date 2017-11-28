@@ -26,14 +26,14 @@ export class BattleEditor extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.setSig = this.setSig.bind(this);
+    this.p2Pending = this.p2Pending.bind(this);
   }
 
   componentDidMount() {
     
     this.setState({eligibleQueue: this.props.questions})
     this.setState({currentProblem: this.props.questions[this.state.problemNum]})
-    if (!this.ace) return null;
-
+    
     battleEvents.on('determineWinner', (winner) => {
       if(winner[0] === this.state.opponent){
         console.log("YOU LOST LOSER!!!!")
@@ -42,6 +42,11 @@ export class BattleEditor extends Component {
       }
     })
     // this.editor = this.ace.editor
+    if(this.state.player2){
+      console.log('ATTACHING p2Pending TO BATTLE EVENTS')
+      battleEvents.on('p2Pending', this.p2Pending)
+    }
+    if (!this.ace) return null;
   }
 
   componentWillReceiveProps(nP) {
@@ -50,6 +55,11 @@ export class BattleEditor extends Component {
     if (nP.match && nP.match.id) {
       this.setState({currentMatch: nP.match})
     }
+  }
+
+  p2Pending(msg,p1Total, p1Socket){
+    console.log('OBTAINED p1Submit Emitter', p1Socket)
+    this.setState({opponentTotal:p1Total, opponent:p1Socket})
   }
 
   setSig() {
@@ -93,13 +103,8 @@ export class BattleEditor extends Component {
       battleEvents.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
     : null
 
-    if(this.state.player2){
-      battleEvents.on('p2Pending', function p2Pending(msg,p1Total, p1Socket){
-        console.log('OBTAINED p1Submit Emitter', p1Socket)
-        this.setState({opponentTotal:p1Total, opponent:p1Socket})
-      })
-    }
 
+    
       // console.log("SECOND EVENT", battleEvents)
       battleEvents.on('battleOutput', (output) => {
         // console.log('LOGGER SHIET:', output)
@@ -112,11 +117,12 @@ export class BattleEditor extends Component {
         if(pass){
           if(this.state.opponentTotal){
             console.log("P2Submit is about to Fire")
-            battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent)
+            battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent, this.state.currentMatch.roomId)
           }else{
             console.log("P1 SUBMIT STATE: ", this.state)
             this.setState({player2:false})
-            battleEvents.removeListener('p2Pending', p2Pending)
+            console.log("THISTHAT", this.p2Pending)
+            // battleEvents.removeListener('p2Pending', this.p2Pending)
             battleEvents.emit('p1Submit', total)
           }
         }

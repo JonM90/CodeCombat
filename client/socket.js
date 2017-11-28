@@ -21,13 +21,20 @@ battleEvents.on('battleSubmit', (userFunc) => {
 battleEvents.on('p1Submit', (total)=> {
   let total1 = total;
   console.log("p1Submit Socket ID: ",socket.id)
-  battleEvents.emit('p2Pending', 'AWAITING PLAYER TWO SUBMISSION', total, socket.id)
+  console.log("TOTAL TIME: ", total)
+  // battleEvents.emit('p2Pending', 'AWAITING PLAYER TWO SUBMISSION', total, socket.id)
+  socket.emit('p2PendingSetup', 'AWAITING PLAYER TWO SUBMISSION', total, socket.id)
 })
 
-battleEvents.on('p2Submit', (opponentTotal, p2Total, p1Socket)=> {
+battleEvents.on('p2Submit', (opponentTotal, p2Total, p1Socket, roomId)=> {
   console.log("PLAYER ! SOCKET: ", p1Socket)
   console.log("PLAYER @ SOCKET: ", socket.id)
   let winner = (opponentTotal > p2Total) ? [socket.id, p2Total]: [p1Socket, opponentTotal]
+  // battleEvents.emit('determineWinner', winner)
+  socket.emit('determineWinner', winner, roomId)
+})
+
+socket.on('foundWinner', (winner) => {
   battleEvents.emit('determineWinner', winner)
 })
 
@@ -52,6 +59,10 @@ socket.on('battlePass', (value) => {
 socket.on('mssg', (msg) => {
   console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
   // this.setState({show: true})
+})
+
+socket.on('p1SubmitFinish', (msg, p1Total, p1Socket) => {
+  battleEvents.emit('p2Pending', 'AWAITING PLAYER TWO SUBMISSION',msg, p1Total, p1Socket)
 })
 
 // socket.on('findOrJoinRoom', socketID => {
