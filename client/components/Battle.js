@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
-import {CodeEditor} from './editor';
+import {BattleEditor} from './BattleEditor';
 import socket from '../socket';
 import { setTimeout } from 'timers';
 import { PopUp } from './pop_up';
@@ -105,7 +105,7 @@ export class Battle extends Component{
 
 
             <div className="editor-div">
-             {/*this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <CodeEditor
+             {/*this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <BattleEditor
             questions={this.state.eligibleQs}
             match={this.state.activeMatch}
             battleProps={this.props}
@@ -116,7 +116,7 @@ export class Battle extends Component{
             */}
 
             {
-              this.state.eligibleQs && this.state.show ? <CodeEditor
+              this.state.eligibleQs && this.state.show && this.state.activeMatch ? <BattleEditor
               questions={this.state.eligibleQs}
               match={this.state.activeMatch}
               battleProps={this.props}
