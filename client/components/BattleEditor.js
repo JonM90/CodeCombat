@@ -18,7 +18,10 @@ export class BattleEditor extends Component {
       problemNum: 0,
       logger: [],
       pass: false,
-      error: false
+      error: false,
+      opponentTotal:0,
+      opponent:'',
+      player2:true
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -30,6 +33,14 @@ export class BattleEditor extends Component {
     this.setState({eligibleQueue: this.props.questions})
     this.setState({currentProblem: this.props.questions[this.state.problemNum]})
     if (!this.ace) return null;
+
+    battleEvents.on('determineWinner', (winner) => {
+      if(winner[0] === this.state.opponent){
+        console.log("YOU LOST LOSER!!!!")
+      }else{
+        console.log("OMG YOU WON!!!")
+      }
+    })
     // this.editor = this.ace.editor
   }
 
@@ -81,7 +92,21 @@ export class BattleEditor extends Component {
     // currMatch && currMatch.id ?
     currProb && currProb.id ?
       battleEvents.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
-    : battleEvents.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+    : null
+
+
+
+
+    if(this.state.player2){
+      battleEvents.on('p2Pending', (msg,p1Total, p1Socket) => {
+        console.log('OBTAINED p1Submit Emitter', p1Socket)
+        this.setState({opponentTotal:p1Total, opponent:p1Socket})
+      })
+    }
+
+
+
+
 
       // console.log("SECOND EVENT", battleEvents)
       battleEvents.on('battleOutput', (output) => {
@@ -89,8 +114,18 @@ export class BattleEditor extends Component {
         this.setState({output: output[0]})
         this.setState({logger: output[1]})
       })
+      console.log("OUTSIDE STATE: ", this.state)
       battleEvents.on('battlePass', (pass) => {
         // console.log('PASS SHIET:', pass)
+        if(pass){
+          if(this.state.opponentTotal){
+            battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent)
+          }else{
+            console.log("P1 SUBMIT STATE: ", this.state)
+            battleEvents.emit('p1Submit', total)
+            this.setState({player2:false})
+          }
+        }
         this.setState({pass})
       })
       // console.log("THIRD EVENT", battleEvents)
