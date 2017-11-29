@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import {connect} from 'react-redux'
 import {fetchCompletedProblems} from '../store';
 import {List, ListItem} from 'material-ui/List';
-import Paper from 'material-ui/Paper';
 
 class UserHistory extends Component {
     constructor(props){
@@ -28,22 +27,19 @@ class UserHistory extends Component {
           };
         return (
             <div>
-                <Paper style={style} zDepth={3} />
                 <List>
                     {completed && completed.map(val => {
 
                         return (<ListItem 
                             key={val.title} 
-                            primaryText={val.title} 
+                            primaryText={<span className="problemHistory">{val.title}</span>} 
                             initiallyOpen={false}
                             primaryTogglesNestedList={true}
+                            hoverColor="#222"
                             nestedItems={[
                                 <ListItem 
                                     key={val.solution}
                                     children={[<div className="solution">{val.solution}</div>]}
-                                    // children={[<Paper style={style} zDepth={3} children={[<p>{val.solution}</p>]}/>]}
-                                    //primaryText={val.solution}
-                                    // primaryText={`hello\n \nworld`}
                                     />
                             ]} />)})
                     }

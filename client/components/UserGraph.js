@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems} from '../store';
 import { VictoryPie } from 'victory';
+import { VictoryBar } from 'victory';
 
 class PieChart extends Component {
     constructor(props){
@@ -23,7 +24,8 @@ class PieChart extends Component {
     render(props) {
         var styles = {
             display:'flex',
-            direction:'row'
+            direction:'row',
+            justifyContent:'center'
         }
         let questions = this.props.allQuestions.allProblems
         let completedQuestions = this.props.allQuestions.completedProblems
@@ -41,7 +43,7 @@ class PieChart extends Component {
         <div style={styles}>
             <div>
                 <VictoryPie
-                colorScale={['#FFC107'/*Orange*/, '#4CAF50'/*Green*/]} 
+                colorScale={['#FF9800'/*Orange*/, '#4CAF50'/*Green*/]} 
                 animate={{duration: 3000}}
                 data={[
                     { x: "Incomplete", y: (questions && questions.length) },
@@ -50,7 +52,7 @@ class PieChart extends Component {
             </div>
             <div>
                 <VictoryPie
-                colorScale={['#90A4AE'/*BLUE GREY*/, '#7986CB'/*INDIGO*/, '#F06292'/*PINK*/, '#FFF176'/*YELLOW*/, '#FF8A65'/*DEEP ORANGE*/]} 
+                colorScale={['#607D8B'/*BLUE GREY*/, '#3F51B5'/*INDIGO*/, '#E91E63'/*PINK*/, '#FFEB3B'/*YELLOW*/, '#FF5722'/*DEEP ORANGE*/]} 
                 animate={{duration: 3000}}
                 data={[
                     { x: "1", y: (rankObj[1] || 0) },
