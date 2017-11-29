@@ -2,14 +2,12 @@ import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 const {EventEmitter} = require('events');
-export const events = new EventEmitter()
-// import socket from '../socket';
-// export default events;
-// import axios from 'axios';
+export const events = new EventEmitter();
+import axios from 'axios';
 
 export class CodeEditor extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       attempt: '',
@@ -19,45 +17,69 @@ export class CodeEditor extends Component {
       problemNum: 0,
       logger: [],
       pass: false,
-      error: false
+      error: false,
+      points: 0
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.setSig = this.setSig.bind(this);
+    this.onPassTrue = this.onPassTrue.bind(this);
+    // this.props.addPoints = this.props.addPoints.bind(this);
 
   }
   componentDidMount() {
-    if (!this.ace) return null;
-    this.editor = this.ace.editor
-    console.log('MOUNTED', this.editor)
+
+    this.setState({
+      points:this.props.userPoints,
+      eligibleQueue : this.props.questions,
+      currentProblem : this.props.questions[this.state.problemNum]
+    })
+    if (this.ace) {
+      this.editor = this.ace.editor
+      //console.log("GONNA FIRE SETSIG")
+      this.setSig();
+    }
+    
+    console.log("WE IN DID MOUNT", this.state)
     // this.state.eligibleQueue.length && this.editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
   }
 
-  componentWillReceiveProps(nP) {
-    console.log('NP:', nP)
-    if (nP.questions.length) {
-      this.setState({eligibleQueue: nP.questions})
-      this.setState({currentProblem: nP.questions[this.state.problemNum]})
-      // if (this.ace) {
-        console.log("CURRENT PROBLEM", nP.questions[this.state.problemNum], 'this.ace:', this.ace)
-        // this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
-        // this.ace.editor.setValue(`function ${(nP.questions[this.state.problemNum]).signature}{}`)
-      // }
-      this.setSig()
+  componentWillReceiveProps(nP) {    
+    console.log("IN RECEIVE PROPS")
+    if (this.ace) {
+      this.editor = this.ace.editor
+      console.log("GONNA FIRE SETSIG")
+      this.setSig();
     }
-
-    if (nP.match && nP.match.id) {
-      this.setState({match: nP.match})
-    }
-
-    this.setSig()
+    // console.log('NP:', nP)
+    // if (nP.questions.length) {
+      
+    //   this.setState({eligibleQueue: nP.questions})
+    //   this.setState({currentProblem: nP.questions[this.state.problemNum]})
+    //   console.log("STATE - WILLRECEIVE 1:", this.state)
+      
+    //   // if (this.ace) {
+    //     console.log("CURRENT PROBLEM", nP.questions[this.state.problemNum], 'this.ace:', this.ace)
+    //     // this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
+    //     // this.ace.editor.setValue(`function ${(nP.questions[this.state.problemNum]).signature}{}`)
+    //   // }
+    //   this.setSig()
+    // }
+    // if (nP.match && nP.match.id) {
+    //   this.setState({match: nP.match})
+    // }
+    // // this.setSig()
+    // console.log("STATE - WILLRECEIVE 2:", this.state)
   }
 
   setSig() {
     let currSig = this.state.currentProblem.signature
-    console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
+    console.log("CURRRR SIGGG", currSig)
+    // console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
     this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
+    console.log("STATE - SETSIG FUNC:", this.state)
+    
   }
 
   onChange(newValue,e ) {
@@ -73,7 +95,7 @@ export class CodeEditor extends Component {
     editor.getSession().on("changeAnnotation", () => {
 
       let comments = editor.getSession().getAnnotations();
-       console.log("COMMENTS: ", comments)
+      
       comments.forEach(val => {
 
         if (val.type === 'error'){
@@ -83,55 +105,74 @@ export class CodeEditor extends Component {
         }
       })
     })
-
-    // console.log("ANNOTATIONS OVER HERE BEFORE:", comments)
-    //LOOP THROUGH THE EDITOR SO THAT WE CAN SEE IF THERE IS AN ERROR
-
-
     this.setState({attempt, error})
-    // console.log("ANNOTATIONS OVER HERE AFTER:", comments)
-    // console.log("ARE THERE ERRORS???? AFTER", this.state.error)
   }
 
   nextQuestion(e){
     e.preventDefault();
-    this.setState({problemNum: this.state.problemNum + 1})
-    this.setState({output: ''})
+    console.log("NEXT IS FIRED", this.state.problemNum)
+    let currProblem = this.state.problemNum + 1;
+    this.setState({
+      problemNum : currProblem,
+      currentProblem : this.props.questions[currProblem],
+      output : ''
+    })
     const editor = this.ace.editor
-    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+    ///this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+    editor.setValue(`function ${(this.state.eligibleQueue[currProblem]).signature}{}`)
+    this.onPassTrue();
+    console.log("STATE - NEXTQUESTION FUNC:", this.state)
   }
 
   onSubmit(e) {
     e.preventDefault();
-    let currMatch = this.state.match
-    // console.log('currMATCH:', currMatch)
+
     console.log('this.props:', this.props)
-    if (this.props.battleProps) {
-      var myID = +this.props.battleProps.match.params.userId
-      var player = myID && currMatch.playerHost === myID ? 'host' : 'guest'
-      // console.log('PLAYERTYPE', player, 'currMatch.playerHost:', typeof currMatch.playerHost, 'myID:', typeof myID)
+  
+    events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+
+    //console.log("SECOND EVENT", events)
+    events.on('output', (output) => {
+      // console.log('LOGGER SHIET:', output[1])
+      this.setState({output: output[0]})
+      this.setState({logger: output[1]})
+    })
+    events.on('pass', (pass) => {
+      pass? alert("YOU PASSED!"): null
+      this.setState({pass})
+    })
+    console.log("STATE - ON SUBMIT:", this.state)
+    
+    // let isPassing = this.onPassTrue;
+    
+    // isPassing();
+  }
+
+  onPassTrue(){
+    // console.log("ON PASS TRUE STATE:",this.state)
+    // console.log("ON PASS TRUE PROPS:",this.props)
+    
+    if(this.state.pass){
+
+      let questPoints = this.state.currentProblem.level * 5;
+      let newPoints = this.state.points + questPoints;
+      console.log("YOU NOW HAVE ", newPoints, " POINTS!")
+      // console.log("STATE - ONPASSTRUE FUNC:", this.state)
+      this.props.addPoints(this.props.userId,newPoints);
     }
+    // 
+    //1. update user's points based on question rank >>> this.props.userId
+  
+    //2. save user submitted code to user's history >>> this.props.userId
 
-    currMatch && currMatch.id ?
-      events.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
-    :
-      events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
-
-      console.log("SECOND EVENT", events)
-      events.on('output', (output) => {
-        // console.log('LOGGER SHIET:', output[1])
-        this.setState({output: output[0]})
-        this.setState({logger: output[1]})
-      })
-      events.on('pass', (pass) => this.setState({pass}))
-      console.log("THIRD EVENT", events)
-      // events.on('output', (output) => {
-      //   this.setState({output:output[0], logger:output[1]})})
+    //3. update completed problems to include user's id >>> this.state.eligibleQueue[this.state.problemNum].id
   }
 
   render() {
+    console.log("IS THIS RERENDERINGGGGGGGGGGG?")
+    console.log("********************this is state at re-render",this.state)
     let quest = this.state.eligibleQueue
-    // let currSig = this.state.currentProblem.signature
+    // let currSig = this.state.currentProblem.signatu
     console.log('quest', quest)
     // this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
 
@@ -197,7 +238,7 @@ export class CodeEditor extends Component {
 }
 
 const mapState = (state) => {
-  // console.log('STATE:', state)
+  console.log('****************STATE', state)
   return {
     user: state.user,
   }

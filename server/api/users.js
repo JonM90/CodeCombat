@@ -1,6 +1,8 @@
 const router = require('express').Router()
-const {User, Problem} = require('../db/models')
+const {User, Problem, CompletedProblem} = require('../db/models')
 module.exports = router
+
+// ***********/api/users
 
 router.get('/', (req, res, next) => {
   User.findAll({
@@ -31,7 +33,6 @@ router.route('/:userId/profile')
   .then(updatedUser => res.json(updatedUser))
   .catch(next)
 })
-
 
 router.get('/:userId/problemHistory', (req, res, next) => {
   User.findById(+req.params.userId,
@@ -75,3 +76,27 @@ router.post('/:userId/problemCreate', (req, res, next) => {
   .catch(next)
 })
 
+//COMPLETED PROBLEMS
+router.post('/setComplete',(req,res,next) => {
+  // console.log('Complete on backend',req.body)
+  console.log('Complete on backend userid',req.body.userId)
+  console.log('Complete on backend probemID',req.body.problemId)
+  CompletedProblem.create({
+    userId: req.body.userId,
+    problemId: req.body.problemId
+  })
+    .then(prob => {
+      console.log("Complete prob:",prob)
+      res.json(prob)
+    })
+    .catch(next)
+
+  // const completedProblem = CompletedProblem.build({rating: 3})
+  // completedProblem.addProblem(+req.body.problemId, {save: false})
+  // completedProblem.addUser(+req.body.userId, {save: false})
+
+  // completedProblem.save()
+  // .then(newProblem => res.json(newProblem))
+  // .catch(next)
+
+})
