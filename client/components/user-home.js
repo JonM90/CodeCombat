@@ -25,7 +25,8 @@ const styles = {
 
 const tabStyles = {
   backgroundColor:'black', 
-  color:'#c98304'
+  fontFamily:'Press Start 2P',
+  color:'#c98304' //ORANGE
 }
 
 export class UserHome extends Component {
@@ -45,18 +46,18 @@ export class UserHome extends Component {
 
     return (
       <div>
-        <h3>Welcome, {user.name}</h3>
+        <h3 id="welcome">Welcome, {user.name}</h3>
 
         <div>
           <MuiThemeProvider muiTheme={getMuiTheme()}>
-            <Tabs style={{backgroundColor:'#eeeeee'}}>
-              <Tab label="GRAPHS" icon={<EditorPieChartOutlined />} style={tabStyles}>
+            <Tabs style={{backgroundColor:'#2d2d2d'}}>
+              <Tab label="GRAPHS" className="tabs" icon={<EditorPieChartOutlined />} style={tabStyles}>
                 <UserGraph />
               </Tab>
-              <Tab label="INFO" icon={<ActionInfoOutline />} style={tabStyles}>
+              <Tab label="INFO" className="tabs" icon={<ActionInfoOutline />} style={tabStyles}>
                 <UserInfo />
               </Tab>
-              <Tab label="History" icon={<ActionDoneAll />} style={tabStyles}>
+              <Tab label="History" className="tabs" icon={<ActionDoneAll />} style={tabStyles}>
                 <UserHistory />
               </Tab>
             </Tabs>

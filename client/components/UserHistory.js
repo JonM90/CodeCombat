@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import {connect} from 'react-redux'
 import {fetchCompletedProblems} from '../store';
 import {List, ListItem} from 'material-ui/List';
+import Paper from 'material-ui/Paper';
 
 class UserHistory extends Component {
     constructor(props){
@@ -18,21 +19,36 @@ class UserHistory extends Component {
 
     render(props) {
         let completed = this.props.allQuestions.completedProblems
+        const style = {
+            height: 100,
+            width: 500,
+            margin: 5,
+            textAlign: 'center',
+            display: 'inline-block',
+          };
         return (
-            <List>
-                {completed && completed.map(val => (
-                    <ListItem 
-                        key={val.title} 
-                        primaryText={val.title} 
-                        initiallyOpen={false}
-                        primaryTogglesNestedList={true}
-                        nestedItems={[
-                            <ListItem 
-                                key={val.solution}
-                                primaryText={val.solution.replace(/\n/g, "\n")}
-                                />
-                        ]} />))}
-            </List>
+            <div>
+                <Paper style={style} zDepth={3} />
+                <List>
+                    {completed && completed.map(val => {
+
+                        return (<ListItem 
+                            key={val.title} 
+                            primaryText={val.title} 
+                            initiallyOpen={false}
+                            primaryTogglesNestedList={true}
+                            nestedItems={[
+                                <ListItem 
+                                    key={val.solution}
+                                    children={[<div className="solution">{val.solution}</div>]}
+                                    // children={[<Paper style={style} zDepth={3} children={[<p>{val.solution}</p>]}/>]}
+                                    //primaryText={val.solution}
+                                    // primaryText={`hello\n \nworld`}
+                                    />
+                            ]} />)})
+                    }
+                </List>
+            </div>
         );
     }
 }

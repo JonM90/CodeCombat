@@ -27,6 +27,10 @@ class PieChart extends Component {
         }
         let questions = this.props.allQuestions.allProblems
         let completedQuestions = this.props.allQuestions.completedProblems
+
+        let wins = this.props.user.battleWin
+        let losses = this.props.user.battleLoss
+        console.log("WINS AND LOSSES", wins, losses)
         let rankObj = {}
         if(completedQuestions.length){
             completedQuestions.forEach(val => {
@@ -54,6 +58,15 @@ class PieChart extends Component {
                     { x: "3", y: (rankObj[3] || 0) },
                     { x: "4", y: (rankObj[4] || 0) },
                     { x: "5", y: (rankObj[5] || 0) }
+                ]}/>
+            </div>
+            <div>
+                <VictoryPie
+                colorScale={['#2196F3', '#F44336']} 
+                animate={{duration: 3000}}
+                data={[
+                    { x: "WINS", y: (this.props && wins) },
+                    { x: "LOSSES", y: (this.props && losses) }
                 ]}/>
             </div>
         </div>
