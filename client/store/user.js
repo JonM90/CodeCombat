@@ -30,13 +30,13 @@ export const me = () =>
         dispatch(getUser(res.data || defaultUser)))
       .catch(err => console.error(err))
 
-export const auth = (email, password, method, name) =>
+export const auth = (email, password, method, name, userName, userId) =>
   dispatch =>
-    axios.post(`/auth/${method}`, { email, password, name })
+    axios.post(`/auth/${method}`, { email, password, name, userName })
       .then(res => {
         dispatch(getUser(res.data))
-        // history.push(`/users/${userId}/profile`)
-        history.push('/profile')
+         //history.push(`/users/${userId}/profile`)
+        history.push('/')
       })
       .catch(error =>
         dispatch(getUser({error})))
