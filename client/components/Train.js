@@ -45,8 +45,8 @@ export class Train extends Component{
       return (
           <div id="train-main">
 
-              <h1>TRAIN COMPONENT</h1>
-              <button onClick={this.togglePopup}>show popup</button>
+              <h4 className="component-title-h4">Training Mode</h4>
+              {/* <button onClick={this.togglePopup}>show popup</button> */}
 
                   {this.state.eligibleQs && this.state.showPopup ?
                     <PopUp

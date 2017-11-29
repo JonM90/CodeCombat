@@ -12,7 +12,7 @@ export class Lobby extends Component{
         return (
             <div id="lobby-main">
 
-              <div id="train-div" cgitlassName="card">
+              <div id="train-div" className="card">
                 <Link to="/train">
                     <div className="card-header">
                         <h1>TRAIN</h1>

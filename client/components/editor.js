@@ -140,8 +140,8 @@ export class CodeEditor extends Component {
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
-          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
-          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
+          <h3 className='question-title-text'>Mission:{quest.length && quest[this.state.problemNum].title}</h3>
+          <p className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</p>
         </div>}
 
         <div className="train-container">
@@ -176,7 +176,7 @@ export class CodeEditor extends Component {
               {//console.log("DON'T MIND ME IM JUST A LOGGER", this.state.logger)
               }
               {
-                this.state.logger.length ? <div id="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
+                this.state.logger.length ? <div className="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div className="output-text" key={val}>{val}</div>))} </div>  : <div className="output-text">{this.state.output}</div>
               }
 
             </div>
@@ -185,7 +185,7 @@ export class CodeEditor extends Component {
               <h4 className="right-container-headers">Test Specs:</h4>
 
               {
-                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div id="output-text"> {this.state.output.map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
+                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div className="output-text"> {this.state.output.map(val => (<div className="output-text" key={val}>{val}</div>))} </div>  : <div className="output-text">{this.state.output}</div>
               }
             </div>
 
