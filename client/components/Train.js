@@ -17,7 +17,7 @@ export class Train extends Component{
         }
         this.togglePopup = this.togglePopup.bind(this);
         this.handleSkip = this.handleSkip.bind(this);
-        // this.handleQuit = this.handleQuit.bind(this);
+        //this.handleQuit = this.handleQuit.bind(this);
     }
     togglePopup() {
       this.setState({

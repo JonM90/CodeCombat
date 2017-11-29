@@ -13,6 +13,23 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+//to delete a user
+router.delete('/:userId', (req, res, next) => {
+     const userId = +req.params.userId;
+
+     User.findById(userId)
+        .then(user => {
+           console.log("user: ", user.dataValues.salt)
+          if(user.dataValues.isAdmin || user.dataValues.salt) {
+            user.destroy()
+              .then(() => res.send("User is destroyed!!!!"))
+              .catch(next)
+          }
+          else res.send("You don't have permission to delete a user. You must be an admin to do so!")  
+        })
+        .catch(next);
+})
+
 router.route('/:userId/profile')
 .all( (req, res, next) => {
   User.findById(req.params.userId)
