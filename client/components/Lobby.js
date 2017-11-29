@@ -12,7 +12,7 @@ export class Lobby extends Component{
         return (
             <div id="lobby-main">
 
-              <div id="train-div" className="card">
+              <div id="train-div" cgitlassName="card">
                 <Link to="/train">
                     <div className="card-header">
                         <h1>TRAIN</h1>
@@ -27,7 +27,7 @@ export class Lobby extends Component{
 
 
             <div id="battle-div" className="card">
-                <Link to="/battle">
+              <Link to={`/users/${this.props.userId}/battle`}>
                     <div className="card-header">
                         <h1>BATTLE</h1>
                         <p>Battle Opponents For Glory!</p>

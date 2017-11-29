@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 import {events} from './components/editor'
 const socket = io(window.location.origin)
 
-console.log('WTF IS WRONG???', events)
+// console.log('WTF IS WRONG???', events)
 
 socket.on('connect', () => {
   console.log('Connected!')
@@ -24,12 +24,15 @@ socket.on('result', (outPut) => {
 socket.on('pass', (value) => {
   events.emit('pass', value)
 })
-
+socket.on('mssg', (msg) => {
+  console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
+  socket.emit("imStarting", true)
+  // this.setState({show: true})
+})
 socket.on('findOrJoinRoom', socketID => {
   console.log('Joining room in FRONT:', socketID)
   socket.join(socketID)
 });
-
 // events.on('findOrCreateMatch', (ID) => {
 //   console.log('user room ID is:', ID)
 //   // socket.emit('findOrCreateMatch', ID);
