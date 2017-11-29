@@ -53,6 +53,8 @@ export class BattleEditor extends Component {
     }
 
     battleEvents.on('battleOutput', (output) => {
+      console.log("IM THE MESSD UP OUTPUT", output[0])
+      console.log("IM THE MESSD UP LOGGER", output[1])
       this.setState({output: output[0]})
       this.setState({logger: output[1]})
     })
@@ -158,7 +160,7 @@ export class BattleEditor extends Component {
             <div className="output-div" >
               <h4 className="right-container-headers">CONSOLE:</h4>
               {
-                this.state.logger.length ? <div id="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
+                this.state.logger.length ? <div id="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div key={val}>{val}</div>))} </div>  : <div></div>
               }
 
             </div>
