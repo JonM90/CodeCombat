@@ -84,6 +84,10 @@ export class CodeEditor extends Component {
     })
   }
 
+  onPass(){
+      this.props.updatePoints(2);
+  }
+
   render() {
     console.log("*****STATE at RENDER", this.state)
     let quest = this.state.currentProblem
@@ -94,8 +98,8 @@ export class CodeEditor extends Component {
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
-          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
-          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
+          <h2 className='question-title-text'>{quest.length && quest[this.props.problemNum].title}</h2>
+          <h4 className='question-description-text'>{quest.length && quest[this.props.problemNum].description}</h4>
         </div>}
 
         <div className="train-container">
@@ -152,5 +156,20 @@ const mapState = (state) => {
     user: state.user,
   }
 }
+
+// const mapDispatch = dispatch => {
+//   return {
+//     loadAllProblems: () => {
+//       dispatch(fetchAllProblems())
+//     },
+//     loadCompletedProblems: (userId) => {
+//       dispatch(fetchCompletedProblems(userId))
+//     },
+//     updatePoints: () => {
+//       dispatch(getPoints(userId, points))
+//     }
+//   }
+// }
+
 
 export default connect(mapState)(CodeEditor)

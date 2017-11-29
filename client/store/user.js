@@ -6,7 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-const UPDATE_USER_POINTS = 'UPDATE_USER_POINTS'
+// const UPDATE_USER_POINTS = 'UPDATE_USER_POINTS'
 
 /**
  * INITIAL STATE
@@ -18,7 +18,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-const updatePoints = userPoints => ({type: UPDATE_USER_POINTS, userPoints})
+// const updatePoints = userPoints => ({type: UPDATE_USER_POINTS, userPoints})
 
 /**
  * THUNK CREATORS
@@ -30,14 +30,14 @@ export const me = () =>
         dispatch(getUser(res.data || defaultUser)))
       .catch(err => console.error(err))
 
-export const auth = (email, password, method) =>
+export const auth = (email, password, method, name, userName, userId) =>
   dispatch =>
-    axios.post(`/auth/${method}`, { email, password })
+    axios.post(`/auth/${method}`, { email, password, name, userName })
       .then(res => {
         dispatch(getUser(res.data))
         // console.log('RES.DATA***********:', res.data)
         history.push(`/users/${res.data.id}/profile`)
-        // history.push('/profile')
+        //  history.push('/profile')
       })
       .catch(error =>
         dispatch(getUser({error})))
@@ -61,6 +61,18 @@ export const logout = () =>
 //     dispatch(updatePoints(res.data.points))
 //   })
 //   .catch(err => console.error(err))
+
+// export const getPoints = (userId) =>
+//      dispatch =>
+//            axios.put(`/api/${userId}/profile`, {points: 1000})
+//                .then(res => res.data)
+//                .then(updatedPts => {
+//                 console.log("THIS IS HE USER UPDTATED POINT", updatedPts)
+//                  dispatch(updateUserPoint(userPoint))
+//               })
+//                .catch(err => console.error(err));
+
+
 /**
  * REDUCER
  */

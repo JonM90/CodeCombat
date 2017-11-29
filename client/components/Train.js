@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, setCompletedProblem} from '../store';
+import {Redirect} from 'react-router'
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 import socket from '../socket';
@@ -14,19 +15,28 @@ export class Train extends Component{
       eligibleQs: [],
       currentProblem: {},
       problemNum: 0,
+      currInd: 0,
       pass: false,
-      userSolution: ''
+      userSolution: '',
+      redirect: false
     }
 
     this.togglePopup = this.togglePopup.bind(this);
     this.isPassing = this.isPassing.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.handleSkip = this.handleSkip.bind(this);
+    // this.handleQuit = this.handleQuit.bind(this);
   }
 
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
+      //currInd: (this.state.currInd + 1)
     });
+  }
+
+  handleSkip(){
+    this.setState({ currInd: this.state.currInd + 1 });
   }
 
   componentDidMount() {
@@ -68,7 +78,7 @@ export class Train extends Component{
   }
 
   isPassing(pass) {
-    console.log("SOCKET ON PASS TRUE:", this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.problemNum], 'userSolution:', this.state.userSolution)
+    console.log('SOCKET ON PASS TRUE:', this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.problemNum], 'userSolution:', this.state.userSolution)
 
     let currProb = this.state.eligibleQs[this.state.problemNum]
     let questPoints = currProb.level * 5;
@@ -92,6 +102,8 @@ export class Train extends Component{
     return (
       <div id="train-main">
 
+        {this.state.redirect ? <Redirect to="/" /> : null}
+
         <h1>TRAIN COMPONENT</h1>
         <h2>USER POINTS: {this.state.userPoints}</h2>
         <button onClick={this.togglePopup}>show popup</button>
@@ -100,15 +112,17 @@ export class Train extends Component{
           <PopUp
             func={this.togglePopup}
             quest={this.state.eligibleQs[0]}
+            skipFunc={this.handleSkip}
+            quitFunc={ () => this.setState({redirect: true}) }
           /> : null }
 
         <div className="editor-div">
           { this.state.eligibleQs.length ?
             <CodeEditor
+              question = {this.state.eligibleQs[this.state.problemNum]}
               setProbToComplete = {this.props.setProbToComplete}
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
-              question = {this.state.eligibleQs[this.state.problemNum]}
               justCompleted = {this.props.justCompleted}
             /> : <h1>No Dice</h1> }
         </div>
