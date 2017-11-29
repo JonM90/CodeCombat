@@ -84,9 +84,9 @@ export class CodeEditor extends Component {
     })
   }
 
-  onPass(){
-      this.props.updatePoints(2);
-  }
+  // onPass(){
+  //     this.props.updatePoints(2);
+  // }
 
   render() {
     console.log("*****STATE at RENDER", this.state)
@@ -97,10 +97,10 @@ export class CodeEditor extends Component {
       quest && quest.id ?
       (<div className="main-train-container" >
 
-        {quest.length && <div className='question-div'>
-          <h2 className='question-title-text'>{quest.length && quest[this.props.problemNum].title}</h2>
-          <h4 className='question-description-text'>{quest.length && quest[this.props.problemNum].description}</h4>
-        </div>}
+        <div className='question-div'>
+          <h2 className='question-title-text'>{quest.title}</h2>
+          <h4 className='question-description-text'>{quest.description}</h4>
+        </div>
 
         <div className="train-container">
           <div className="editor-div left-train-container">
@@ -120,10 +120,8 @@ export class CodeEditor extends Component {
                 e.preventDefault()
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
-              <input id="train-submit-btn"type="submit" />
-              <button onClick={this.nextQuestion}>
-                NEXT
-              </button>
+              <input id="train-submit-btn" type="submit" />
+              <button onClick={this.nextQuestion}> NEXT </button>
             </form>
           </div>
 
@@ -139,7 +137,11 @@ export class CodeEditor extends Component {
               <h4 className="right-container-headers">Test Specs:</h4>
 
               {
-                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div id="output-text"> {this.state.output.map(val => (<div key={val}>{val}</div>))} </div>  : <div>{this.state.output}</div>
+                this.state.output && this.state.output !== 'FIX YOUR ERRORS' ?
+                <div id="output-text">
+                  {this.state.output.map(val => (
+                    <div key={val}>{val}</div>))}
+                </div>  : <div>{this.state.output}</div>
               }
             </div>
 

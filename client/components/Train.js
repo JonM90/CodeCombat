@@ -14,7 +14,7 @@ export class Train extends Component{
       userPoints: 0, // set user points everytime points changes
       eligibleQs: [],
       currentProblem: {},
-      problemNum: 0,
+      // problemNum: 0,
       currInd: 0,
       pass: false,
       userSolution: '',
@@ -78,9 +78,9 @@ export class Train extends Component{
   }
 
   isPassing(pass) {
-    console.log('SOCKET ON PASS TRUE:', this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.problemNum], 'userSolution:', this.state.userSolution)
+    console.log('SOCKET ON PASS TRUE:', this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.currInd], 'userSolution:', this.state.userSolution)
 
-    let currProb = this.state.eligibleQs[this.state.problemNum]
+    let currProb = this.state.eligibleQs[this.state.currInd]
     let questPoints = currProb.level * 5;
     let newPoints = this.state.userPoints + questPoints;
     console.log('YOU NOW HAVE ', newPoints, ' POINTS!')
@@ -90,10 +90,10 @@ export class Train extends Component{
 
   nextQuestion(e){
     e.preventDefault();
-    let currProbNum = this.state.problemNum + 1;
+    let currProbNum = this.state.currInd + 1;
     console.log('NEXT IS FIRED, PROB#', currProbNum, 'currentProblem:', this.state.eligibleQs[currProbNum])
     this.setState({
-      problemNum: currProbNum,
+      currInd: currProbNum,
       currentProblem: this.state.eligibleQs[currProbNum]
     })
   }
@@ -104,14 +104,16 @@ export class Train extends Component{
 
         {this.state.redirect ? <Redirect to="/" /> : null}
 
-        <h1>TRAIN COMPONENT</h1>
-        <h2>USER POINTS: {this.state.userPoints}</h2>
-        <button onClick={this.togglePopup}>show popup</button>
+        <h2>MY POINTS: {this.state.userPoints}</h2>
+        {
+          // <button onClick={this.togglePopup} className="loading">show popup</button>
+        }
 
         { this.state.eligibleQs && this.state.showPopup ?
           <PopUp
             func={this.togglePopup}
-            quest={this.state.eligibleQs[0]}
+            // quest={this.state.eligibleQs[0]}
+            quest={this.state.eligibleQs[this.state.currInd]}
             skipFunc={this.handleSkip}
             quitFunc={ () => this.setState({redirect: true}) }
           /> : null }
@@ -119,7 +121,7 @@ export class Train extends Component{
         <div className="editor-div">
           { this.state.eligibleQs.length ?
             <CodeEditor
-              question = {this.state.eligibleQs[this.state.problemNum]}
+              question = {this.state.eligibleQs[this.state.currInd]}
               setProbToComplete = {this.props.setProbToComplete}
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
