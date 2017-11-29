@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 // import PopUp from './pop_up'
 
 export class Lobby extends Component{
@@ -19,7 +19,7 @@ export class Lobby extends Component{
                         <p>Build your skills through Missions</p>
                     </div>
                     <div className="card-body">
-                        <img className="card-body-img" src="training-icon.png"/>
+                        <img className="card-body-img" src="/assets/training-icon.png"/>
                     </div>
 
                 </Link>
@@ -33,7 +33,7 @@ export class Lobby extends Component{
                         <p>Battle Opponents For Glory!</p>
                     </div>
                     <div className="card-body">
-                        <img className="card-body-img" src="/battle-icon.png"/>
+                        <img className="card-body-img" src="/assets/battle-icon.png"/>
                     </div>
                 </Link>
             </div>

@@ -35,10 +35,13 @@ body {
     }
     #nav-links{
       font-family: Avenir;
-      letter-spacing: 2.2px;  
+      letter-spacing: 2.2px;
     }
   }
+
+  //-----------------------------------------------------------------
   footer{
+    z-index: 10;
     height: 3em;
     background-color: #000;
     color: rgb(223, 223, 223);
@@ -54,11 +57,69 @@ body {
   }
 
   form div {
-    //margin: 1em;
+    //margin: 0.3em;
     display: inline-block;
+    //align-content: center;
   }
 }
-#main-game-title { 
+
+ .signup-div {
+  border-radius: 50px;
+  border: 1px solid #73AD21;
+  padding: 50px;
+  width: 550px;
+  height: 475px;
+  margin: auto;
+  margin-top: 80px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 20px;
+  text-align: left;
+ }
+
+ input {
+  width: 5em;
+  height: 1.5em;
+  border-radius: .5em;
+  background-color: white;
+  font-size: 15px;
+  margin: 0.1em 0.1em 3.4em;
+}
+
+.sub-btn {
+  background-color: #1A237E;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 0.5em;
+  width: 14em;
+  margin-left: 0.4em;
+  margin-bottom: 2em;
+}
+
+// label {
+//   color: white;
+//   font-size: 18px;
+// }
+
+.google-login {
+  background-color: #1A237E;
+  border-radius: 0.5em;
+  margin-right: 10em;
+  padding: 0.5em;
+  margin-top: 3.5em;
+  color: white;
+  width: 14em;
+}
+//----------------------------------------------------------------------------
+
+#main-game-title {
   text-align: center;
   color: #d0d0d0;
   h1{
@@ -102,10 +163,10 @@ body {
       font-weight: 800;
       color: #d0d0d0;
     }
-    
+
     /* color: white; */
   }
-  
+
   .card{
     text-align: center;
     height: 33em;
@@ -135,9 +196,9 @@ body {
 
 }
 
-  
+
   // #train-div{
-    
+
   // }
   #train-div{
     .card-body{
@@ -154,7 +215,7 @@ body {
       .card-body-img{
         padding-top: 15%;
       }
-      
+
     }
   }
   // #sandbox-div{
@@ -265,7 +326,14 @@ body {
       }
 
     }
+
   }
+
+
+}
+
+.loading {
+  display: none;
 }
 #train-main{
   background-color:#4a4949;

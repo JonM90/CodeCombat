@@ -10,7 +10,7 @@ const {VM} = require('vm2');
    */
   var runnerONE = function(userFunc, specs){
     console.log('this is specs in beginning:', specs)
-    console.log('IM VM ONE MOTHERFUCKERS');
+    
     const log = []
     var vm = new VM({
       timeout: 1000,

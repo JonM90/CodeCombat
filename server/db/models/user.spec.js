@@ -3,6 +3,8 @@
 const {expect} = require('chai')
 const db = require('../index')
 const User = db.model('user')
+const Problem = db.model('problem');
+// const CompletedProblem = db.model('CompletedProblem')
 
 describe('User model', () => {
   beforeEach(() => {
@@ -33,3 +35,81 @@ describe('User model', () => {
     }) // end describe('correctPassword')
   }) // end describe('instanceMethods')
 }) // end describe('User model')
+
+
+
+
+
+//Problem Specs
+describe('Problem model', () => {
+   beforeEach(() => {
+     return db.sync({ force: true })
+   })
+
+   beforeEach(() => {
+     let title, description, challenge; 
+     
+     return Problem.create({
+         title: 'Summ',
+         description: 'Find the sum',
+         solution: 'sol',
+         level: 2,
+         testSpecs: ['testSPecs'],
+         signature: 'signature'
+      })
+       .then(probelem => {
+            challenge = probelem
+       })
+   })
+
+   describe('Validation', () => {
+      it('errors without title', () => {
+          return Problem.build({}).validate()
+              .catch(err => {
+                expect(err);
+              })
+      })
+
+      it('errors without description', () => {
+        return Problem.build({}).validate()
+            .catch(err => {
+              expect(err);
+            })
+    })
+
+    it('errors without solution', () => {
+      return Problem.build({}).validate()
+          .catch(err => {
+            expect(err);
+          })
+     })
+
+     it('errors without level', () => {
+      return Problem.build({}).validate()
+          .catch(err => {
+            expect(err);
+          })
+     })
+
+     it('errors without testpecs', () => {
+      return Problem.build({}).validate()
+          .catch(err => {
+            expect(err);
+          })
+     })
+
+     it('errors without signature', () => {
+      return Problem.build({}).validate()
+          .catch(err => {
+            expect(err);
+          })
+     })
+
+   })
+   
+})
+
+
+// describe('completed')
+
+

@@ -1,81 +1,59 @@
 import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-const {EventEmitter} = require('events');
-export const events = new EventEmitter()
-// import socket from '../socket';
-// export default events;
-// import axios from 'axios';
+import {EventEmitter} from 'events';
+export const events = new EventEmitter();
 
 export class CodeEditor extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       attempt: '',
       currentProblem: {},
-      output: [],
-      eligibleQueue: [],
-      problemNum: 0,
+      output: '',
       logger: [],
-      pass: false,
       error: false
     }
+
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.setSig = this.setSig.bind(this);
-
   }
   componentDidMount() {
-    if (!this.ace) return null;
-    this.editor = this.ace.editor
-    console.log('MOUNTED', this.editor)
-    // this.state.eligibleQueue.length && this.editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
+    // console.log("WE IN DID MOUNT, this.props", this.props)
+    this.setState({currentProblem: this.props.question})
   }
 
   componentWillReceiveProps(nP) {
-    console.log('NP:', nP)
-    if (nP.questions.length) {
-      this.setState({eligibleQueue: nP.questions})
-      this.setState({currentProblem: nP.questions[this.state.problemNum]})
-      // if (this.ace) {
-        console.log("CURRENT PROBLEM", nP.questions[this.state.problemNum], 'this.ace:', this.ace)
-        // this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
-        // this.ace.editor.setValue(`function ${(nP.questions[this.state.problemNum]).signature}{}`)
-      // }
-      this.setSig()
+    // console.log("IN RECEIVE PROPS:", nP)
+    if (this.ace) {
+      this.setState({ currentProblem: nP.question })
+      // console.log("WILL RECEIVE FIRING SETSIG")
+      if (nP.justCompleted && nP.justCompleted.userSolution && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
+      else if (nP.question) this.setSig(nP.question.signature, false);
     }
-
-    if (nP.match && nP.match.id) {
-      this.setState({match: nP.match})
-    }
-
-    this.setSig()
   }
 
-  setSig() {
-    let currSig = this.state.currentProblem.signature
-    console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
-    this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
+  setSig(currSig, isSolution) {
+    // console.log('CURRRR SIG', currSig)
+    if (isSolution) this.ace.editor.setValue(currSig)
+    else this.ace.editor.setValue(`function ${currSig}{}`)
   }
 
-  onChange(newValue,e ) {
-    // console.log("NEW VALUE", newValue, "EVENT", e);
-    console.log("in change", e)
+  onChange(newValue, e) {
+    // console.log('NEW VALUE change', newValue, 'EVENT', e)
     let attempt = newValue;
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
     // console.log(editor.getValue()); // Outputs the value of the editor
-    // console.log("ARE THERE ERRORS???? BEFORE", this.state.error)
+
     //USED TO GET ANNOTATIOINS FROM THE CODE EDITOR
     let error = false;
-    editor.getSession().on("changeAnnotation", () => {
-
+    editor.getSession().on('changeAnnotation', () => {
       let comments = editor.getSession().getAnnotations();
-       console.log("COMMENTS: ", comments)
       comments.forEach(val => {
-
         if (val.type === 'error'){
           error = true
           this.setState({error})
@@ -83,66 +61,46 @@ export class CodeEditor extends Component {
         }
       })
     })
-
-    // console.log("ANNOTATIONS OVER HERE BEFORE:", comments)
-    //LOOP THROUGH THE EDITOR SO THAT WE CAN SEE IF THERE IS AN ERROR
-
-
     this.setState({attempt, error})
-    // console.log("ANNOTATIONS OVER HERE AFTER:", comments)
-    // console.log("ARE THERE ERRORS???? AFTER", this.state.error)
   }
 
   nextQuestion(e){
-    e.preventDefault();
-    this.setState({problemNum: this.state.problemNum + 1})
+    e.preventDefault()
+    this.props.nextQuestion(e)
+    this.ace.editor.setValue(`function ${(this.state.currentProblem).signature}{}`)
     this.setState({output: ''})
-    const editor = this.ace.editor
-    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
   }
 
   onSubmit(e) {
     e.preventDefault();
-    let currMatch = this.state.match
-    // console.log('currMATCH:', currMatch)
-    console.log('this.props:', this.props)
-    if (this.props.battleProps) {
-      var myID = +this.props.battleProps.match.params.userId
-      var player = myID && currMatch.playerHost === myID ? 'host' : 'guest'
-      // console.log('PLAYERTYPE', player, 'currMatch.playerHost:', typeof currMatch.playerHost, 'myID:', typeof myID)
-    }
+    // console.log('onSUBMIT this.props:', this.props)
 
-    currMatch && currMatch.id ?
-      events.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
-    :
-      events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+    events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs]);
 
-      console.log("SECOND EVENT", events)
-      events.on('output', (output) => {
-        // console.log('LOGGER SHIET:', output[1])
-        this.setState({output: output[0]})
-        this.setState({logger: output[1]})
-      })
-      events.on('pass', (pass) => this.setState({pass}))
-      console.log("THIRD EVENT", events)
-      // events.on('output', (output) => {
-      //   this.setState({output:output[0], logger:output[1]})})
+    events.on('output', (output) => {
+      // console.log('OUTPUT && LOGGER SHIET:', output[0], output[1])
+      this.setState({output: output[0]})
+      this.setState({logger: output[1]})
+    })
   }
 
+  // onPass(){
+  //     this.props.updatePoints(2);
+  // }
+
   render() {
-    let quest = this.state.eligibleQueue
-    // let currSig = this.state.currentProblem.signature
+    console.log("*****STATE at RENDER", this.state)
+    let quest = this.state.currentProblem
     console.log('quest', quest)
-    // this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
 
     return (
-      this.state.problemNum !== this.state.eligibleQueue.length ?
+      quest && quest.id ?
       (<div className="main-train-container" >
 
-        {quest.length && <div className='question-div'>
-          <h3 className='question-title-text'>Mission:{quest.length && quest[this.state.problemNum].title}</h3>
-          <p className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</p>
-        </div>}
+        <div className='question-div'>
+          <h3 className='question-title-text'>Mission: {quest.title}</h3>
+          <p className='question-description-text'>{quest.description}</p>
+        </div>
 
         <div className="train-container">
           <div className="editor-div left-train-container">
@@ -150,7 +108,6 @@ export class CodeEditor extends Component {
               style={{ height: '50vh'}}
               mode="javascript"
               theme="monokai"
-              // value={currSig}
               enableBasicAutocompletion = {true}
               onChange={this.onChange}
               ref={instance => { this.ace = instance; }} // Let's put things into scope
@@ -163,29 +120,28 @@ export class CodeEditor extends Component {
                 e.preventDefault()
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
-              <input id="train-submit-btn"type="submit" />
-              <button onClick={this.nextQuestion}>
-                NEXT
-              </button>
+              <input id="train-submit-btn" type="submit" />
+              <button onClick={this.nextQuestion}> NEXT </button>
             </form>
           </div>
 
           <div className="right-train-container">
             <div className="output-div" >
               <h4 className="right-container-headers">CONSOLE:</h4>
-              {//console.log("DON'T MIND ME IM JUST A LOGGER", this.state.logger)
-              }
               {
                 this.state.logger.length ? <div className="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div className="output-text" key={val}>{val}</div>))} </div>  : <div className="output-text">{this.state.output}</div>
               }
-
             </div>
 
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
 
               {
-                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? <div className="output-text"> {this.state.output.map(val => (<div className="output-text" key={val}>{val}</div>))} </div>  : <div className="output-text">{this.state.output}</div>
+                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? 
+                <div className="output-text"> 
+                  {this.state.output.map(val => (
+                    <div className="output-text" key={val}>{val}</div>))} 
+                </div>  : <div className="output-text">{this.state.output}</div>
               }
             </div>
 
@@ -197,10 +153,25 @@ export class CodeEditor extends Component {
 }
 
 const mapState = (state) => {
-  // console.log('STATE:', state)
+  console.log('****************MAPSTATE', state)
   return {
     user: state.user,
   }
 }
+
+// const mapDispatch = dispatch => {
+//   return {
+//     loadAllProblems: () => {
+//       dispatch(fetchAllProblems())
+//     },
+//     loadCompletedProblems: (userId) => {
+//       dispatch(fetchCompletedProblems(userId))
+//     },
+//     updatePoints: () => {
+//       dispatch(getPoints(userId, points))
+//     }
+//   }
+// }
+
 
 export default connect(mapState)(CodeEditor)
