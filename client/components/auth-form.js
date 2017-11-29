@@ -8,33 +8,33 @@ import {auth} from '../store'
  */
 const AuthForm = (props) => {
 
-  const {name, displayName, handleSignupSubmit, error, handleLoginSubmit} = props; 
-  
-  return name === "signup" ? (
+  const {name, displayName, handleSignupSubmit, error, handleLoginSubmit} = props;
+
+  return name === 'signup' ? (
     <div className="signup-div">
 
       <form onSubmit={handleSignupSubmit} name={name}>
 
       <div>
           <label htmlFor="userName"><small> User Name</small></label>
-          <input name="userName" type="text" placeholder="User Name"/>
+          <input name="userName" type="text" placeholder="User Name" />
         </div>
-          <br/>
+          <br />
         <div>
           <label htmlFor="fullName"><small> Full Name </small></label>
-          <input name="fullName" type="text" placeholder="Your Name"/>
+          <input name="fullName" type="text" placeholder="Your Name" />
         </div>
-           <br/>
+           <br />
         <div>
           <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text"  placeholder="Email@email.com"/>
+          <input name="email" type="text"  placeholder="Email@email.com" />
         </div>
-           <br/>
+           <br />
         <div>
           <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" placeholder="Password"/>
+          <input name="password" type="password" placeholder="Password" />
         </div>
-           <br/>
+           <br />
         <div>
           <button className="sub-btn" type="submit">{displayName}</button>
         </div>
@@ -43,23 +43,23 @@ const AuthForm = (props) => {
       </form>
       <a className="google-login" href="/auth/google">{displayName} with Google</a>
     </div>
-  )   : 
-   
+  )
+    :
   (
     <div className="signup-div">
 
       <form onSubmit={handleLoginSubmit} name={name}>
-        
+
         <div>
           <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text"  placeholder="Email@email.com"/>
+          <input name="email" type="text"  placeholder="Email@email.com" />
         </div>
-           <br/>
+           <br />
         <div>
           <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" placeholder="Password"/>
+          <input name="password" type="password" placeholder="Password" />
         </div>
-           <br/>
+           <br />
         <div>
           <button className="sub-btn" type="submit">{displayName}</button>
         </div>
@@ -68,7 +68,7 @@ const AuthForm = (props) => {
       </form>
       <a className="google-login" href="/auth/google">{displayName} with Google</a>
     </div>
-  ) 
+  )
 }
 
 /**
@@ -83,17 +83,16 @@ const mapLogin = (state) => {
     name: 'login',
     displayName: 'Login',
     error: state.user.error
-    // userId: state.user.id
   }
 }
 
 const mapSignup = (state) => {
-    console.log("STATE IN AUTH-FROM:", state)
+    console.log('STATE IN AUTH-FROM:', state)
   return {
     name: 'signup',
     displayName: 'Sign Up',
     error: state.user.error,
-    userId: state.user
+    userId: state.user.id
   }
 }
 
@@ -101,28 +100,24 @@ const mapDispatch = (dispatch) => {
   return {
     handleSignupSubmit (evt) {
       evt.preventDefault()
-      // const userId = this.props.userId
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
       const userName = evt.target.userName.value
-      const fullName = evt.target.fullName.value  
+      const fullName = evt.target.fullName.value
       dispatch(auth(email, password, formName, userName, fullName))
          // console.log("USER", userName)
     },
 
     handleLoginSubmit (evt) {
-      
       evt.preventDefault()
       // const userId = this.props.userId
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-
       dispatch(auth(email, password, formName))
          // console.log("USER", userName)
-        console.log("STATE IN AUTH-FROM:", this.props)
-         
+        // console.log('STATE IN AUTH-FROM:', this.props)
     },
   }
 }
@@ -136,6 +131,6 @@ export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  // handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
 }

@@ -22,12 +22,13 @@ body {
     }
     #nav-links{
       font-family: Avenir;
-      letter-spacing: 2.2px;  
+      letter-spacing: 2.2px;
     }
   }
 
   //-----------------------------------------------------------------
   footer{
+    z-index: 10;
     height: 3em;
     background-color: #000;
     color: rgb(223, 223, 223);
@@ -64,16 +65,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: normal;
   font-size: 20px;
-  text-align: left; 
+  text-align: left;
  }
 
  input {
-  width: 14em;
-  height: 2em;
+  width: 5em;
+  height: 1.5em;
   border-radius: .5em;
   background-color: white;
-  font-size: 18px;
-  margin-bottom: 1.5em;
+  font-size: 15px;
+  margin: 0.1em 0.1em 3.4em;
 }
 
 .sub-btn {
@@ -96,7 +97,7 @@ body {
 // }
 
 .google-login {
-  background-color: #1A237E;  
+  background-color: #1A237E;
   border-radius: 0.5em;
   margin-right: 10em;
   padding: 0.5em;
@@ -106,7 +107,7 @@ body {
 }
 //----------------------------------------------------------------------------
 
-#main-game-title { 
+#main-game-title {
   text-align: center;
   color: #d0d0d0;
   h1{
@@ -129,7 +130,7 @@ body {
   justify-content: center;
   padding-top: 4em;
   background-color: #2d2d2d;
-  height: 33em;  
+  height: 33em;
   div{
     // margin: 1em;
     text-align: center;
@@ -150,10 +151,10 @@ body {
       font-weight: 800;
       color: #d0d0d0;
     }
-    
+
     /* color: white; */
   }
-  
+
   .card{
     text-align: center;
     height: 375px;
@@ -173,13 +174,13 @@ body {
     }
   }
   .card:hover{
-    -webkit-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
+    -webkit-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     box-shadow: 0 19px 38px rgba(255, 54, 3, 0.3), 0 15px 12px rgba(0,0,0,0.22);
 }
 
-  
+
   // #train-div{
-    
+
   // }
   #train-div{
     .card-body{
@@ -196,7 +197,7 @@ body {
       .card-body-img{
         padding-top: 15%;
       }
-      
+
     }
   }
   // #sandbox-div{
@@ -250,7 +251,7 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(154, 54, 54, 0.50);
+  background-color: rgba(241, 111, 78, 0.94);
   padding: 25px;
 
   .popup-inner-div {
@@ -268,6 +269,13 @@ body {
     p{
 
     }
+
   }
+
+
+}
+
+.loading {
+  display: none;
 }
 

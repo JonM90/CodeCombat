@@ -36,6 +36,14 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  battleWin: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  battleLoss: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 })
 
