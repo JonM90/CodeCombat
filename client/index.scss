@@ -211,7 +211,7 @@ body {
 }
 .solution {
   white-space: pre-wrap;
-  font-size: 10px;
+  font-size: 14px;
   font-family: 'Press Start 2P';
   color:#d0d0d0;
   font-weight:'lighter';
@@ -249,6 +249,22 @@ body {
   width: 20em;
   height:20em;
   
+}
+
+.userProfile-info-field {
+  white-space: pre-wrap;
+  font-family: 'Press Start 2P';
+  font-weight:'lighter';
+  color:white !important;
+}
+
+.graph {
+  text-align: center;
+  margin:1em;
+}
+.graph-header {
+  color:white;
+  margin:1em;
 }
 
 

@@ -51,12 +51,15 @@ export class UserHome extends Component {
         <div>
           <MuiThemeProvider muiTheme={getMuiTheme()}>
             <Tabs style={{backgroundColor:'#2d2d2d'}}>
-              <Tab label="GRAPHS" className="tabs" icon={<EditorPieChartOutlined />} style={tabStyles}>
-                <UserGraph />
-              </Tab>
+            
               <Tab label="INFO" className="tabs" icon={<ActionInfoOutline />} style={tabStyles}>
                 <UserInfo />
               </Tab>
+
+              <Tab label="STATS" className="tabs" icon={<EditorPieChartOutlined />} style={tabStyles}>
+                <UserGraph />
+              </Tab>
+              
               <Tab label="History" className="tabs" icon={<ActionDoneAll />} style={tabStyles}>
                 <UserHistory />
               </Tab>

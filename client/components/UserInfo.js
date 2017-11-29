@@ -6,9 +6,6 @@ import {List, ListItem} from 'material-ui/List';
 class UserInfo extends Component {
     
     render(props) {
-        let listItemStyles={
-            
-                }
         const {email} = this.props;
         const {user} = this.props;
         return (<div id="userProfile">
@@ -17,11 +14,11 @@ class UserInfo extends Component {
                     </div>
                     <div id="userProfile-info">
                     <List>
-                        <ListItem primaryText="Inbox" style={listItemStyles}/>
-                        <ListItem primaryText="Starred" />
-                        <ListItem primaryText="Sent mail" />
-                        <ListItem primaryText="Drafts" />
-                        <ListItem primaryText="Inbox" />
+                        <ListItem disabled={true} primaryText={`NAME:   ${user.name}`} className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText={`E-MAIL: ${email}`} className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText={`RANK:   ${user.rank}`} className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText="Drafts" className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText="Inbox" className="userProfile-info-field" />
                     </List>
                     </div>
                 </div>)

@@ -19,7 +19,7 @@ async function seed () {
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 2, score: 0, isAdmin: false}),
+    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 2, score: 0, isAdmin: false, profileImage:'http://img.sharetv.com/shows/characters/thumbnails/samurai_jack.samurai_jack.jpg'}),
     User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false})
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES

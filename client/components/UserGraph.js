@@ -41,17 +41,29 @@ class PieChart extends Component {
         }
         return (
         <div style={styles}>
-            <div>
+            <div class="graph">
+                <span class="graph-header">TITLE</span>
                 <VictoryPie
+                innerRadius={120}
                 colorScale={['#FF9800'/*Orange*/, '#4CAF50'/*Green*/]} 
                 animate={{duration: 3000}}
                 data={[
-                    { x: "Incomplete", y: (questions && questions.length) },
-                    { x: "Completed", y: (completedQuestions && completedQuestions.length) }
-                ]}/>
+                    { x: "INCOMPLETE", y: (questions && questions.length) },
+                    { x: "COMPLETED", y: (completedQuestions && completedQuestions.length) }
+                ]}
+                labelRadius={75}
+                style={{labels: {
+                            fill:'white',
+                            textAnchor: "middle",
+                            verticalAnchor: "middle"
+                        }
+                    }}
+                />
             </div>
-            <div>
+            <div class="graph">
+                <span class="graph-header">TITLE</span>
                 <VictoryPie
+                innerRadius={120}
                 colorScale={['#607D8B'/*BLUE GREY*/, '#3F51B5'/*INDIGO*/, '#E91E63'/*PINK*/, '#FFEB3B'/*YELLOW*/, '#FF5722'/*DEEP ORANGE*/]} 
                 animate={{duration: 3000}}
                 data={[
@@ -60,16 +72,34 @@ class PieChart extends Component {
                     { x: "3", y: (rankObj[3] || 0) },
                     { x: "4", y: (rankObj[4] || 0) },
                     { x: "5", y: (rankObj[5] || 0) }
-                ]}/>
+                ]}
+                labelRadius={95}
+                style={{labels: {
+                            fill:'white',
+                            textAnchor: "middle",
+                            verticalAnchor: "middle"
+                        }
+                    }}
+                />
             </div>
-            <div>
+            <div class="graph">
+                <span class="graph-header">TITLE</span>
                 <VictoryPie
+                innerRadius={120}
                 colorScale={['#2196F3', '#F44336']} 
                 animate={{duration: 3000}}
                 data={[
                     { x: "WINS", y: (this.props && wins) },
                     { x: "LOSSES", y: (this.props && losses) }
-                ]}/>
+                ]}
+                labelRadius={75}
+                style={{labels: {
+                            fill:'white',
+                            textAnchor: "middle",
+                            verticalAnchor: "middle"
+                        }
+                    }}
+                />
             </div>
         </div>
         );
