@@ -227,5 +227,29 @@ body {
   font-family: 'Press Start 2P';
 }
 
+#userProfile{
+  display:flex;
+  flex-direction: 'row'
+}
+
+#userProfile-image {
+  margin: 1em;
+}
+
+#userProfile-info {
+  margin: 1em;
+  border-radius: 2%;
+  color:white;
+  background-color: #393939;
+  height:20em;
+}
+
+#profileImage{
+  border-radius: 2%;
+  width: 20em;
+  height:20em;
+  
+}
+
 
 
