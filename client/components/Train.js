@@ -139,6 +139,9 @@ const mapDispatch = dispatch => {
     setProbToComplete: (userId, problemId, userSolution, userPoints) => {
       dispatch(setCompletedProblem(userId, problemId, userSolution, userPoints))
     }
+    // addPoints: (userId, point) => {
+    //   dispatch(updateUserPoints(userId, point))
+    // }
   }
 }
 

@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const UPDATE_USER_POINTS = 'UPDATE_USER_POINTS'
 
 /**
  * INITIAL STATE
@@ -17,6 +18,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const updatePoints = userPoints => ({type: UPDATE_USER_POINTS, userPoints})
 
 /**
  * THUNK CREATORS
@@ -49,6 +51,16 @@ export const logout = () =>
       })
       .catch(err => console.log(err))
 
+// export const updateUserPoints = (userId,point) =>
+//   dispatch =>
+//     axios.put(`/api/users/${userId}/profile`, {points: point})
+
+//   .then(res => {
+
+//     console.log("***UPDATE USER POINTS RES.DATA:", res.data.points)
+//     dispatch(updatePoints(res.data.points))
+//   })
+//   .catch(err => console.error(err))
 /**
  * REDUCER
  */
@@ -58,6 +70,8 @@ export default function (state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    // case UPDATE_USER_POINTS:
+    //   return Object.assign({},state,{points: action.userPoints})
     default:
       return state
   }

@@ -43,7 +43,7 @@ battleEvents.on('p1Submit', (total)=> {
   // battleEvents.emit('p2Pending', 'AWAITING PLAYER TWO SUBMISSION', total, socket.id)
   socket.emit('p2PendingSetup', 'AWAITING PLAYER TWO SUBMISSION', total, socket.id)
 })
-battleEvents.on('p2Submit', (opponentTotal, p2Total, p1Socket, roomId)=> {
+battleEvents.on('p2Submit', (opponentTotal, p2Total, p1Socket, roomId) => {
   console.log(`OPPONENT: ${p1Socket}, TIME: ${opponentTotal} vs PLAYER2: ${socket.id} TIME: ${p2Total}`)
   let winner = opponentTotal < p2Total ? [p1Socket, opponentTotal] : [socket.id, p2Total]
   socket.emit('determineWinner', winner, roomId)
@@ -68,3 +68,13 @@ battleEvents.on('updateLoss', (userId) => {
 // });
 
 export default socket
+
+// socket.on('userSolution', (userSolution) => {
+//   console.log('SOCKET CONNECTED userSolution:', userSolution)
+//   events.emit('userSolution', userSolution);
+// })
+// socket.on('pass', bool => {
+//   console.log('SOCKET ON PASS', bool)
+//   // events.emit('pass', bool)
+//   socket.emit('passVal', bool)
+// })
