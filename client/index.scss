@@ -336,14 +336,18 @@ body {
   display: none;
 }
 #train-main{
-  background-color:#4a4949;
+  // background-color:#4a4949;
+  background: url("/assets/night-clouds.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 52em;
-  // h4{
-  //   margin: 0;
-  //   padding-left: 2em;
-  //   padding-top: 1em;
-  //   color: #747171;
-  // }
+}
+#battle-main{
+  // 
+  background: url("/assets/night-clouds.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 52em;
 }
 .component-title-h4{
   margin: 0;

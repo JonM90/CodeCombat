@@ -25,7 +25,6 @@ export class Train extends Component{
     this.isPassing = this.isPassing.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
-    // this.handleQuit = this.handleQuit.bind(this);
   }
 
   togglePopup() {
@@ -102,8 +101,9 @@ export class Train extends Component{
     return (
       <div id="train-main">
 
-              <h4 className="component-title-h4">Training Mode</h4>
-              {/* <button onClick={this.togglePopup}>show popup</button> */}
+        <h4 className="component-title-h4">Training Mode</h4>
+        {/* <button onClick={this.togglePopup}>show popup</button> */}
+        
         {this.state.redirect ? <Redirect to="/" /> : null}
 
         <h2 className="my-points">MY POINTS: {this.state.userPoints}</h2>

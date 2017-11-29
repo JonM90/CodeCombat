@@ -129,7 +129,7 @@ export class CodeEditor extends Component {
             <div className="output-div" >
               <h4 className="right-container-headers">CONSOLE:</h4>
               {
-                this.state.logger.length ? <div className="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div className="output-text" key={val}>{val}</div>))} </div>  : <div className="output-text">{this.state.output}</div>
+                this.state.logger.length ? <div className="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div className="output-text" key={val}>{val}</div>))} </div>  : null
               }
             </div>
 

@@ -119,7 +119,7 @@ export class Battle extends Component{
     return (
         <div id="battle-main">
 
-            <h1>BATTLE COMPONENT</h1>
+          <h4 className="component-title-h4">Battle Mode</h4>
 
             <button onClick={this.handleMatch}>Find Match</button>
             <Loading />
