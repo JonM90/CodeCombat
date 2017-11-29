@@ -1,18 +1,3 @@
-// const {VM} = require('vm2');
-// var log3 = [], err3 = [];
-// var vmThree = new VM({
-//   sandbox: {
-//     console: {
-//       log(...args) {
-//         log3.push({args: args, at: new Error().stack})
-//       },
-//       error(...args) {
-//         err3.push(args)
-//       }
-//     }
-//   }
-// })
-// let message;
 const RUN = require('../sandbox/sandbox');
 const {User} = require('../db/models');
 const {runnerONE, runnerTWO} = require('../sandbox/battleSandbox');
@@ -27,18 +12,20 @@ module.exports = (io) => {
       console.log('********this is outPut in socket/index.js:', outPut);
       console.log('END!');
       socket.emit('result', outPut.slice(0, 2))
-      socket.emit('pass', outPut[2])
+      socket.emit('pass', outPut[2], usersFunc[0])
     })
 
-    socket.on('p2PendingSetup', (msg, p1Total, p1Socket) => {
-      socket.broadcast.emit('p1SubmitFinish', msg, p1Total, p1Socket)
-    })
+    socket.on('joinRoom', roomId => {
+      console.log('In joinRoom:', roomId)
+      socket.join(roomId)
+      setTimeout(() => {
+        console.log(`joined room: ${roomId}`)
+        let myRoom = socket.rooms
+        console.log('SOCKET SERVER MY ROOM', myRoom)
+      }, 3000)
 
-    socket.on('determineWinner', (winner, roomId) => {
-      console.log('BACKEND WINNER', winner)
-      // socket.to(roomId).emit('foundWinner', winner)
-      io.in(roomId).emit('foundWinner', winner);
-    })
+      io.in(roomId).emit('mssg', 'Hyaa!');
+    });
 
     socket.on('battleSubmit', (usersFunc) => {
       if (usersFunc[2] === 'host') {
@@ -55,6 +42,16 @@ module.exports = (io) => {
       console.log('playerTYPE:', usersFunc[2])
     })
 
+    socket.on('p2PendingSetup', (msg, p1Total, p1Socket) => {
+      socket.broadcast.emit('p1SubmitFinish', msg, p1Total, p1Socket)
+    })
+
+    socket.on('determineWinner', (winner, roomId) => {
+      console.log('BACKEND WINNER', winner)
+      // socket.to(roomId).emit('foundWinner', winner)
+      io.in(roomId).emit('foundWinner', winner);
+    })
+
     socket.on('updateWin', (userId) => {
       User.findById(+userId)
       .then(user => {
@@ -63,6 +60,7 @@ module.exports = (io) => {
         user.update({battleWin: newC})
       })
     })
+
     socket.on('updateLoss', (userId) => {
       User.findById(+userId)
       .then(user => {
@@ -72,23 +70,32 @@ module.exports = (io) => {
       })
     })
 
-    socket.on('joinRoom', roomId => {
-      console.log('In joinRoom:', roomId)
-      socket.join(roomId)
-      setTimeout(() => {
-        console.log(`joined room: ${roomId}`)
-        let myRoom = socket.rooms
-        console.log('SOCKET SERVER MY ROOM', myRoom)
-      }, 3000)
-
-      io.in(roomId).emit('mssg', 'Hyaa!');
-    });
-
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
   })
 }
+
+
+
+
+
+//OLD Vs
+// const {VM} = require('vm2');
+// var log3 = [], err3 = [];
+// var vmThree = new VM({
+//   sandbox: {
+//     console: {
+//       log(...args) {
+//         log3.push({args: args, at: new Error().stack})
+//       },
+//       error(...args) {
+//         err3.push(args)
+//       }
+//     }
+//   }
+// })
+// let message;
 
 // console.log('MESSAGE!!!', message)
 // var outPut = vmThree.run(`
@@ -119,9 +126,6 @@ module.exports = (io) => {
 // });
 
 
-
-
-//OLD V
 // // const {VM} = require('vm2');
 // // var log3 = [], err3 = [];
 // // var vmThree = new VM({

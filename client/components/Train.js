@@ -1,66 +1,121 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {fetchAllProblems, fetchCompletedProblems} from '../store';
+import {fetchAllProblems, fetchCompletedProblems, setCompletedProblem} from '../store';
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
-
+import socket from '../socket';
 
 export class Train extends Component{
-    constructor(){
-        super();
-        this.state = {
-          eligibleQs: [],
-          showPopup: false
-        }
-        this.togglePopup = this.togglePopup.bind(this);
+  constructor(){
+    super();
+    this.state = {
+      showPopup: false,
+      userPoints: 0, // set user points everytime points changes
+      eligibleQs: [],
+      currentProblem: {},
+      problemNum: 0,
+      pass: false,
+      userSolution: ''
     }
-    togglePopup() {
-      this.setState({
-        showPopup: !this.state.showPopup
-      });
+
+    this.togglePopup = this.togglePopup.bind(this);
+    this.isPassing = this.isPassing.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+  }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+
+  componentDidMount() {
+    if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
+      this.props.loadAllProblems();
+      this.props.loadCompletedProblems(this.props.user.id);
     }
-    componentDidMount() {
-      if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
-        this.props.loadAllProblems();
-        this.props.loadCompletedProblems(this.props.user.id);
+
+    this.setState({
+      showPopup: true,
+      userPoints: this.props.user.points
+    })
+
+    socket.on('pass', (pass, userSolution) => {
+      console.log('SOCKET ON PASS:', pass, 'userSolution:', userSolution)
+      if (pass) {
+        this.setState({userSolution})
+        this.setState({pass})
+        this.isPassing(pass)
       }
-      this.setState({showPopup: true})
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let allQs = nextProps.allQuestions.allProblems;
+    let compQs = nextProps.allQuestions.completedProblems;
+    let compIds = compQs.map(q => q.id)
+    if (allQs.length && compQs.length) {
+      // console.log('allQs:', allQs, 'compQs:', compQs)
+      let rank = this.props.user.rank;
+      let rankRange = [rank - 1, rank, rank + 1]
+      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
+        // return (rank === q.level || rank === q.level - 1 || rank === q.level + 1)
+        return rankRange.includes(q.level)
+      })
+      // console.log('eligibleQs', eligibleQs)
+      this.setState({eligibleQs})
     }
+  }
 
-    componentWillReceiveProps(nextProps) {
-      let allQs = nextProps.allQuestions.allProblems;
-      let compQs = nextProps.allQuestions.completedProblems;
-      let compIds = compQs.map(q => q.id)
-      if (allQs.length && compQs.length) {
-        let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
-          return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
-        })
-        this.setState({eligibleQs})
-      }
-    }
+  isPassing(pass) {
+    console.log("SOCKET ON PASS TRUE:", this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.problemNum], 'userSolution:', this.state.userSolution)
 
-    render() {
-      // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
+    let currProb = this.state.eligibleQs[this.state.problemNum]
+    let questPoints = currProb.level * 5;
+    let newPoints = this.state.userPoints + questPoints;
+    console.log('YOU NOW HAVE ', newPoints, ' POINTS!')
+    this.setState({userPoints: newPoints})
+    this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints);
+  }
 
-      return (
-          <div id="train-main">
+  nextQuestion(e){
+    e.preventDefault();
+    let currProbNum = this.state.problemNum + 1;
+    console.log('NEXT IS FIRED, PROB#', currProbNum, 'currentProblem:', this.state.eligibleQs[currProbNum])
+    this.setState({
+      problemNum: currProbNum,
+      currentProblem: this.state.eligibleQs[currProbNum]
+    })
+  }
 
-              <h1>TRAIN COMPONENT</h1>
-              <button onClick={this.togglePopup}>show popup</button>
+  render() {
+    return (
+      <div id="train-main">
 
-                  {this.state.eligibleQs && this.state.showPopup ?
-                    <PopUp
-                    func={this.togglePopup}
-                    quest={this.state.eligibleQs[0]}
-                    /> : null}
+        <h1>TRAIN COMPONENT</h1>
+        <h2>USER POINTS: {this.state.userPoints}</h2>
+        <button onClick={this.togglePopup}>show popup</button>
 
-              <div className="editor-div">
-                {this.state.eligibleQs && <CodeEditor questions={this.state.eligibleQs} />}
-              </div>
+        { this.state.eligibleQs && this.state.showPopup ?
+          <PopUp
+            func={this.togglePopup}
+            quest={this.state.eligibleQs[0]}
+          /> : null }
 
+        <div className="editor-div">
+          { this.state.eligibleQs.length ?
+            <CodeEditor
+              setProbToComplete = {this.props.setProbToComplete}
+              nextQuestion = {this.nextQuestion}
+              userId = {this.props.user.id}
+              question = {this.state.eligibleQs[this.state.problemNum]}
+              justCompleted = {this.props.justCompleted}
+            /> : <h1>No Dice</h1> }
         </div>
-      )
-    }
+
+      </div>
+    )
+  }
 }
 
 const mapState = (state) => {
@@ -68,7 +123,8 @@ const mapState = (state) => {
   return {
     email: state.user.email,
     user: state.user,
-    allQuestions: state.problems
+    allQuestions: state.problems,
+    justCompleted: state.problems.justCompleted
   }
 }
 
@@ -79,6 +135,9 @@ const mapDispatch = dispatch => {
     },
     loadCompletedProblems: (userId) => {
       dispatch(fetchCompletedProblems(userId))
+    },
+    setProbToComplete: (userId, problemId, userSolution, userPoints) => {
+      dispatch(setCompletedProblem(userId, problemId, userSolution, userPoints))
     }
   }
 }
