@@ -27,7 +27,6 @@ export class BattleEditor extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.setSig = this.setSig.bind(this);
-    this.p2Pending = this.p2Pending.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +35,6 @@ export class BattleEditor extends Component {
     this.setState({currentProblem: this.props.questions[this.state.problemNum]})
 
     battleEvents.on('determineWinner', (winner) => {
-      console.log('WINNER:', winner)
       if (winner[0] === this.state.opponent){
         const userId = +this.props.battleProps.match.params.userId
         console.log("YOU LOST LOSER!!!!", 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
@@ -47,11 +45,18 @@ export class BattleEditor extends Component {
         battleEvents.emit('updateWin', userId)
       }
     })
-    // this.editor = this.ace.editor
+    
     if (this.state.player2){
-      console.log('ATTACHING p2Pending TO BATTLE EVENTS')
-      battleEvents.on('p2Pending', this.p2Pending)
+      battleEvents.on('p2Pending', (msg, p1Total, p1Socket) => {
+        this.setState({opponentTotal: p1Total, opponent: p1Socket})
+      })
     }
+
+    battleEvents.on('battleOutput', (output) => {
+      this.setState({output: output[0]})
+      this.setState({logger: output[1]})
+    })
+
     if (!this.ace) return null;
   }
 
@@ -61,11 +66,6 @@ export class BattleEditor extends Component {
     if (nP.match && nP.match.id) {
       this.setState({currentMatch: nP.match})
     }
-  }
-
-  p2Pending(msg, p1Total, p1Socket){
-    console.log('OBTAINED p1Submit Emitter', p1Socket)
-    this.setState({opponentTotal: p1Total, opponent: p1Socket})
   }
 
   setSig() {
@@ -82,6 +82,7 @@ export class BattleEditor extends Component {
     editor.getSession().on('changeAnnotation', () => {
 
       let comments = editor.getSession().getAnnotations();
+      //LOOP THROUGH THE EDITOR SO THAT WE CAN SEE IF THERE IS AN ERROR
       comments.forEach(val => {
         if (val.type === 'error'){
           error = true
@@ -89,7 +90,6 @@ export class BattleEditor extends Component {
         }
       })
     })
-    //LOOP THROUGH THE EDITOR SO THAT WE CAN SEE IF THERE IS AN ERROR
     this.setState({attempt, error})
   }
 
@@ -99,47 +99,29 @@ export class BattleEditor extends Component {
     console.log('TIMESTAMP ', total)
     let currMatch = this.state.currentMatch
     let currProb = this.state.currentProblem
-    // console.log('currMATCH:', currMatch, 'currPROB:', currProb)
     var player = 'host'
     if (Object.keys(currMatch).length) { player = 'guest' }
-    console.log('playerSTATUS:', player, 'this.props:', this.props)
 
-    // currMatch && currMatch.id ?
     currProb && currProb.id ?
       battleEvents.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
     : null
 
-
-
-      // console.log("SECOND EVENT", battleEvents)
-      battleEvents.on('battleOutput', (output) => {
-        // console.log('LOGGER SHIET:', output)
-        this.setState({output: output[0]})
-        this.setState({logger: output[1]})
-      })
-
-      battleEvents.on('battlePass', (pass) => {
-        // console.log('PASS SHIET:', pass)
-        if(pass){
-          if(this.state.opponentTotal){
-            console.log("P2Submit is about to Fire")
-            battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent, this.state.currentMatch.roomId)
-          }else{
-            console.log("P1 SUBMIT STATE: ", this.state)
-            this.setState({player2:false})
-            console.log("THISTHAT", this.p2Pending)
-            // battleEvents.removeListener('p2Pending', this.p2Pending)
-            battleEvents.emit('p1Submit', total)
-          }
+    battleEvents.on('battlePass', (pass) => {
+      if(pass){
+        if(this.state.opponentTotal){
+          battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent, this.state.currentMatch.roomId)
+        }else{
+          console.log("P1 SUBMIT STATE: ", this.state)
+          this.setState({player2:false})
+          battleEvents.emit('p1Submit', total)
         }
-        this.setState({pass})
-      })
-      // console.log("THIRD EVENT", battleEvents)
+      }
+      this.setState({pass})
+    })
   }
 
   render() {
     let quest = this.state.eligibleQueue
-    console.log('STATE', this.state)
 
     return (
       this.state.problemNum !== quest.length ?

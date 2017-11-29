@@ -28,9 +28,7 @@ battleEvents.on('p1Submit', (total)=> {
 
 battleEvents.on('p2Submit', (opponentTotal, p2Total, p1Socket, roomId)=> {
   console.log(`OPPONENT: ${p1Socket}, TIME: ${opponentTotal} vs PLAYER2: ${socket.id} TIME: ${p2Total}`)
-  // console.log("PLAYER @ SOCKET: ", socket.id)
   let winner = opponentTotal < p2Total ? [p1Socket, opponentTotal] : [socket.id, p2Total]
-  // battleEvents.emit('determineWinner', winner)
   socket.emit('determineWinner', winner, roomId)
   console.log('OFFICIAL WINNER', winner)
 })
