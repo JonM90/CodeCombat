@@ -7,7 +7,7 @@ const CompletedProblem = db.define('completed_problem', {
     validate: { min: 1, max: 10 }
   },
   userSolution: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: false
   }
 })

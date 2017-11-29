@@ -31,7 +31,7 @@ export class CodeEditor extends Component {
     if (this.ace) {
       this.setState({ currentProblem: nP.question })
       // console.log("WILL RECEIVE FIRING SETSIG")
-      if (nP.justCompleted && nP.justCompleted.userSolution && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
+      if (nP.justCompleted && nP.justCompleted.userSolution && nP.question && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
       else if (nP.question) this.setSig(nP.question.signature, false);
     }
   }
