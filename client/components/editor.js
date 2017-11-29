@@ -2,6 +2,8 @@ import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 const {EventEmitter} = require('events');
+import {fetchAllProblems, fetchCompletedProblems, getPoints} from '../store';
+
 export const events = new EventEmitter()
 // import socket from '../socket';
 // export default events;
@@ -28,6 +30,7 @@ export class CodeEditor extends Component {
 
   }
   componentDidMount() {
+         this.props.updatePoints(2);
     if (!this.ace) return null;
     this.editor = this.ace.editor
     console.log('MOUNTED', this.editor)
@@ -35,12 +38,12 @@ export class CodeEditor extends Component {
   }
 
   componentWillReceiveProps(nP) {
-    console.log('NP:', nP)
+    //console.log('NP:', nP)
     if (nP.questions.length) {
       this.setState({eligibleQueue: nP.questions})
       this.setState({currentProblem: nP.questions[this.state.problemNum]})
       // if (this.ace) {
-        console.log("CURRENT PROBLEM", nP.questions[this.state.problemNum], 'this.ace:', this.ace)
+       // console.log("CURRENT PROBLEM", nP.questions[this.state.problemNum], 'this.ace:', this.ace)
         // this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
         // this.ace.editor.setValue(`function ${(nP.questions[this.state.problemNum]).signature}{}`)
       // }
@@ -56,13 +59,13 @@ export class CodeEditor extends Component {
 
   setSig() {
     let currSig = this.state.currentProblem.signature
-    console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
+   // console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
     this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
   }
 
   onChange(newValue,e ) {
     // console.log("NEW VALUE", newValue, "EVENT", e);
-    console.log("in change", e)
+    //console.log("in change", e)
     let attempt = newValue;
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
@@ -73,7 +76,7 @@ export class CodeEditor extends Component {
     editor.getSession().on("changeAnnotation", () => {
 
       let comments = editor.getSession().getAnnotations();
-       console.log("COMMENTS: ", comments)
+      // console.log("COMMENTS: ", comments)
       comments.forEach(val => {
 
         if (val.type === 'error'){
@@ -98,7 +101,9 @@ export class CodeEditor extends Component {
     this.setState({problemNum: this.state.problemNum + 1})
     this.setState({output: ''})
     const editor = this.ace.editor
-    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+    this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{
+  //write your code here!
+}`)
   }
 
   onSubmit(e) {
@@ -129,10 +134,21 @@ export class CodeEditor extends Component {
       //   this.setState({output:output[0], logger:output[1]})})
   }
 
+  onPass(){
+      this.props.updatePoints(2);
+  }
+
   render() {
+
+   // if(this.state.pass)  this.onPass.bind(this);
+   
+    // const result =   this.state.output ? this.state.output : ''
+     //  console.log("this.props.userId in editor***********", this.props.userId)
+    // this.state.output ?  console.log('OUTPUT in EDITOR: ', result) : ''
+
     let quest = this.state.eligibleQueue
     // let currSig = this.state.currentProblem.signature
-    console.log('quest', quest)
+    //console.log('quest', quest)
     // this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
 
     return (
@@ -140,8 +156,8 @@ export class CodeEditor extends Component {
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
-          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
-          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
+          <h2 className='question-title-text'>{quest.length && quest[this.props.problemNum].title}</h2>
+          <h4 className='question-description-text'>{quest.length && quest[this.props.problemNum].description}</h4>
         </div>}
 
         <div className="train-container">
@@ -197,10 +213,25 @@ export class CodeEditor extends Component {
 }
 
 const mapState = (state) => {
-  // console.log('STATE:', state)
+  console.log('STATE IN EDITOR: ', state)
   return {
     user: state.user,
   }
 }
+
+// const mapDispatch = dispatch => {
+//   return {
+//     loadAllProblems: () => {
+//       dispatch(fetchAllProblems())
+//     },
+//     loadCompletedProblems: (userId) => {
+//       dispatch(fetchCompletedProblems(userId))
+//     },
+//     updatePoints: () => {
+//       dispatch(getPoints(userId, points))
+//     }
+//   }
+// }
+
 
 export default connect(mapState)(CodeEditor)

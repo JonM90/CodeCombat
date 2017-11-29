@@ -125,7 +125,7 @@ const {VM} = require('vm2');
               try {
 
                 vm.run(spec)
-                arr.push(`${sliced}: PASSED` )
+                arr.push(`${sliced}: PASSED `)
               }
               catch (ex) {
                 pass = false
@@ -135,7 +135,7 @@ const {VM} = require('vm2');
                 arr.push(`${sliced}: FAILED` )
                 console.log('error in catch', error)
                 // vm.run(`console.log("TRY AGAIN, DON'T GIVE UP!")`)
-              }
+              }           
 
             }
 
