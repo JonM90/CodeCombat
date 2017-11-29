@@ -14,6 +14,7 @@
 // })
 // let message;
 const RUN = require('../sandbox/sandbox');
+const {User} = require('../db/models');
 const {runnerONE, runnerTWO} = require('../sandbox/battleSandbox');
 
 module.exports = (io) => {
@@ -34,7 +35,9 @@ module.exports = (io) => {
     })
 
     socket.on('determineWinner', (winner, roomId) => {
-      socket.to(roomId).emit('foundWinner', winner)
+      console.log('BACKEND WINNER', winner)
+      // socket.to(roomId).emit('foundWinner', winner)
+      io.in(roomId).emit('foundWinner', winner);
     })
 
     socket.on('battleSubmit', (usersFunc) => {
@@ -50,6 +53,23 @@ module.exports = (io) => {
         console.log('********this is outPutTWO in socket/index.js:', outPutTwo);
       }
       console.log('playerTYPE:', usersFunc[2])
+    })
+
+    socket.on('updateWin', (userId) => {
+      User.findById(+userId)
+      .then(user => {
+        console.log('USERID', userId, 'USER:', user)
+        let newC = user.battleWin + 1
+        user.update({battleWin: newC})
+      })
+    })
+    socket.on('updateLoss', (userId) => {
+      User.findById(+userId)
+      .then(user => {
+        console.log('USERID', userId, 'USER:', user)
+        let newC = user.battleLoss + 1
+        user.update({battleLoss: newC})
+      })
     })
 
     socket.on('joinRoom', roomId => {

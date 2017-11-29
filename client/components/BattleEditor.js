@@ -19,10 +19,11 @@ export class BattleEditor extends Component {
       logger: [],
       pass: false,
       error: false,
-      opponentTotal:0,
-      opponent:'',
-      player2:true
+      opponentTotal: 0,
+      opponent: '',
+      player2: true
     }
+
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.setSig = this.setSig.bind(this);
@@ -30,19 +31,24 @@ export class BattleEditor extends Component {
   }
 
   componentDidMount() {
-    
+
     this.setState({eligibleQueue: this.props.questions})
     this.setState({currentProblem: this.props.questions[this.state.problemNum]})
-    
+
     battleEvents.on('determineWinner', (winner) => {
-      if(winner[0] === this.state.opponent){
-        console.log("YOU LOST LOSER!!!!")
-      }else{
-        console.log("OMG YOU WON!!!")
+      console.log('WINNER:', winner)
+      if (winner[0] === this.state.opponent){
+        const userId = +this.props.battleProps.match.params.userId
+        console.log("YOU LOST LOSER!!!!", 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
+        battleEvents.emit('updateLoss', userId)
+      } else {
+        const userId = +this.props.battleProps.match.params.userId
+        console.log("OMG YOU WON!!!", 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
+        battleEvents.emit('updateWin', userId)
       }
     })
     // this.editor = this.ace.editor
-    if(this.state.player2){
+    if (this.state.player2){
       console.log('ATTACHING p2Pending TO BATTLE EVENTS')
       battleEvents.on('p2Pending', this.p2Pending)
     }
@@ -57,9 +63,9 @@ export class BattleEditor extends Component {
     }
   }
 
-  p2Pending(msg,p1Total, p1Socket){
+  p2Pending(msg, p1Total, p1Socket){
     console.log('OBTAINED p1Submit Emitter', p1Socket)
-    this.setState({opponentTotal:p1Total, opponent:p1Socket})
+    this.setState({opponentTotal: p1Total, opponent: p1Socket})
   }
 
   setSig() {
@@ -104,7 +110,7 @@ export class BattleEditor extends Component {
     : null
 
 
-    
+
       // console.log("SECOND EVENT", battleEvents)
       battleEvents.on('battleOutput', (output) => {
         // console.log('LOGGER SHIET:', output)
@@ -138,7 +144,7 @@ export class BattleEditor extends Component {
     return (
       this.state.problemNum !== quest.length ?
       (<div className="main-train-container" >
-        
+
         {quest.length && <div className='question-div'>
           <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
           <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>

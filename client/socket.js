@@ -27,14 +27,16 @@ battleEvents.on('p1Submit', (total)=> {
 })
 
 battleEvents.on('p2Submit', (opponentTotal, p2Total, p1Socket, roomId)=> {
-  console.log("PLAYER ! SOCKET: ", p1Socket)
-  console.log("PLAYER @ SOCKET: ", socket.id)
-  let winner = (opponentTotal > p2Total) ? [socket.id, p2Total]: [p1Socket, opponentTotal]
+  console.log(`OPPONENT: ${p1Socket}, TIME: ${opponentTotal} vs PLAYER2: ${socket.id} TIME: ${p2Total}`)
+  // console.log("PLAYER @ SOCKET: ", socket.id)
+  let winner = opponentTotal < p2Total ? [p1Socket, opponentTotal] : [socket.id, p2Total]
   // battleEvents.emit('determineWinner', winner)
   socket.emit('determineWinner', winner, roomId)
+  console.log('OFFICIAL WINNER', winner)
 })
 
 socket.on('foundWinner', (winner) => {
+  console.log('FOUND WINNER*********', winner)
   battleEvents.emit('determineWinner', winner)
 })
 
@@ -62,9 +64,16 @@ socket.on('mssg', (msg) => {
 })
 
 socket.on('p1SubmitFinish', (msg, p1Total, p1Socket) => {
-  battleEvents.emit('p2Pending', 'AWAITING PLAYER TWO SUBMISSION',msg, p1Total, p1Socket)
+  battleEvents.emit('p2Pending', msg, p1Total, p1Socket)
 })
 
+battleEvents.on('updateWin', (userId) => {
+  socket.emit('updateWin', userId)
+})
+
+battleEvents.on('updateLoss', (userId) => {
+  socket.emit('updateLoss', userId)
+})
 // socket.on('findOrJoinRoom', socketID => {
 //   console.log('Joining room in FRONT:', socketID)
 //   socket.join(socketID)
