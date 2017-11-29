@@ -83,7 +83,7 @@ export class Train extends Component{
     let currProb = this.state.eligibleQs[this.state.currInd]
     let questPoints = currProb.level * 5;
     let newPoints = this.state.userPoints + questPoints;
-    console.log('YOU NOW HAVE ', newPoints, ' POINTS!')
+    console.log('newPoints', newPoints, 'setProbToComplete WITH:', this.props.user.id, currProb.id, this.state.userSolution, newPoints)
     this.setState({userPoints: newPoints})
     this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints);
   }
