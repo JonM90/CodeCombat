@@ -26,7 +26,7 @@ async function seed () {
   const problems = await Promise.all([
     Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
     Problem.create({title: 'Diff', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature:'diff(a, b)'}),
-    Problem.create({title: 'FizzBuzz', level: 2, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function fizzBuzz(num){
+    Problem.create({title: 'FizzBuzz', level: 3, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function fizzBuzz(num){
         if (num%15 === 0) {
           return "FizzBuzz";
         } else if (num%5 === 0) {
@@ -38,7 +38,7 @@ async function seed () {
         }
       }
     `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Buzz")', 'assert.equal(FizzBuzz(5),"Fizz")','assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature:'FizzBuzz(num)'}),
-    Problem.create({title: 'bactrianCase', level: 3, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
+    Problem.create({title: 'bactrianCase', level: 4, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
       var newString = '';
 
       for(var i=0; i<str.length; i++) {
@@ -61,7 +61,7 @@ async function seed () {
      return expResult;
     }`, testSpecs: ['assert.equal(exponentiate(1,1), 1)', 'assert.equal(exponentiate(3,3), 27)', 'assert.equal(exponentiate(6,7), 279936)' ], authorId: 2, signature:'exponentiate(base, power)'}),
 
-    Problem.create({title: 'mostVowels', level: 4, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
+    Problem.create({title: 'mostVowels', level: 5, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
       var vowels = "aeiou";
       var wordsArr = str.split(" ");
       var leadWord = "";
@@ -86,7 +86,7 @@ async function seed () {
     Problem.create(
       {
       title: 'Temperature Converter',
-      level: 1,
+      level: 4,
     description: 'Write a converter function that accepts a temperature in Fahrenheit and returns the temperature in Celsius. For your reference, here is the equation for converting Fahrenheit to Celsius: T(°C) = (T(°F) - 32) × 5/9',
       solution: `function converter(temp) {
                     return (temp - 32) * 5/9;
@@ -104,7 +104,7 @@ async function seed () {
   Problem.create(
     {
       title: 'Frequency Analysis',
-      level: 2,
+      level: 5,
       description: 'Write a function that takes a string of text and returns an object containing the count for each character in the string.Note: The input string  will only contain lowercase letters. There will not be any whitespace, capital letters, numbers, or special characters.',
       solution: `function frequencyAnalysis(str) {
                     var countObj = {};
@@ -155,7 +155,7 @@ async function seed () {
   Problem.create(
     {
       title: 'Flatten Arrays',
-      level: 3,
+      level: 6,
       description: 'Write a function, flatten, that accepts a two-dimensional array as its argument and returns a flattened one-dimensional copy of the array.The argument array will never be more than 2 levels deep. Remember to return a copy, meaning you should not modify the original 2D array passed in!',
       solution: `function flatten(arr) {
                    var flatArray = [];
@@ -197,7 +197,7 @@ async function seed () {
   Problem.create(
     {
       title: 'Proper Noun Filter',
-      level: 3,
+      level: 6,
       description: "Write a function, properNounFilter, that determines whether the string argument is a proper noun. A word is considered a proper noun if only the first letter is capitalized. If the argument is a proper noun, properNounFilter should return true. It should return false if the word isn't a proper noun, if the word is mixed case, or if it is all caps.",
       solution: `function properNounFilter(word) {
                     var charCode;
@@ -223,7 +223,7 @@ async function seed () {
   Problem.create(
     {
       title: 'Underscore to CamelCase',
-      level: 2,
+      level: 3,
     description: 'Write a function to convert a variable name from under_score format to camelCase.Make sure you support an unlimited number of underscores in the input! You will not have to worry about white space in your input, only alphanumeric characters and underscore',
       solution: `function underToCamel(underName) {
                     var camelCaseOutput = '';

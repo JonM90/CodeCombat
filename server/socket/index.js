@@ -1,18 +1,3 @@
-// const {VM} = require('vm2');
-// var log3 = [], err3 = [];
-// var vmThree = new VM({
-//   sandbox: {
-//     console: {
-//       log(...args) {
-//         log3.push({args: args, at: new Error().stack})
-//       },
-//       error(...args) {
-//         err3.push(args)
-//       }
-//     }
-//   }
-// })
-// let message;
 const RUN = require('../sandbox/sandbox');
 const {runnerONE, runnerTWO} = require('../sandbox/battleSandbox');
 
@@ -25,10 +10,8 @@ module.exports = (io) => {
 
       console.log('********this is outPut in socket/index.js:', outPut);
       console.log('END!');
-      //send userFunc[0]
       socket.emit('result', outPut.slice(0, 2))
       socket.emit('pass', outPut[2], usersFunc[0])
-      // if (outPut[2]) socket.emit('userSolution', usersFunc[0])
     })
     socket.on('battleSubmit', (usersFunc) => {
       if (usersFunc[2] === 'host') {
@@ -53,29 +36,18 @@ module.exports = (io) => {
         let myRoom = socket.rooms
         console.log('SOCKET SERVER MY ROOM', myRoom)
       }, 3000)
-      // socket.join('hotel')
-      // socket.emit('ready')
-      // io.in('room404').emit('mssg', 'Hyaa!');
+
       io.in(roomId).emit('mssg', 'Hyaa!');
-      // io.sockets.in('room404').emit('mssg', 'Hyaa!');
     });
 
-    // io.in('room404').emit('mssg', 'Hyaa!');
-    // io.sockets.in('room404').emit('mssg', 'Hyaa!');
-    // socket.on('JoinRoom', socketID => {
-    //   console.log('In JOINROOM:', socketID)
-    //   socket.join(socketID)
-    //   // socket.join('hotel')
-    //   let myRoom = socket.rooms
-    //   console.log('SOCKET SERVER', myRoom)
-    // });
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
   })
 
-  // io.in()
 }
+
+//OLD Vs
 
 // console.log('MESSAGE!!!', message)
 // var outPut = vmThree.run(`
@@ -105,10 +77,6 @@ module.exports = (io) => {
 // 	})
 // });
 
-
-
-
-//OLD V
 // // const {VM} = require('vm2');
 // // var log3 = [], err3 = [];
 // // var vmThree = new VM({
