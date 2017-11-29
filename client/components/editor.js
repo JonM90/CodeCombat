@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 const {EventEmitter} = require('events');
 export const events = new EventEmitter();
-import axios from 'axios';
+// import axios from 'axios';
 
 export class CodeEditor extends Component {
   constructor(props) {
@@ -12,28 +12,30 @@ export class CodeEditor extends Component {
     this.state = {
       attempt: '',
       currentProblem: {},
-      output: [],
-      eligibleQueue: [],
-      problemNum: 0,
+      output: '',
       logger: [],
-      pass: false,
       error: false,
-      points: 0
+      // output: [],
+      // eligibleQueue: [],
+      // problemNum: 0,
+      // pass: false,
+      // points: 0
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.setSig = this.setSig.bind(this);
-    this.onPassTrue = this.onPassTrue.bind(this);
+    // this.onPassTrue = this.onPassTrue.bind(this);
     // this.props.addPoints = this.props.addPoints.bind(this);
 
   }
   componentDidMount() {
 
     this.setState({
-      points:this.props.userPoints,
-      eligibleQueue : this.props.questions,
-      currentProblem : this.props.questions[this.state.problemNum]
+      currentProblem: this.props.question
+      // points: this.props.userPoints,
+      // eligibleQueue : this.props.questions,
+      // currentProblem : this.props.questions[this.state.problemNum]
     })
     if (this.ace) {
       this.editor = this.ace.editor
@@ -109,19 +111,21 @@ export class CodeEditor extends Component {
   }
 
   nextQuestion(e){
-    e.preventDefault();
-    console.log("NEXT IS FIRED", this.state.problemNum)
-    let currProblem = this.state.problemNum + 1;
-    this.setState({
-      problemNum : currProblem,
-      currentProblem : this.props.questions[currProblem],
-      output : ''
-    })
-    const editor = this.ace.editor
-    ///this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
-    editor.setValue(`function ${(this.state.eligibleQueue[currProblem]).signature}{}`)
-    this.onPassTrue();
-    console.log("STATE - NEXTQUESTION FUNC:", this.state)
+    this.props.nextQuestion(e)
+    this.setState({output: ''})
+    // e.preventDefault();
+    // console.log("NEXT IS FIRED", this.state.problemNum)
+    // let currProblem = this.state.problemNum + 1;
+    // this.setState({
+    //   problemNum : currProblem,
+    //   currentProblem : this.props.questions[currProblem],
+    //   output : ''
+    // })
+    // const editor = this.ace.editor
+    // ///this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+    // editor.setValue(`function ${(this.state.eligibleQueue[currProblem]).signature}{}`)
+    // this.onPassTrue();
+    // console.log("STATE - NEXTQUESTION FUNC:", this.state)
   }
 
   onSubmit(e) {
@@ -129,7 +133,8 @@ export class CodeEditor extends Component {
 
     console.log('this.props:', this.props)
 
-    events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+    // events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
+    events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs]);
 
     //console.log("SECOND EVENT", events)
     events.on('output', (output) => {
@@ -137,10 +142,10 @@ export class CodeEditor extends Component {
       this.setState({output: output[0]})
       this.setState({logger: output[1]})
     })
-    events.on('pass', (pass) => {
-      pass ? alert('YOU PASSED!') : null
-      this.setState({pass})
-    })
+    // events.on('pass', (pass) => {
+    //   pass ? alert('YOU PASSED!') : null
+    //   this.setState({pass})
+    // })
     console.log("STATE - ON SUBMIT:", this.state)
 
     // let isPassing = this.onPassTrue;
@@ -148,38 +153,37 @@ export class CodeEditor extends Component {
     // isPassing();
   }
 
-  onPassTrue(){
-    // console.log("ON PASS TRUE STATE:",this.state)
-    // console.log("ON PASS TRUE PROPS:",this.props)
+  // onPassTrue(){
+  //   // console.log("ON PASS TRUE STATE:",this.state)
+  //   // console.log("ON PASS TRUE PROPS:",this.props)
+  //   if (this.state.pass){
+  //     let questPoints = this.state.currentProblem.level * 5;
+  //     let newPoints = this.state.points + questPoints;
+  //     console.log("YOU NOW HAVE ", newPoints, " POINTS!")
+  //     // console.log("STATE - ONPASSTRUE FUNC:", this.state)
+  //     this.props.addPoints(this.props.userId, this.newPoints);
+  //     this.props.setProbToComplete(this.props.userId, this.state.currentProblem.id);
+  //   }
+  //   //
+  //   //1. update user's points based on question rank >>> this.props.userId
 
-    if(this.state.pass){
+  //   //2. save user submitted code to user's history >>> this.props.userId
 
-      let questPoints = this.state.currentProblem.level * 5;
-      let newPoints = this.state.points + questPoints;
-      console.log("YOU NOW HAVE ", newPoints, " POINTS!")
-      // console.log("STATE - ONPASSTRUE FUNC:", this.state)
-      this.props.addPoints(this.props.userId, this.newPoints);
-      this.props.setProbToComplete(this.props.userId, this.state.currentProblem.id);
-
-    }
-    //
-    //1. update user's points based on question rank >>> this.props.userId
-
-    //2. save user submitted code to user's history >>> this.props.userId
-
-    //3. update completed problems to include user's id >>> this.state.eligibleQueue[this.state.problemNum].id
-  }
+  //   //3. update completed problems to include user's id >>> this.state.eligibleQueue[this.state.problemNum].id
+  // }
 
   render() {
     console.log("IS THIS RERENDERINGGGGGGGGGGG?")
     console.log("********************this is state at re-render",this.state)
-    let quest = this.state.eligibleQueue
+    // let quest = this.state.eligibleQueue
+    let quest = this.state.currentProblem
     // let currSig = this.state.currentProblem.signatu
     console.log('quest', quest)
     // this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
 
     return (
-      this.state.problemNum !== this.state.eligibleQueue.length ?
+      // this.state.problemNum !== this.state.eligibleQueue.length ?
+      this.state.currentProblem &&  this.state.currentProblem.id ?
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>

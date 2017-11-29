@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, updateUserPoints, setCompletedProblem} from '../store';
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
+import socket from '../socket';
+
 
 //HOW DO WE UPDATE POINTS?
 //HOW DO WE UPDATE QUESTIONS LIST AFTER COMPLETED?
@@ -19,9 +21,17 @@ export class Train extends Component{
         this.state = {
           eligibleQs: [],
           showPopup: false,
-          userPoints: 0 // set user points everytime points changes
+          pass: false,
+          userPoints: 0, // set user points everytime points changes
+          problemNum: 0,
+          points: 0
+
         }
         this.togglePopup = this.togglePopup.bind(this);
+        this.isPassing = this.isPassing.bind(this);
+        // this.onPassTrue = this.onPassTrue.bind(this);
+        // this.nextQuestion = this.nextQuestion.bind(this);
+
     }
     togglePopup() {
       this.setState({
@@ -33,7 +43,13 @@ export class Train extends Component{
         this.props.loadAllProblems();
         this.props.loadCompletedProblems(this.props.user.id);
       }
-      this.setState({showPopup: true})
+      this.setState({
+        showPopup: true,
+        points: this.props.user.points
+      })
+      socket.on('pass', (pass) => {
+        if (pass) this.isPassing(pass)
+      })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,7 +62,62 @@ export class Train extends Component{
         })
         this.setState({eligibleQs})
       }
+      // socket.on('pass', (pass) => {
+      //   if (pass) this.isPassing(pass)
+      // })
     }
+
+    isPassing(pass) {
+      // socket.on('pass', (pass) => {
+        console.log('SOCKET ON PASS:', pass)
+        this.setState({pass})
+        // pass ? alert('YOU PASSED!') : null
+        // if (pass) this.onPassTrue(pass)
+      // })
+        console.log("ON PASS TRUE:", pass, this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.problemNum])
+        // if (this.state.pass){
+          let currProb = this.state.eligibleQs[this.state.problemNum]
+          let questPoints = currProb.level * 5;
+          let newPoints = this.state.points + questPoints;
+          console.log("YOU NOW HAVE ", newPoints, " POINTS!")
+          this.setState({points: newPoints})
+          // console.log("STATE - ONPASSTRUE FUNC:", this.state)
+          this.props.addPoints(this.props.user.id, newPoints);
+          this.props.setProbToComplete(this.props.user.id, currProb.id);
+        // }
+    }
+
+    nextQuestion(e){
+      e.preventDefault();
+      console.log("NEXT IS FIRED", this.state.problemNum)
+      let currProblem = this.state.problemNum + 1;
+      this.setState({
+        problemNum : currProblem,
+        currentProblem : this.props.questions[currProblem]
+        // output : ''
+      })
+      const editor = this.ace.editor
+      ///this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+      editor.setValue(`function ${(this.state.eligibleQueue[currProblem]).signature}{}`)
+      // this.onPassTrue();
+      console.log("STATE - NEXTQUESTION FUNC:", this.state)
+    }
+
+    // onPassTrue(pass){
+    //   console.log("ON PASS TRUE STATE:",this.state)
+    //   console.log("ON PASS TRUE PROPS:",this.props)
+    //   console.log("ON PASS TRUE:", pass, this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.problemNum])
+    //   if (this.state.pass){
+    //     let currProb = this.state.eligibleQs[this.state.problemNum]
+    //     let questPoints = currProb.level * 5;
+    //     let newPoints = this.state.points + questPoints;
+    //     console.log("YOU NOW HAVE ", newPoints, " POINTS!")
+    //     this.setState({points: newPoints})
+    //     // console.log("STATE - ONPASSTRUE FUNC:", this.state)
+    //     this.props.addPoints(this.props.user.id, newPoints);
+    //     this.props.setProbToComplete(this.props.user.id, currProb.id);
+    //   }
+    // }
 
     render() {
      let addPoints = this.props.addPoints;
@@ -69,9 +140,11 @@ export class Train extends Component{
                   this.state.eligibleQs.length ? <CodeEditor
                     addPoints = {this.props.addPoints}
                     setProbToComplete = {this.props.setProbToComplete}
-                    userPoints = {this.props.user.points}
+                    nextQuestion = {this.nextQuestion}
+                    // userPoints = {this.props.user.points}
                     userId = {this.props.user.id}
-                    questions = {this.state.eligibleQs}
+                    // questions = {this.state.eligibleQs}
+                    question = {this.state.eligibleQs[this.state.problemNum]}
                   /> : <h1>No Dice</h1>
                 }
 

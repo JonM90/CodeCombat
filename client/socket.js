@@ -22,7 +22,8 @@ socket.on('result', (outPut) => {
   events.emit('output', outPut);
 })
 socket.on('pass', (value) => {
-  events.emit('pass', value)
+  // events.emit('pass', value)
+  socket.emit('pass', value)
 })
 socket.on('mssg', (msg) => {
   console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
