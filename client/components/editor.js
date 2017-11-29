@@ -40,12 +40,12 @@ export class CodeEditor extends Component {
       //console.log("GONNA FIRE SETSIG")
       this.setSig();
     }
-    
+
     console.log("WE IN DID MOUNT", this.state)
     // this.state.eligibleQueue.length && this.editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
   }
 
-  componentWillReceiveProps(nP) {    
+  componentWillReceiveProps(nP) {
     console.log("IN RECEIVE PROPS")
     if (this.ace) {
       this.editor = this.ace.editor
@@ -54,11 +54,11 @@ export class CodeEditor extends Component {
     }
     // console.log('NP:', nP)
     // if (nP.questions.length) {
-      
+
     //   this.setState({eligibleQueue: nP.questions})
     //   this.setState({currentProblem: nP.questions[this.state.problemNum]})
     //   console.log("STATE - WILLRECEIVE 1:", this.state)
-      
+
     //   // if (this.ace) {
     //     console.log("CURRENT PROBLEM", nP.questions[this.state.problemNum], 'this.ace:', this.ace)
     //     // this.ace.editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum]).signature}{}`)
@@ -79,7 +79,7 @@ export class CodeEditor extends Component {
     // console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
     this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
     console.log("STATE - SETSIG FUNC:", this.state)
-    
+
   }
 
   onChange(newValue,e ) {
@@ -95,7 +95,7 @@ export class CodeEditor extends Component {
     editor.getSession().on("changeAnnotation", () => {
 
       let comments = editor.getSession().getAnnotations();
-      
+
       comments.forEach(val => {
 
         if (val.type === 'error'){
@@ -128,7 +128,7 @@ export class CodeEditor extends Component {
     e.preventDefault();
 
     console.log('this.props:', this.props)
-  
+
     events.emit('userSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs]);
 
     //console.log("SECOND EVENT", events)
@@ -138,31 +138,33 @@ export class CodeEditor extends Component {
       this.setState({logger: output[1]})
     })
     events.on('pass', (pass) => {
-      pass? alert("YOU PASSED!"): null
+      pass ? alert('YOU PASSED!') : null
       this.setState({pass})
     })
     console.log("STATE - ON SUBMIT:", this.state)
-    
+
     // let isPassing = this.onPassTrue;
-    
+
     // isPassing();
   }
 
   onPassTrue(){
     // console.log("ON PASS TRUE STATE:",this.state)
     // console.log("ON PASS TRUE PROPS:",this.props)
-    
+
     if(this.state.pass){
 
       let questPoints = this.state.currentProblem.level * 5;
       let newPoints = this.state.points + questPoints;
       console.log("YOU NOW HAVE ", newPoints, " POINTS!")
       // console.log("STATE - ONPASSTRUE FUNC:", this.state)
-      this.props.addPoints(this.props.userId,newPoints);
+      this.props.addPoints(this.props.userId, this.newPoints);
+      this.props.setProbToComplete(this.props.userId, this.state.currentProblem.id);
+
     }
-    // 
+    //
     //1. update user's points based on question rank >>> this.props.userId
-  
+
     //2. save user submitted code to user's history >>> this.props.userId
 
     //3. update completed problems to include user's id >>> this.state.eligibleQueue[this.state.problemNum].id
