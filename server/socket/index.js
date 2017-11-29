@@ -25,8 +25,10 @@ module.exports = (io) => {
 
       console.log('********this is outPut in socket/index.js:', outPut);
       console.log('END!');
+      //send userFunc[0]
       socket.emit('result', outPut.slice(0, 2))
-      socket.emit('pass', outPut[2])
+      socket.emit('pass', outPut[2], usersFunc[0])
+      // if (outPut[2]) socket.emit('userSolution', usersFunc[0])
     })
     socket.on('battleSubmit', (usersFunc) => {
       if (usersFunc[2] === 'host') {

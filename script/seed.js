@@ -252,8 +252,8 @@ async function seed () {
   ])
 
   const complete = await Promise.all([
-    CompletedProblem.create({rating: 4, userId: 1, problemId: 2}),
-    CompletedProblem.create({rating: 3, userId: 2, problemId: 1})
+    CompletedProblem.create({userId: 1, problemId: 2, rating: 4, userSolution: 'function diff(a,b){ return a-b}'}),
+    CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!

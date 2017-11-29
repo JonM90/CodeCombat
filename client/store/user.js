@@ -50,16 +50,16 @@ export const logout = () =>
       })
       .catch(err => console.log(err))
 
-export const updateUserPoints = (userId,point) => 
-  dispatch =>
-    axios.put(`/api/users/${userId}/profile`,{points: point})
+// export const updateUserPoints = (userId,point) =>
+//   dispatch =>
+//     axios.put(`/api/users/${userId}/profile`, {points: point})
 
-  .then(res => {
+//   .then(res => {
 
-    console.log("***UPDATE USER POINTS RES.DATA:", res.data.points)
-    dispatch(updatePoints(res.data.points))
-  })
-  .catch(err => console.error(err))
+//     console.log("***UPDATE USER POINTS RES.DATA:", res.data.points)
+//     dispatch(updatePoints(res.data.points))
+//   })
+//   .catch(err => console.error(err))
 /**
  * REDUCER
  */
@@ -69,8 +69,8 @@ export default function (state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
-    case UPDATE_USER_POINTS:
-      return Object.assign({},state,{points: action.userPoints})
+    // case UPDATE_USER_POINTS:
+    //   return Object.assign({},state,{points: action.userPoints})
     default:
       return state
   }

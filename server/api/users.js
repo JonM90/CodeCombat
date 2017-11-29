@@ -77,19 +77,31 @@ router.post('/:userId/problemCreate', (req, res, next) => {
 })
 
 //COMPLETED PROBLEMS
-router.post('/setComplete',(req,res,next) => {
+router.post('/setComplete', (req, res, next) => {
   // console.log('Complete on backend',req.body)
-  console.log('Complete on backend userid',req.body.userId)
-  console.log('Complete on backend probemID',req.body.problemId)
-  CompletedProblem.create({
-    userId: req.body.userId,
-    problemId: req.body.problemId
+  console.log('Complete on backend userid', req.body.userId)
+  console.log('Complete on backend problemID', req.body.problemId)
+  console.log('Complete on backend userSolution', req.body.userSolution)
+  console.log('Complete on backend userPoints', req.body.points)
+  User.findById(+req.body.userId)
+  .then(user => {
+    console.log('FOUND User', user)
+    return user.update({points: req.body.points})
   })
-    .then(prob => {
-      console.log("Complete prob:",prob)
-      res.json(prob)
+  .then(updatedUser => {
+    console.log('UPDATEDUser.points', updatedUser.points)
+    return CompletedProblem.create({
+      userId: req.body.userId,
+      problemId: req.body.problemId,
+      userSolution: req.body.userSolution
     })
-    .catch(next)
+    // res.json(updatedUser)
+  })
+  .then(prob => {
+    console.log("Complete prob:", prob)
+    res.json(prob)
+  })
+  .catch(next)
 
   // const completedProblem = CompletedProblem.build({rating: 3})
   // completedProblem.addProblem(+req.body.problemId, {save: false})

@@ -56,17 +56,19 @@ export const fetchCompletedProblems = (userId) =>
       })
       .catch(err => console.error(err))
 
-export const setCompletedProblem = (usersId, problemsId) =>
-  dispatch => 
+export const setCompletedProblem = (userId, problemId, userSolution, points) =>
+  dispatch =>
     axios.post('/api/users/setComplete', {
-      userId: usersId,
-      problemId: problemsId
+      userId,
+      problemId,
+      userSolution,
+      points
     })
-      .then(res => {
-        console.log("******res.data is", res.data)
-        dispatch(setProblemToComplete(res.data))
-      })
-      .catch(err => console.error(err))
+    .then(res => {
+      console.log("******res.data is", res)
+      dispatch(setProblemToComplete(res.data))
+    })
+    .catch(err => console.error(err))
 
 //REDUCER
 export default function (state = defaultProblem, action) {
@@ -81,7 +83,7 @@ export default function (state = defaultProblem, action) {
     // return [...state, action.completedProblems]
       return Object.assign({}, state, {completedProblems: action.completedProblems})
     case SET_PROBLEM_COMPLETE:
-      return Object.assign({},state,{justCompleted: action.problem})
+      return Object.assign({}, state, {justCompleted: action.problem})
     default:
       return state
   }

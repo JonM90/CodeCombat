@@ -30,6 +30,7 @@ export class CodeEditor extends Component {
 
   }
   componentDidMount() {
+    console.log("WE IN DID MOUNT, this.props", this.props)
 
     this.setState({
       currentProblem: this.props.question
@@ -38,21 +39,25 @@ export class CodeEditor extends Component {
       // currentProblem : this.props.questions[this.state.problemNum]
     })
     if (this.ace) {
+      console.log("DID MOUNT GONNA FIRE SETSIG")
       this.editor = this.ace.editor
-      //console.log("GONNA FIRE SETSIG")
-      this.setSig();
+      // this.setSig(this.);
     }
 
-    console.log("WE IN DID MOUNT", this.state)
+    console.log("WE IN DID MOUNT, this.state", this.state)
     // this.state.eligibleQueue.length && this.editor.setValue(`function ${(this.props.allQuestions[this.state.problemNum]).signature}{}`)
   }
 
   componentWillReceiveProps(nP) {
-    console.log("IN RECEIVE PROPS")
+    console.log("IN RECEIVE PROPS:", nP)
     if (this.ace) {
+      this.setState({
+        currentProblem: nP.question
+      })
       this.editor = this.ace.editor
-      console.log("GONNA FIRE SETSIG")
-      this.setSig();
+      console.log("WILL RECEIVE GONNA FIRE SETSIG")
+      if (nP.justCompleted && nP.justCompleted.userSolution && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
+      else this.setSig(nP.question.signature, false);
     }
     // console.log('NP:', nP)
     // if (nP.questions.length) {
@@ -75,12 +80,14 @@ export class CodeEditor extends Component {
     // console.log("STATE - WILLRECEIVE 2:", this.state)
   }
 
-  setSig() {
-    let currSig = this.state.currentProblem.signature
-    console.log("CURRRR SIGGG", currSig)
+  setSig(currSig, isSolution) {
+    console.log("CURRRR SIG", currSig)
+    // let currSig = currProblem.signature
+    // console.log("CURRRR SIGGG", currSig)
     // console.log('CURR SIG:', currSig, 'THIS.ACE:', this.ace)
-    this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
-    console.log("STATE - SETSIG FUNC:", this.state)
+    if (isSolution) this.ace.editor.setValue(currSig)
+    else this.ace && this.ace.editor.setValue(`function ${currSig}{}`)
+    // console.log("STATE - SETSIG FUNC:", this.state)
 
   }
 
@@ -111,8 +118,13 @@ export class CodeEditor extends Component {
   }
 
   nextQuestion(e){
+    e.preventDefault()
     this.props.nextQuestion(e)
     this.setState({output: ''})
+    const editor = this.ace.editor
+    ///this.state.eligibleQueue && editor.setValue(`function ${(this.state.eligibleQueue[this.state.problemNum + 1]).signature}{}`)
+    editor.setValue(`function ${(this.state.currentProblem).signature}{}`)
+    // editor.setValue(`function ${(this.props.question).signature}{}`)
     // e.preventDefault();
     // console.log("NEXT IS FIRED", this.state.problemNum)
     // let currProblem = this.state.problemNum + 1;
@@ -138,7 +150,7 @@ export class CodeEditor extends Component {
 
     //console.log("SECOND EVENT", events)
     events.on('output', (output) => {
-      // console.log('LOGGER SHIET:', output[1])
+      console.log('OUTPUT && LOGGER SHIET:', output[0], output[1])
       this.setState({output: output[0]})
       this.setState({logger: output[1]})
     })
@@ -146,7 +158,7 @@ export class CodeEditor extends Component {
     //   pass ? alert('YOU PASSED!') : null
     //   this.setState({pass})
     // })
-    console.log("STATE - ON SUBMIT:", this.state)
+    // console.log("STATE - ON SUBMIT:", this.state)
 
     // let isPassing = this.onPassTrue;
 
@@ -173,8 +185,8 @@ export class CodeEditor extends Component {
   // }
 
   render() {
-    console.log("IS THIS RERENDERINGGGGGGGGGGG?")
-    console.log("********************this is state at re-render",this.state)
+    // console.log("IS THIS RERENDERINGGGGGGGGGGG?")
+    console.log("********************STATE at RENDER", this.state)
     // let quest = this.state.eligibleQueue
     let quest = this.state.currentProblem
     // let currSig = this.state.currentProblem.signatu
@@ -183,7 +195,7 @@ export class CodeEditor extends Component {
 
     return (
       // this.state.problemNum !== this.state.eligibleQueue.length ?
-      this.state.currentProblem &&  this.state.currentProblem.id ?
+      quest && quest.id ?
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
