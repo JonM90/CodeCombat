@@ -23,9 +23,9 @@ export class PopUp extends Component{
             <h2>{`Mission: ${qName}`}</h2>
 
           <div id="train-pop-btn">
-              <button className='pop-btn-yes btn btn-success'onClick={this.props.func}>ACCEPT</button>
-              <button className='pop-btn-no btn'onClick={this.props.skipFunc}>SKIP THIS CHALLENGE</button>
-              <button className='pop-btn-close btn'onClick={this.props.quitFunc}>QUIT</button>
+              <button className='pop-btn-yes btn btn-success' onClick={this.props.func}>ACCEPT</button>
+              <button className='pop-btn-no btn' onClick={this.props.skipFunc}>SKIP</button>
+              <button className='pop-btn-close btn' onClick={this.props.quitFunc}>QUIT</button>
           </div>
 
           </div>

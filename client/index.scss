@@ -364,11 +364,11 @@ body {
   border-radius: 5px;
   color: rgb(236, 236, 236);
   padding: 0.75em 0 0em 1.1em;
-  background: #2e2e2e; /* For browsers that do not support gradients */    
-  background: -webkit-linear-gradient(left, #2e2e2e, transparent); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, #2e2e2e, transparent); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, #2e2e2e, transparent); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, #2e2e2e, transparent);  
+  background: #271571; /* For browsers that do not support gradients */    
+  background: -webkit-linear-gradient(left, #271571, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #271571, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #271571, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #271571, transparent);  
   h3{
     letter-spacing: 2px;
     padding: 9px 17px 0; 
@@ -381,4 +381,8 @@ body {
     font-size: 1.1em;
     letter-spacing: 1px;    
   }
+}
+.my-points{
+  color: rgb(231, 231, 231);
+  margin-left: 1em;
 }
