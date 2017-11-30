@@ -23,7 +23,6 @@ async function seed () {
     User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false})
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
-<<<<<<< HEAD
   const problems = await Promise.all([
     Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
     Problem.create({title: 'Difference', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature:'diff(a, b)'}),
@@ -41,25 +40,6 @@ async function seed () {
     `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Buzz")', 'assert.equal(FizzBuzz(5),"Fizz")','assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature:'FizzBuzz(num)'}),
     Problem.create({title: 'Bactrian Case', level: 3, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
       var newString = '';
-=======
-const problems = await Promise.all([
-  Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
-  Problem.create({title: 'Diff', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature: 'diff(a, b)'}),
-  Problem.create({title: 'FizzBuzz', level: 3, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function FizzBuzz(num){
-      if (num%15 === 0) {
-        return "FizzBuzz";
-      } else if (num%5 === 0) {
-        return "Buzz";
-      } else if (num%3 === 0) {
-        return "Fizz";
-      } else {
-        return false;
-      }
-    }
-  `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Fizz")', 'assert.equal(FizzBuzz(5),"Buzz")', 'assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature: 'FizzBuzz(num)'}),
-  Problem.create({title: 'bactrianCase', level: 4, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
-    var newString = '';
->>>>>>> master
 
     for(var i=0; i<str.length; i++) {
       if (i%2 === 0) {
@@ -69,17 +49,10 @@ const problems = await Promise.all([
       }
     }
 
-<<<<<<< HEAD
       return newString;
     }`, testSpecs: ['assert.equal(bactrianCase("hello"),"HeLlO")', 'assert.equal(bactrianCase("stephanie"),"StEpHaNiE")', 'assert.equal(bactrianCase("fullstack"), "FuLlStAcK")'], authorId: 2, signature:'bactrianCase(str)'}),
     Problem.create({title: 'Exponentiate', level: 4, description: 'Write a function exponentiate that accepts a number and a power to raise that number to. For the present, assume the power argument will always be a positive integer value.', solution: `function exponentiate(base, power) {
       var expResult = 1;
-=======
-    return newString;
-  }`, testSpecs: ['assert.equal(bactrianCase("hello"),"HeLlO")', 'assert.equal(bactrianCase("stephanie"),"StEpHaNiE")', 'assert.equal(bactrianCase("fullstack"), "FuLlStAcK")'], authorId: 2, signature:'bactrianCase(str)'}),
-  Problem.create({title: 'exponentiate', level: 4, description: 'Write a function exponentiate that accepts a number and a power to raise that number to. For the present, assume the power argument will always be a positive integer value.', solution: `function exponentiate(base, power) {
-    var expResult = 1;
->>>>>>> master
 
    for (var i=0; i<power; i++) {
       expResult *= base;
@@ -88,19 +61,11 @@ const problems = await Promise.all([
    return expResult;
   }`, testSpecs: ['assert.equal(exponentiate(1,1), 1)', 'assert.equal(exponentiate(3,3), 27)', 'assert.equal(exponentiate(6,7), 279936)' ], authorId: 2, signature:'exponentiate(base, power)'}),
 
-<<<<<<< HEAD
-    Problem.create({title: 'Most Vowels', level: 4, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
-      var vowels = "aeiou";
-      var wordsArr = str.split(" ");
-      var leadWord = "";
-      var mostVowels = 0;
-=======
   Problem.create({title: 'mostVowels', level: 5, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
     var vowels = "aeiou";
     var wordsArr = str.split(" ");
     var leadWord = "";
     var mostVowels = 0;
->>>>>>> master
 
    for (var i=0; i<wordsArr.length; i++) {
       var word = wordsArr[i];
@@ -152,23 +117,6 @@ Problem.create(
                     }
                   }
 
-<<<<<<< HEAD
-  Problem.create(
-    {
-      title: 'Flatten Arrays',
-      level: 5,
-      description: 'Write a function, flatten, that accepts a two-dimensional array as its argument and returns a flattened one-dimensional copy of the array.The argument array will never be more than 2 levels deep. Remember to return a copy, meaning you should not modify the original 2D array passed in!',
-      solution: `function flatten(arr) {
-                   var flatArray = [];
-                    for (var i=0; i<arr.length; i++) {
-                      if (typeof arr[i] === 'object') {
-                        for (var j=0; j<arr[i].length; j++) {
-                          flatArray.push(arr[i][j]);
-                        }
-                      } else {
-                        flatArray.push(arr[i]);
-                      }
-=======
                    return countObj;
                 }`,
     signature: 'frequencyAnalysis(str)',
@@ -190,7 +138,6 @@ Problem.create(
                   for(var i=2; i < num; i++){
                      if(num%i === 0){
                          return false;
->>>>>>> master
                      }
                   }
                     return num > 1;
@@ -304,23 +251,10 @@ Problem.create(
     authorId: 1})
 ])
 
-<<<<<<< HEAD
-  const complete = await Promise.all([
-    CompletedProblem.create({rating: 4, userId: 1, problemId: 2}),
-    CompletedProblem.create({rating: 3, userId: 2, problemId: 1}),
-    CompletedProblem.create({rating: 4, userId: 1, problemId: 3}),
-    CompletedProblem.create({rating: 3, userId: 2, problemId: 4}),
-    CompletedProblem.create({rating: 4, userId: 1, problemId: 5}),
-    CompletedProblem.create({rating: 3, userId: 2, problemId: 7}),
-    CompletedProblem.create({rating: 4, userId: 1, problemId: 6}),
-    CompletedProblem.create({rating: 3, userId: 2, problemId: 10})
-  ])
-=======
 const complete = await Promise.all([
   CompletedProblem.create({userId: 1, problemId: 2, rating: 4, userSolution: 'function diff(a,b){ return a-b}'}),
   CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'})
 ])
->>>>>>> master
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
