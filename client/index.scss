@@ -142,7 +142,7 @@ body {
   justify-content: center;
   padding-top: 4em;
   background-color: #2d2d2d;
-  height: 52em;  
+  height: 52em;
   div{
     // margin: 1em;
     text-align: center;
@@ -291,7 +291,7 @@ body {
       background-image: -webkit-linear-gradient(#f48008, #d32020);
       color:transparent;
       -webkit-background-clip: text;
-      background-clip: text;      
+      background-clip: text;
     }
     h2{
       margin-top: 0.75em;
@@ -309,11 +309,11 @@ body {
         width: 8em;
         letter-spacing: 2px;
         color:#504f4f;
-        border: none;        
+        border: none;
       }
       .pop-btn-yes{
         background-color: #b9fab9;
-        
+
       }
       .pop-btn-no{
         background-color: #ff8181;
@@ -394,7 +394,7 @@ body {
 
 
 
-.loading {
+.hidden {
   display: none;
 }
 #train-main{
@@ -405,7 +405,7 @@ body {
   height: 52em;
 }
 #battle-main{
-  // 
+  //
   background: url("/assets/night-clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -418,7 +418,7 @@ body {
   color: #747171;
 }
 .question-div{
-  margin-top: 1em;  
+  margin-top: 1em;
   margin-left: 4em;
   margin-right: 5em;
   // background-color: #5e5e5e;
@@ -426,22 +426,22 @@ body {
   border-radius: 5px;
   color: rgb(236, 236, 236);
   padding: 0.75em 0 0em 1.1em;
-  background: #271571; /* For browsers that do not support gradients */    
+  background: #271571; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left, #271571, transparent); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(right, #271571, transparent); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(right, #271571, transparent); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, #271571, transparent);  
+  background: linear-gradient(to right, #271571, transparent);
   h3{
     letter-spacing: 2px;
-    padding: 9px 17px 0; 
-    color: rgb(236, 235, 235);  
+    padding: 9px 17px 0;
+    color: rgb(236, 235, 235);
   }
   p{
     color:#ffc357;
     padding: 8px 17px 18px;
     font-weight: 400;
     font-size: 1.1em;
-    letter-spacing: 1px;    
+    letter-spacing: 1px;
   }
 }
 .my-points{

@@ -19,7 +19,7 @@ export default class Loading extends Component{
       let rnd = Math.floor(this.state.load.length * Math.random());
     return (
       (
-        <div className="loading" id='loadingGif'>
+        <div className="hidden" id='loadingGif'>
             <img src={this.state.load[rnd]} />
         </div>
       )

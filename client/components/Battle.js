@@ -23,7 +23,7 @@ export class Battle extends Component{
     // socket.on('mssg', (payload) => {
     //   console.log("YA HIT ME!!!!!")
     //   let loadGif = document.getElementById('loadingGif');
-    //   loadGif.classList.toggle('loading')
+    //   loadGif.classList.toggle('hidden')
     //   this.setState({show : true})
     // })
     this.togglePopup = this.togglePopup.bind(this);
@@ -44,7 +44,7 @@ export class Battle extends Component{
     socket.on('mssg', (payload) => {
       console.log("YA HIT ME!!!!!")
       let loadGif = document.getElementById('loadingGif');
-      loadGif.classList.toggle('loading')
+      loadGif.classList.toggle('hidden')
       this.setState({show : true})
     })
     // this.setState({showPopup: true})
@@ -86,7 +86,7 @@ export class Battle extends Component{
       console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
       console.log('TOGGLE TWO')
-      loadGif.classList.toggle('loading')
+      loadGif.classList.toggle('hidden')
       socket.emit('joinRoom', this.state.activeMatch.roomId)
       setTimeout(() => {
         this.setState({show: true})
@@ -101,7 +101,7 @@ export class Battle extends Component{
       //   // this.setState({show: true})
       // })
     } else {
-      loadGif.classList.toggle('loading')
+      loadGif.classList.toggle('hidden')
       this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
     // console.log('socketID:', socket.id)

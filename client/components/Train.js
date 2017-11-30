@@ -52,8 +52,8 @@ export class Train extends Component{
     socket.on('pass', (pass, userSolution) => {
       console.log('SOCKET ON PASS:', pass, 'userSolution:', userSolution)
       if (pass) {
-        this.setState({userSolution})
-        this.setState({pass})
+        this.setState({userSolution, pass})
+        // this.setState({pass})
         this.isPassing(pass)
       }
     })
@@ -89,6 +89,7 @@ export class Train extends Component{
 
   nextQuestion(e){
     e.preventDefault();
+    this.setState({pass: false})
     let currProbNum = this.state.currInd + 1;
     console.log('NEXT IS FIRED, PROB#', currProbNum, 'currentProblem:', this.state.eligibleQs[currProbNum])
     this.setState({
@@ -98,12 +99,14 @@ export class Train extends Component{
   }
 
   render() {
+    console.log('this.state.pass', this.state.pass)
+
     return (
       <div id="train-main">
 
         <h4 className="component-title-h4">Training Mode</h4>
         {/* <button onClick={this.togglePopup}>show popup</button> */}
-        
+
         {this.state.redirect ? <Redirect to="/" /> : null}
 
         <h2 className="my-points">MY POINTS: {this.state.userPoints}</h2>
@@ -128,6 +131,7 @@ export class Train extends Component{
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
               justCompleted = {this.props.justCompleted}
+              passed = {this.state.pass}
             /> : <h1>No Dice</h1> }
         </div>
 

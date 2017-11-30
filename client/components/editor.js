@@ -120,7 +120,7 @@ export class CodeEditor extends Component {
                 e.preventDefault()
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
-              <input id="train-submit-btn" type="submit" />
+              <input id="train-submit-btn" type="submit" disabled={this.props.passed} />
               <button onClick={this.nextQuestion}> NEXT </button>
             </form>
           </div>
@@ -137,10 +137,10 @@ export class CodeEditor extends Component {
               <h4 className="right-container-headers">Test Specs:</h4>
 
               {
-                this.state.output && this.state.output !== "FIX YOUR ERRORS" ? 
-                <div className="output-text"> 
+                this.state.output && this.state.output !== "FIX YOUR ERRORS" ?
+                <div className="output-text">
                   {this.state.output.map(val => (
-                    <div className="output-text" key={val}>{val}</div>))} 
+                    <div className="output-text" key={val}>{val}</div>))}
                 </div>  : <div className="output-text">{this.state.output}</div>
               }
             </div>
