@@ -19,8 +19,8 @@ async function seed () {
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 2, score: 0, isAdmin: false, profileImage:'http://img.sharetv.com/shows/characters/thumbnails/samurai_jack.samurai_jack.jpg'}),
-    User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false})
+    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 2, score: 0, isAdmin: false, battleWin:17, battleLoss:7, profileImage:'http://img.sharetv.com/shows/characters/thumbnails/samurai_jack.samurai_jack.jpg'}),
+    User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false, battleWin:17, battleLoss:7})
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
   const problems = await Promise.all([
@@ -61,7 +61,7 @@ async function seed () {
    return expResult;
   }`, testSpecs: ['assert.equal(exponentiate(1,1), 1)', 'assert.equal(exponentiate(3,3), 27)', 'assert.equal(exponentiate(6,7), 279936)' ], authorId: 2, signature:'exponentiate(base, power)'}),
 
-  Problem.create({title: 'mostVowels', level: 5, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
+  Problem.create({title: 'Most Vowels', level: 5, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
     var vowels = "aeiou";
     var wordsArr = str.split(" ");
     var leadWord = "";
@@ -253,7 +253,82 @@ Problem.create(
 
 const complete = await Promise.all([
   CompletedProblem.create({userId: 1, problemId: 2, rating: 4, userSolution: 'function diff(a,b){ return a-b}'}),
-  CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'})
+  CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'}),
+  CompletedProblem.create({userId: 1, problemId: 12, rating: 3, userSolution: `function underToCamel(underName) {
+    var camelCaseOutput = '';
+    var foundUnder = false;
+    for(var i = 0; i<underName.length; i++) {
+        if (underName[i] === '_') {
+            foundUnder = true;
+        } else {
+            if (foundUnder) {
+                camelCaseOutput += underName[i].toUpperCase();
+                foundUnder = false;
+            } else {
+                camelCaseOutput += underName[i];
+            }
+        }
+    }
+       return camelCaseOutput;
+ }`}),
+ CompletedProblem.create({userId: 1, problemId: 10, rating: 4, userSolution: `function isPrime(num){
+  for(var i=2; i < num; i++){
+     if(num%i === 0){
+         return false;
+     }
+  }
+    return num > 1;
+}`}),
+CompletedProblem.create({userId: 1, problemId: 7, rating: 4, userSolution: `function converter(temp) {
+  return (temp - 32) * 5/9;
+}`}),
+CompletedProblem.create({userId: 1, problemId: 6, rating: 4, userSolution: `function mostVowels(str) {
+  var vowels = "aeiou";
+  var wordsArr = str.split(" ");
+  var leadWord = "";
+  var mostVowels = 0;
+
+ for (var i=0; i<wordsArr.length; i++) {
+    var word = wordsArr[i];
+    var vowelCount = 0;
+    for (var j=0; j<word.length; j++) {
+      if (vowels.indexOf(word[j]) !== -1) {
+        vowelCount += 1;
+      }
+    }
+    if (vowelCount > mostVowels) {
+      mostVowels = vowelCount;
+      leadWord = word;
+    }
+  }
+
+ return leadWord;
+}`}),
+CompletedProblem.create({userId: 1, problemId: 3, rating: 4, userSolution: `function fizzBuzz(num){
+  if (num%15 === 0) {
+    return "FizzBuzz";
+  } else if (num%5 === 0) {
+    return "Buzz";
+  } else if (num%3 === 0) {
+    return "Fizz";
+  } else {
+    return false;
+  }
+}
+`}),
+CompletedProblem.create({userId: 1, problemId: 8, rating: 4, userSolution: `function frequencyAnalysis(str) {
+  var countObj = {};
+
+  for (var i=0; i<str.length; i++) {
+    if (countObj[str[i]]) {
+      countObj[str[i]]++;
+    } else {
+      countObj[str[i]] = 1;
+    }
+  }
+
+   return countObj;
+}`})
 ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
