@@ -17,8 +17,6 @@ class UserInfo extends Component {
                         <ListItem disabled={true} primaryText={`NAME:   ${user.name}`} className="userProfile-info-field" />
                         <ListItem disabled={true} primaryText={`E-MAIL: ${email}`} className="userProfile-info-field" />
                         <ListItem disabled={true} primaryText={`RANK:   ${user.rank}`} className="userProfile-info-field" />
-                        <ListItem disabled={true} primaryText="Drafts" className="userProfile-info-field" />
-                        <ListItem disabled={true} primaryText="Inbox" className="userProfile-info-field" />
                     </List>
                     </div>
                 </div>)
