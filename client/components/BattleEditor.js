@@ -130,8 +130,8 @@ export class BattleEditor extends Component {
       (<div className="main-train-container" >
 
         {quest.length && <div className='question-div'>
-          <h2 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h2>
-          <h6 className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</h6>
+          <h3 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h3>
+          <p className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</p>
         </div>}
 
         <div className="train-container">
