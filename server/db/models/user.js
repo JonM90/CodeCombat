@@ -44,6 +44,10 @@ const User = db.define('user', {
   battleLoss: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  profileImage:{
+    type:Sequelize.STRING,
+    defaultValue:"http://www.sessionlogs.com/media/icons/defaultIcon.png"
   }
 })
 

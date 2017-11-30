@@ -14,9 +14,9 @@ export const Footer = (props) => {
             <Link to={`/users/${props.userId}/problems`}>Past Problems</Link>
             : null }
           {/* The footer will show these links before you log in */}
-            <Link to="/help">Help</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+            <Link to="/help"><span className="footer-btns-items" >Help</span></Link>
+            <Link to="/about"><span className="footer-btns-items" >About</span></Link>
+            <Link to="/contact"><span className="footer-btns-items" >Contact</span></Link>
         </div>
       </footer>
     </div>

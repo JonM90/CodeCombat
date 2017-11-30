@@ -331,6 +331,68 @@ body {
 
 
 }
+.tabs {
+  font-family: 'Press Start 2P';
+}
+.solution {
+  white-space: pre-wrap;
+  font-size: 14px;
+  font-family: 'Courier New';
+  color:#d0d0d0;
+  // font-weight:'lighter';
+}
+
+#welcome {
+  font-family: 'Press Start 2P';
+  
+}
+
+.problemHistory{
+  color:white;
+  font-family: 'Press Start 2P';
+}
+
+#userProfile{
+  display:flex;
+  flex-direction: 'row'
+}
+
+#userProfile-image {
+  margin: 1em;
+}
+
+#userProfile-info {
+  margin: 1em;
+  border-radius: 2%;
+  color:white;
+  background-color: #393939;
+  height:20em;
+}
+
+#profileImage{
+  border-radius: 2%;
+  width: 20em;
+  height:20em;
+  
+}
+
+.userProfile-info-field {
+  white-space: pre-wrap;
+  font-family: 'Press Start 2P';
+  font-weight:'lighter';
+  color:white !important;
+}
+
+.graph {
+  text-align: center;
+  margin:1em;
+}
+.graph-header {
+  color:white;
+  margin:1em;
+}
+
+
 
 .hidden {
   display: none;

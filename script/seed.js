@@ -19,27 +19,27 @@ async function seed () {
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 2, score: 0, isAdmin: false}),
-    User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false})
+    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 2, score: 0, isAdmin: false, battleWin:17, battleLoss:7, profileImage:'http://img.sharetv.com/shows/characters/thumbnails/samurai_jack.samurai_jack.jpg'}),
+    User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 2, score: 0, isAdmin: false, battleWin:17, battleLoss:7})
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
-const problems = await Promise.all([
-  Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
-  Problem.create({title: 'Diff', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature: 'diff(a, b)'}),
-  Problem.create({title: 'FizzBuzz', level: 3, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function FizzBuzz(num){
-      if (num%15 === 0) {
-        return "FizzBuzz";
-      } else if (num%5 === 0) {
-        return "Buzz";
-      } else if (num%3 === 0) {
-        return "Fizz";
-      } else {
-        return false;
+  const problems = await Promise.all([
+    Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
+    Problem.create({title: 'Difference', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature:'diff(a, b)'}),
+    Problem.create({title: 'Fizz Buzz', level: 2, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function fizzBuzz(num){
+        if (num%15 === 0) {
+          return "FizzBuzz";
+        } else if (num%5 === 0) {
+          return "Buzz";
+        } else if (num%3 === 0) {
+          return "Fizz";
+        } else {
+          return false;
+        }
       }
-    }
-  `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Fizz")', 'assert.equal(FizzBuzz(5),"Buzz")', 'assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature: 'FizzBuzz(num)'}),
-  Problem.create({title: 'bactrianCase', level: 4, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
-    var newString = '';
+    `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Buzz")', 'assert.equal(FizzBuzz(5),"Fizz")','assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature:'FizzBuzz(num)'}),
+    Problem.create({title: 'Bactrian Case', level: 3, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
+      var newString = '';
 
     for(var i=0; i<str.length; i++) {
       if (i%2 === 0) {
@@ -49,10 +49,10 @@ const problems = await Promise.all([
       }
     }
 
-    return newString;
-  }`, testSpecs: ['assert.equal(bactrianCase("hello"),"HeLlO")', 'assert.equal(bactrianCase("stephanie"),"StEpHaNiE")', 'assert.equal(bactrianCase("fullstack"), "FuLlStAcK")'], authorId: 2, signature:'bactrianCase(str)'}),
-  Problem.create({title: 'exponentiate', level: 4, description: 'Write a function exponentiate that accepts a number and a power to raise that number to. For the present, assume the power argument will always be a positive integer value.', solution: `function exponentiate(base, power) {
-    var expResult = 1;
+      return newString;
+    }`, testSpecs: ['assert.equal(bactrianCase("hello"),"HeLlO")', 'assert.equal(bactrianCase("stephanie"),"StEpHaNiE")', 'assert.equal(bactrianCase("fullstack"), "FuLlStAcK")'], authorId: 2, signature:'bactrianCase(str)'}),
+    Problem.create({title: 'Exponentiate', level: 4, description: 'Write a function exponentiate that accepts a number and a power to raise that number to. For the present, assume the power argument will always be a positive integer value.', solution: `function exponentiate(base, power) {
+      var expResult = 1;
 
    for (var i=0; i<power; i++) {
       expResult *= base;
@@ -61,7 +61,7 @@ const problems = await Promise.all([
    return expResult;
   }`, testSpecs: ['assert.equal(exponentiate(1,1), 1)', 'assert.equal(exponentiate(3,3), 27)', 'assert.equal(exponentiate(6,7), 279936)' ], authorId: 2, signature:'exponentiate(base, power)'}),
 
-  Problem.create({title: 'mostVowels', level: 5, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
+  Problem.create({title: 'Most Vowels', level: 5, description: 'Write a function that accepts a string and returns the word from that string with the most vowels. If there are no words with strings, return the empty string.', solution: `function mostVowels(str) {
     var vowels = "aeiou";
     var wordsArr = str.split(" ");
     var leadWord = "";
@@ -253,7 +253,82 @@ Problem.create(
 
 const complete = await Promise.all([
   CompletedProblem.create({userId: 1, problemId: 2, rating: 4, userSolution: 'function diff(a,b){ return a-b}'}),
-  CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'})
+  CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'}),
+  CompletedProblem.create({userId: 1, problemId: 12, rating: 3, userSolution: `function underToCamel(underName) {
+    var camelCaseOutput = '';
+    var foundUnder = false;
+    for(var i = 0; i<underName.length; i++) {
+        if (underName[i] === '_') {
+            foundUnder = true;
+        } else {
+            if (foundUnder) {
+                camelCaseOutput += underName[i].toUpperCase();
+                foundUnder = false;
+            } else {
+                camelCaseOutput += underName[i];
+            }
+        }
+    }
+       return camelCaseOutput;
+ }`}),
+ CompletedProblem.create({userId: 1, problemId: 10, rating: 4, userSolution: `function isPrime(num){
+  for(var i=2; i < num; i++){
+     if(num%i === 0){
+         return false;
+     }
+  }
+    return num > 1;
+}`}),
+CompletedProblem.create({userId: 1, problemId: 7, rating: 4, userSolution: `function converter(temp) {
+  return (temp - 32) * 5/9;
+}`}),
+CompletedProblem.create({userId: 1, problemId: 6, rating: 4, userSolution: `function mostVowels(str) {
+  var vowels = "aeiou";
+  var wordsArr = str.split(" ");
+  var leadWord = "";
+  var mostVowels = 0;
+
+ for (var i=0; i<wordsArr.length; i++) {
+    var word = wordsArr[i];
+    var vowelCount = 0;
+    for (var j=0; j<word.length; j++) {
+      if (vowels.indexOf(word[j]) !== -1) {
+        vowelCount += 1;
+      }
+    }
+    if (vowelCount > mostVowels) {
+      mostVowels = vowelCount;
+      leadWord = word;
+    }
+  }
+
+ return leadWord;
+}`}),
+CompletedProblem.create({userId: 1, problemId: 3, rating: 4, userSolution: `function fizzBuzz(num){
+  if (num%15 === 0) {
+    return "FizzBuzz";
+  } else if (num%5 === 0) {
+    return "Buzz";
+  } else if (num%3 === 0) {
+    return "Fizz";
+  } else {
+    return false;
+  }
+}
+`}),
+CompletedProblem.create({userId: 1, problemId: 8, rating: 4, userSolution: `function frequencyAnalysis(str) {
+  var countObj = {};
+
+  for (var i=0; i<str.length; i++) {
+    if (countObj[str[i]]) {
+      countObj[str[i]]++;
+    } else {
+      countObj[str[i]] = 1;
+    }
+  }
+
+   return countObj;
+}`})
 ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
