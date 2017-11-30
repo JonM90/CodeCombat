@@ -5,7 +5,20 @@ body {
   a {
     text-decoration: none;
   }
+  p{
+    margin: 0
+  }
   h1{
+    margin:0;
+  }
+  h2{
+    margin: 0;
+  }
+  h3{
+    margin: 0;
+  }
+  h4{ margin: 0;}
+  h5{
     margin:0;
   }
   label {
@@ -22,13 +35,19 @@ body {
     }
     #nav-links{
       font-family: Avenir;
-      letter-spacing: 2.2px;  
+      letter-spacing: 2.2px;
     }
   }
+
+  //-----------------------------------------------------------------
   footer{
+    z-index: 10;
     height: 3em;
     background-color: #000;
     color: rgb(223, 223, 223);
+    bottom: 0;
+    position: fixed;
+    width: 100%;
     a {
      display: inline-block;
      margin: 1em;
@@ -38,11 +57,69 @@ body {
   }
 
   form div {
-    //margin: 1em;
+    //margin: 0.3em;
     display: inline-block;
+    //align-content: center;
   }
 }
-#main-game-title { 
+
+ .signup-div {
+  border-radius: 50px;
+  border: 1px solid #73AD21;
+  padding: 50px;
+  width: 550px;
+  height: 475px;
+  margin: auto;
+  margin-top: 80px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 20px;
+  text-align: left;
+ }
+
+ input {
+  width: 5em;
+  height: 1.5em;
+  border-radius: .5em;
+  background-color: white;
+  font-size: 15px;
+  margin: 0.1em 0.1em 3.4em;
+}
+
+.sub-btn {
+  background-color: #1A237E;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 0.5em;
+  width: 14em;
+  margin-left: 0.4em;
+  margin-bottom: 2em;
+}
+
+// label {
+//   color: white;
+//   font-size: 18px;
+// }
+
+.google-login {
+  background-color: #1A237E;
+  border-radius: 0.5em;
+  margin-right: 10em;
+  padding: 0.5em;
+  margin-top: 3.5em;
+  color: white;
+  width: 14em;
+}
+//----------------------------------------------------------------------------
+
+#main-game-title {
   text-align: center;
   color: #d0d0d0;
   h1{
@@ -65,7 +142,7 @@ body {
   justify-content: center;
   padding-top: 4em;
   background-color: #2d2d2d;
-  height: 33em;  
+  height: 52em;  
   div{
     // margin: 1em;
     text-align: center;
@@ -86,13 +163,13 @@ body {
       font-weight: 800;
       color: #d0d0d0;
     }
-    
+
     /* color: white; */
   }
-  
+
   .card{
     text-align: center;
-    height: 375px;
+    height: 33em;
     width: 30%;
     background-color: #222;;
     margin: 0 15px;
@@ -108,14 +185,20 @@ body {
       height: 75%;
     }
   }
-  .card:hover{
-    -webkit-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
-    box-shadow: 0 19px 38px rgba(255, 54, 3, 0.3), 0 15px 12px rgba(0,0,0,0.22);
+  #train-div.card:hover{
+    -webkit-boxbox-shadow: 0px 19px 80px 8px #2869fc;
+    box-shadow: 0px 19px 80px 8px #2869fc;
+  }
+
+  #battle-div.card:hover{
+    -webkit-boxbox-shadow: 0px 19px 80px 8px #fc8728;
+    box-shadow: 0px 19px 80px 8px #fc8728;
+
 }
 
-  
+
   // #train-div{
-    
+
   // }
   #train-div{
     .card-body{
@@ -132,7 +215,7 @@ body {
       .card-body-img{
         padding-top: 15%;
       }
-      
+
     }
   }
   // #sandbox-div{
@@ -153,25 +236,28 @@ body {
   }
   .right-train-container {
     width: 45%;
-    h4{
+    .right-container-headers{
       margin-top: 0px;
-      background-color: grey;
+      background-color: #202020;
       color: white;
       padding: 6px;
     }
     .output-div {
       width: 100%;
       height: 30vh;
-      background-color: lightgrey;
+      background-color: #282823;
       p {
         margin-top: 0px;
       }
-      #output-text{
-        padding-left:10px;
-      }
+    }
+    .output-text{
+      padding-left:10px;
+      padding-top: 9px;
+      color: #aed1ff;
+      font-family: Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace
     }
     .test-specs-div {
-      background-color: lightgrey;
+      background-color: #282823;
       width: 100%;
       height: 20vh;
     }
@@ -186,7 +272,7 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(154, 54, 54, 0.50);
+  background-color: rgba(39, 35, 35, 0.89);
   padding: 25px;
 
   .popup-inner-div {
@@ -196,15 +282,54 @@ body {
     top: 25%;
     bottom: 25%;
     margin: auto;
-    background: white;
-    padding: 25px;
+    background: #776beb;
+    padding: 135px;
+    border-radius: 25px;
     h1{
+      text-align: center;
+      font-family: 'Press Start 2P';
+      background-image: -webkit-linear-gradient(#f48008, #d32020);
+      color:transparent;
+      -webkit-background-clip: text;
+      background-clip: text;      
+    }
+    h2{
+      margin-top: 0.75em;
+      text-align: center;
+      font-size: 2.5em;
+      color: rgb(240, 240, 240);
+      letter-spacing: 3px;
+    }
+    #train-pop-btn{
+      text-align: center;
+      margin-top: 3em;
+      .btn{
+        margin: 0 12px;
+        height: 3em;
+        width: 8em;
+        letter-spacing: 2px;
+        color:#504f4f;
+        border: none;        
+      }
+      .pop-btn-yes{
+        background-color: #b9fab9;
+        
+      }
+      .pop-btn-no{
+        background-color: #ff8181;
+      }
+      .pop-btn-close{
+
+      }
+      button{
+        font-size: 1.4em;
+      }
 
     }
-    p{
 
-    }
   }
+
+
 }
 .tabs {
   font-family: 'Press Start 2P';
@@ -269,3 +394,57 @@ body {
 
 
 
+.loading {
+  display: none;
+}
+#train-main{
+  // background-color:#4a4949;
+  background: url("/assets/night-clouds.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 52em;
+}
+#battle-main{
+  // 
+  background: url("/assets/night-clouds.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 52em;
+}
+.component-title-h4{
+  margin: 0;
+  padding-left: 2em;
+  padding-top: 1em;
+  color: #747171;
+}
+.question-div{
+  margin-top: 1em;  
+  margin-left: 4em;
+  margin-right: 5em;
+  // background-color: #5e5e5e;
+  margin-bottom: 32px;
+  border-radius: 5px;
+  color: rgb(236, 236, 236);
+  padding: 0.75em 0 0em 1.1em;
+  background: #271571; /* For browsers that do not support gradients */    
+  background: -webkit-linear-gradient(left, #271571, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #271571, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #271571, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #271571, transparent);  
+  h3{
+    letter-spacing: 2px;
+    padding: 9px 17px 0; 
+    color: rgb(236, 235, 235);  
+  }
+  p{
+    color:#ffc357;
+    padding: 8px 17px 18px;
+    font-weight: 400;
+    font-size: 1.1em;
+    letter-spacing: 1px;    
+  }
+}
+.my-points{
+  color: rgb(231, 231, 231);
+  margin-left: 1em;
+}

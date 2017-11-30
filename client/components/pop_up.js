@@ -14,15 +14,20 @@ export class PopUp extends Component{
     let qName = this.props.quest.title
     if (!qName) return null;
     // console.log('qName:', qName)
+  
     return (
       (
         <div className='popup-div' style={{zIndex:'10'}}>
           <div className='popup-inner-div'>
-            <h1>{`Do you wish to accept this mission?`}</h1>
+            <h1>{`DO YOU WISH TO ACCEPT THIS MISSION?`}</h1>
             <h2>{`Mission: ${qName}`}</h2>
-            <button className='pop-btn-yes btn btn-success'onClick={this.props.func}>YES</button>
-            <button className='pop-btn-no'onClick={this.props.func}>NO</button>
-            <button className='pop-btn-close'onClick={this.props.func}>close me</button>
+
+          <div id="train-pop-btn">
+              <button className='pop-btn-yes btn btn-success' onClick={this.props.func}>ACCEPT</button>
+              <button className='pop-btn-no btn' onClick={this.props.skipFunc}>SKIP</button>
+              <button className='pop-btn-close btn' onClick={this.props.quitFunc}>QUIT</button>
+          </div>
+
           </div>
         </div>
       )

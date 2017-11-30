@@ -6,6 +6,9 @@ const db = require('../db')
 const app = require('../index')
 const User = db.model('user')
 
+// const agent = supertest.agent(app);
+
+
 describe('User routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
@@ -29,5 +32,95 @@ describe('User routes', () => {
           expect(res.body[0].email).to.be.equal(codysEmail)
         })
     })
+    // it('', () => {
+    //   return request(app)
+    //      .get('/api/users')
+    // })
+
   }) // end describe('/api/users')
+
+    describe('/api/users/userId/profile', () => {
+        
+      beforeEach(() => {
+          //const userId = 1;
+      })
+
+      it('', () => {
+        return request(app)
+            .get(`/api/users/${1}/profile`)
+            .expect(200)
+      })
+
+    })
+
+    describe('/api/users/userId/problemHistory', () => {
+      
+        beforeEach(() => {
+            //const userId = 1;
+        })
+
+        it('', () => {
+          return request(app)
+              .get(`/api/users/${1}/problemHistory`)  //check this
+              .expect(500)
+        })
+  })
+
+
+  describe('/api/users/userId/problemAuthored', () => {
+    
+      beforeEach(() => {
+          //const userId = 1;
+      })
+
+      it('', () => {
+        return request(app)
+            .get(`/api/users/${1}/problemAuthored`)  
+            .expect(200)
+      })
+   })
+
+   describe('/api/users/userId/problemAuthored/problemId', () => {
+    
+      beforeEach(() => {
+          //const userId = 1;
+      })
+
+      it('', () => {
+        return request(app)
+            .get(`/api/users/${1}/problemAuthored/${1}`)  
+            .expect(200)
+      })
+   })
+
+   describe('/api/users/userId/problemAuthored/problemId/delete', () => {
+    
+      beforeEach(() => {
+          //const userId = 1;
+      })
+
+      it('', () => {
+        return request(app)
+            .get(`/api/users/${1}/problemAuthored/${1}/delete`)  
+            .expect(404)
+      })
+   })
+
+   describe('/api/users/userId/problemCreate', () => {
+    
+      beforeEach(() => {
+          //const userId = 1;
+      })
+
+      it('', () => {
+        return request(app)
+            .get(`/api/users/${1}/problemCreate`)  
+            .expect(404)
+      })
+   })
+
+
 }) // end describe('User routes')
+
+
+

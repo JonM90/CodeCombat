@@ -1,3 +1,86 @@
+const RUN = require('../sandbox/sandbox');
+const {User} = require('../db/models');
+const {runnerONE, runnerTWO} = require('../sandbox/battleSandbox');
+
+module.exports = (io) => {
+  io.on('connection', (socket) => {
+    console.log(`A socket connection to the server has been made: ${socket.id}`)
+
+    socket.on('userSubmit', (usersFunc) => {
+      var outPut = RUN(usersFunc[0], usersFunc[1])
+
+      console.log('********this is outPut in socket/index.js:', outPut);
+      console.log('END!');
+      socket.emit('result', outPut.slice(0, 2))
+      socket.emit('pass', outPut[2], usersFunc[0])
+    })
+
+    socket.on('joinRoom', roomId => {
+      console.log('In joinRoom:', roomId)
+      socket.join(roomId)
+      setTimeout(() => {
+        console.log(`joined room: ${roomId}`)
+        let myRoom = socket.rooms
+        console.log('SOCKET SERVER MY ROOM', myRoom)
+      }, 3000)
+
+      io.in(roomId).emit('mssg', 'Hyaa!');
+    });
+
+    socket.on('battleSubmit', (usersFunc) => {
+      if (usersFunc[2] === 'host') {
+        var outPutOne = runnerONE(usersFunc[0], usersFunc[1])
+        socket.emit('battleResult', outPutOne.slice(0, 2))
+        socket.emit('battlePass', outPutOne[2])
+        console.log('********this is outPutONE in socket/index.js:', outPutOne);
+      } else if (usersFunc[2] === 'guest') {
+        var outPutTwo = runnerTWO(usersFunc[0], usersFunc[1])
+        socket.emit('battleResult', outPutTwo.slice(0, 2))
+        socket.emit('battlePass', outPutTwo[2])
+        console.log('********this is outPutTWO in socket/index.js:', outPutTwo);
+      }
+      console.log('playerTYPE:', usersFunc[2])
+    })
+
+    socket.on('p2PendingSetup', (msg, p1Total, p1Socket) => {
+      socket.broadcast.emit('p1SubmitFinish', msg, p1Total, p1Socket)
+    })
+
+    socket.on('determineWinner', (winner, roomId) => {
+      console.log('BACKEND WINNER', winner)
+      // socket.to(roomId).emit('foundWinner', winner)
+      io.in(roomId).emit('foundWinner', winner);
+    })
+
+    socket.on('updateWin', (userId) => {
+      User.findById(+userId)
+      .then(user => {
+        console.log('USERID', userId, 'USER:', user)
+        let newC = user.battleWin + 1
+        user.update({battleWin: newC})
+      })
+    })
+
+    socket.on('updateLoss', (userId) => {
+      User.findById(+userId)
+      .then(user => {
+        console.log('USERID', userId, 'USER:', user)
+        let newC = user.battleLoss + 1
+        user.update({battleLoss: newC})
+      })
+    })
+
+    socket.on('disconnect', () => {
+      console.log(`Connection ${socket.id} has left the building`)
+    })
+  })
+}
+
+
+
+
+
+//OLD Vs
 // const {VM} = require('vm2');
 // var log3 = [], err3 = [];
 // var vmThree = new VM({
@@ -13,67 +96,6 @@
 //   }
 // })
 // let message;
-const RUN = require('../sandbox/sandbox');
-const {runnerONE, runnerTWO} = require('../sandbox/battleSandbox');
-
-module.exports = (io) => {
-  io.on('connection', (socket) => {
-    console.log(`A socket connection to the server has been made: ${socket.id}`)
-
-    socket.on('userSubmit', (usersFunc) => {
-      var outPut = RUN(usersFunc[0], usersFunc[1])
-
-      console.log('********this is outPut in socket/index.js:', outPut);
-      console.log('END!');
-      socket.emit('result', outPut.slice(0, 2))
-      socket.emit('pass', outPut[2])
-    })
-    socket.on('battleSubmit', (usersFunc) => {
-      if (usersFunc[2] === 'host') {
-        var outPutOne = runnerONE(usersFunc[0], usersFunc[1])
-        socket.emit('result', outPutOne.slice(0, 2))
-        socket.emit('pass', outPutOne[2])
-        console.log('********this is outPutONE in socket/index.js:', outPutOne);
-      } else if (usersFunc[2] === 'guest') {
-        var outPutTwo = runnerTWO(usersFunc[0], usersFunc[1])
-        socket.emit('result', outPutTwo.slice(0, 2))
-        socket.emit('pass', outPutTwo[2])
-        console.log('********this is outPutTWO in socket/index.js:', outPutTwo);
-      }
-      console.log('playerTYPE:', usersFunc[2])
-    })
-
-    socket.on('joinRoom', roomId => {
-      console.log('In joinRoom:', roomId)
-      socket.join(roomId)
-      setTimeout(() => {
-        console.log(`joined room: ${roomId}`)
-        let myRoom = socket.rooms
-        console.log('SOCKET SERVER MY ROOM', myRoom)
-      }, 3000)
-      // socket.join('hotel')
-      // socket.emit('ready')
-      // io.in('room404').emit('mssg', 'Hyaa!');
-      io.in(roomId).emit('mssg', 'Hyaa!');
-      // io.sockets.in('room404').emit('mssg', 'Hyaa!');
-    });
-
-    // io.in('room404').emit('mssg', 'Hyaa!');
-    // io.sockets.in('room404').emit('mssg', 'Hyaa!');
-    // socket.on('JoinRoom', socketID => {
-    //   console.log('In JOINROOM:', socketID)
-    //   socket.join(socketID)
-    //   // socket.join('hotel')
-    //   let myRoom = socket.rooms
-    //   console.log('SOCKET SERVER', myRoom)
-    // });
-    socket.on('disconnect', () => {
-      console.log(`Connection ${socket.id} has left the building`)
-    })
-  })
-
-  // io.in()
-}
 
 // console.log('MESSAGE!!!', message)
 // var outPut = vmThree.run(`
@@ -103,10 +125,6 @@ module.exports = (io) => {
 // 	})
 // });
 
-
-
-
-//OLD V
 // // const {VM} = require('vm2');
 // // var log3 = [], err3 = [];
 // // var vmThree = new VM({
