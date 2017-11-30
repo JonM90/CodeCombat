@@ -40,12 +40,27 @@ class PieChart extends Component {
             })
         }
         return (
+        <div>
+            {/* <div>
+                <svg>
+                    <defs>
+                        <linearGradient id="gradient1" 
+                        x1="0%" y1="0%" x2="0%" y2="100%"
+                        >
+                        <stop offset="0%"   stopColor="orange"/>
+                        <stop offset="100%" stopColor="red"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div> */}
         <div style={styles}>
+
             <div class="graph">
-                <span class="graph-header">TITLE</span>
+                <span class="graph-header">PERCENTAGE</span>
                 <VictoryPie
+                padAngle={3}
                 innerRadius={120}
-                colorScale={['#FF9800'/*Orange*/, '#4CAF50'/*Green*/]} 
+                colorScale={["#FF9800"/*Orange*/, '#4CAF50'/*Green*/]} 
                 animate={{duration: 3000}}
                 data={[
                     { x: "INCOMPLETE", y: (questions && questions.length) },
@@ -60,9 +75,11 @@ class PieChart extends Component {
                     }}
                 />
             </div>
+
             <div class="graph">
-                <span class="graph-header">TITLE</span>
+                <span class="graph-header">RANK PROBLEMS</span>
                 <VictoryPie
+                padAngle={3}
                 innerRadius={120}
                 colorScale={['#607D8B'/*BLUE GREY*/, '#3F51B5'/*INDIGO*/, '#E91E63'/*PINK*/, '#FFEB3B'/*YELLOW*/, '#FF5722'/*DEEP ORANGE*/]} 
                 animate={{duration: 3000}}
@@ -82,9 +99,11 @@ class PieChart extends Component {
                     }}
                 />
             </div>
+
             <div class="graph">
-                <span class="graph-header">TITLE</span>
+                <span class="graph-header">BATTLE RECORD</span>
                 <VictoryPie
+                padAngle={3}
                 innerRadius={120}
                 colorScale={['#2196F3', '#F44336']} 
                 animate={{duration: 3000}}
@@ -101,6 +120,7 @@ class PieChart extends Component {
                     }}
                 />
             </div>
+        </div>
         </div>
         );
     }
