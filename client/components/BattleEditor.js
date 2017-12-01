@@ -2,6 +2,7 @@ import ReactAce from 'react-ace-editor';
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {EventEmitter} from 'events';
+import WinLosePopup from './WinLosePopup';
 
 export const battleEvents = new EventEmitter()
 
@@ -21,7 +22,8 @@ export class BattleEditor extends Component {
       error: false,
       opponentTotal: 0,
       opponent: '',
-      player2: true
+      player2: true,
+      winLosePop: false
     }
 
     this.onChange = this.onChange.bind(this);
@@ -45,7 +47,7 @@ export class BattleEditor extends Component {
         battleEvents.emit('updateWin', userId)
       }
     })
-    
+
     if (this.state.player2){
       battleEvents.on('p2Pending', (msg, p1Total, p1Socket) => {
         this.setState({opponentTotal: p1Total, opponent: p1Socket})
@@ -109,12 +111,13 @@ export class BattleEditor extends Component {
     : null
 
     battleEvents.on('battlePass', (pass) => {
-      if(pass){
-        if(this.state.opponentTotal){
+      if (pass){
+        if (this.state.opponentTotal){
+          this.setState({winLosePop: true})
           battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent, this.state.currentMatch.roomId)
-        }else{
-          console.log("P1 SUBMIT STATE: ", this.state)
-          this.setState({player2:false})
+        } else {
+          console.log('P1 SUBMIT STATE: ', this.state)
+          this.setState({player2: false, winLosePop: true})
           battleEvents.emit('p1Submit', total)
         }
       }
@@ -128,6 +131,10 @@ export class BattleEditor extends Component {
     return (
       this.state.problemNum !== quest.length ?
       (<div className="main-train-container" >
+
+      {
+        this.state.winLosePop ? <WinLosePopup winLoseStatus={this.state.player2} /> : null
+      }
 
         {quest.length && <div className='question-div'>
           <h3 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h3>
