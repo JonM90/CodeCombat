@@ -18,7 +18,7 @@ class PieChart extends Component {
     componentDidMount() {
         this.props.loadAllProblems();
         this.props.loadCompletedProblems(this.props.user.id);
-        
+
       }
 
     render(props) {
@@ -44,7 +44,7 @@ class PieChart extends Component {
             {/* <div>
                 <svg>
                     <defs>
-                        <linearGradient id="gradient1" 
+                        <linearGradient id="gradient1"
                         x1="0%" y1="0%" x2="0%" y2="100%"
                         >
                         <stop offset="0%"   stopColor="orange"/>
@@ -55,12 +55,12 @@ class PieChart extends Component {
             </div> */}
         <div style={styles}>
 
-            <div class="graph">
-                <span class="graph-header">PERCENTAGE</span>
+            <div className="graph">
+                <span className="graph-header">PERCENTAGE</span>
                 <VictoryPie
                 padAngle={3}
                 innerRadius={120}
-                colorScale={["#FF9800"/*Orange*/, '#4CAF50'/*Green*/]} 
+                colorScale={["#FF9800"/*Orange*/, '#4CAF50'/*Green*/]}
                 animate={{duration: 3000}}
                 data={[
                     { x: "INCOMPLETE", y: (questions && questions.length) },
@@ -76,12 +76,12 @@ class PieChart extends Component {
                 />
             </div>
 
-            <div class="graph">
-                <span class="graph-header">RANK PROBLEMS</span>
+            <div className="graph">
+                <span className="graph-header">RANK PROBLEMS</span>
                 <VictoryPie
                 padAngle={3}
                 innerRadius={120}
-                colorScale={['#607D8B'/*BLUE GREY*/, '#3F51B5'/*INDIGO*/, '#E91E63'/*PINK*/, '#FFEB3B'/*YELLOW*/, '#FF5722'/*DEEP ORANGE*/]} 
+                colorScale={['#607D8B'/*BLUE GREY*/, '#3F51B5'/*INDIGO*/, '#E91E63'/*PINK*/, '#FFEB3B'/*YELLOW*/, '#FF5722'/*DEEP ORANGE*/]}
                 animate={{duration: 3000}}
                 data={[
                     { x: "1", y: (rankObj[1] || 0) },
@@ -100,12 +100,12 @@ class PieChart extends Component {
                 />
             </div>
 
-            <div class="graph">
-                <span class="graph-header">BATTLE RECORD</span>
+            <div className="graph">
+                <span className="graph-header">BATTLE RECORD</span>
                 <VictoryPie
                 padAngle={3}
                 innerRadius={120}
-                colorScale={['#2196F3', '#F44336']} 
+                colorScale={['#2196F3', '#F44336']}
                 animate={{duration: 3000}}
                 data={[
                     { x: "WINS", y: (this.props && wins) },
@@ -134,7 +134,7 @@ const mapState = (state) => {
       allQuestions: state.problems
     }
   }
-  
+
   const mapDispatch = dispatch => {
     return {
       loadAllProblems: () => {
@@ -145,5 +145,5 @@ const mapState = (state) => {
       }
     }
   }
-  
+
   export default connect(mapState, mapDispatch)(PieChart)
