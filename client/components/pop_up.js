@@ -19,24 +19,18 @@ export class PopUp extends Component{
     let qName = this.props.quest.title
     if (!qName) return null;
     // console.log('qName:', qName)
-    const style = { margin: '20px' };
-  
     return (
       (
         <div className='popup-div' style={{zIndex:'10'}}>
           <div className='popup-inner-div'>
             <h1>{`DO YOU WISH TO ACCEPT THIS MISSION?`}</h1>
             <h2>{`Mission: ${qName}`}</h2>
-            {/* <MuiThemeProvider muiTheme={getMuiTheme()}> */}
-              <div id="train-pop-btn">
-                {/* <RaisedButton label="ACCEPT" primary={true} style={style} onClick={this.props.func} />
-                <RaisedButton label="SKIP" secondary={true} style={style} onClick={this.props.skipFunc}/>
-                <RaisedButton label="QUIT" disabled={true} style={style} onClick={this.props.quitFunc}/> */}
-                  <button label="Primary" primary={true} style={style} className='pop-btn-yes btn btn-success' onClick={this.props.func}>ACCEPT</button>
-                  <button label="Primary" primary={true} style={style} className='pop-btn-no btn' onClick={this.props.skipFunc}>SKIP</button>
-                  <button label="Primary" primary={true} style={style} className='pop-btn-close btn' onClick={this.props.quitFunc}>QUIT</button>
-              </div>
-            {/* </MuiThemeProvider> */}
+
+          <div className="train-pop-btn">
+              <button className='pop-btn-yes btn btn-success' onClick={this.props.func}>ACCEPT</button>
+              <button className='pop-btn-no btn' onClick={this.props.skipFunc}>SKIP</button>
+              <button className='pop-btn-close btn' onClick={this.props.quitFunc}>QUIT</button>
+          </div>
 
           </div>
         </div>

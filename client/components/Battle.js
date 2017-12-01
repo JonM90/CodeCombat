@@ -4,7 +4,7 @@ import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} 
 import {BattleEditor} from './BattleEditor';
 import socket from '../socket';
 // import { setTimeout } from 'timers';
-import { PopUp } from './pop_up';
+import BattlePopup from './BattlePopup';
 import Loading from './Loading'
 // import {Train} from './Train';
 // const {EventEmitter} = require('events');
@@ -15,26 +15,24 @@ export class Battle extends Component{
   constructor(){
     super();
     this.state = {
-      eligibleQs: [],
-      showPopup: false,
+      // eligibleQs: [],
+      questions: [],
       activeMatch: {},
-      show: false
+      showPopup: false,
+      showEditor: false,
+      matchBtn: false
     }
-    // socket.on('mssg', (payload) => {
-    //   console.log("YA HIT ME!!!!!")
-    //   let loadGif = document.getElementById('loadingGif');
-    //   loadGif.classList.toggle('hidden')
-    //   this.setState({show : true})
-    // })
-    this.togglePopup = this.togglePopup.bind(this);
+
+    this.removePopup = this.removePopup.bind(this);
     this.handleMatch = this.handleMatch.bind(this);
   }
-  togglePopup() {
-    // var start = new Date();
+
+  removePopup() {
     this.setState({
-      showPopup: !this.state.showPopup
+      showPopup: false
     });
   }
+
   componentDidMount() {
     if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
       this.props.loadAllProblems();
@@ -45,9 +43,8 @@ export class Battle extends Component{
       console.log("YA HIT ME!!!!!")
       let loadGif = document.getElementById('loadingGif');
       loadGif.classList.toggle('hidden')
-      this.setState({show : true})
+      this.setState({showEditor: true, showPopup: true})
     })
-    // this.setState({showPopup: true})
   }
 
   componentWillUnmount() {
@@ -55,30 +52,26 @@ export class Battle extends Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    let allQs = nextProps.allQuestions.allProblems;
-    let compQs = nextProps.allQuestions.completedProblems;
     let active = nextProps.activeRoom;
-    let compIds = compQs.map(q => q.id)
-    if (allQs.length && compQs.length) {
-      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
-        return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
-      })
-      this.setState({eligibleQs})
-      this.setState({showPopup: true})
-    }
-  this.setState({activeMatch: active})
+    let allQs = nextProps.allQuestions.allProblems;
+    // let compQs = nextProps.allQuestions.completedProblems;
+    // let compIds = compQs.map(q => q.id)
+    // if (allQs.length && compQs.length) {
+    //   let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
+    //     return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
+    //   })
+    //   this.setState({eligibleQs})
+    //   this.setState({showPopup: true})
+    // }
+  this.setState({activeMatch: active, questions: allQs})
   // console.log('SET STATE W:', active)
 
   }
 
   handleMatch(e) {
-    // e.preventDefault();
-    // events.emit('findOrCreateMatch', socket.id)// =>
-    // this.props.findRoom(this.props.user.rank)
-    // console.log('this.state.activeMatch!', this.state.activeMatch)
+    this.setState({matchBtn: true})
     let loadGif = document.getElementById('loadingGif');
     console.log('TOGGLE ONE')
-
 
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
       console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
@@ -89,65 +82,43 @@ export class Battle extends Component{
       loadGif.classList.toggle('hidden')
       socket.emit('joinRoom', this.state.activeMatch.roomId)
       setTimeout(() => {
-        this.setState({show: true})
+        this.setState({showEditor: true})
       }, 1000)
-      // socket.broadcast.emit('joinRoom', this.state.activeMatch.roomId)
-      // socket.emit('joinRoom', 'room404')
-      // socket.emit('createRoom', this.state.activeMatch.roomId)
-      // console.log('STATE: ', this.state)
-
-      // socket.on('mssg', (msg) => {
-      //   console.log(`${msg} READY IS RUNINNG BRUNCH FOR LIFE`)
-      //   // this.setState({show: true})
-      // })
     } else {
       loadGif.classList.toggle('hidden')
       this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
-    // console.log('socketID:', socket.id)
 
   }
 
   render() {
     console.log("THE BATTLE STATE *********", this.state)
-    // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
-    //<Train />
+
     console.log('this.state.activeMatch', this.state.activeMatch)
     if (this.props.updateRoom && this.props.updateRoom.status){
-      console.log('RENDERING', this.props.updateRoom.status, this.state.show)
+      console.log('RENDERING', this.props.updateRoom.status, this.state.showEditor)
     }
     return (
         <div id="battle-main">
 
           <h4 className="component-title-h4">Battle Mode</h4>
 
-            <button onClick={this.handleMatch}>Find Match</button>
+            <button onClick={this.handleMatch} disabled={this.state.matchBtn}>Find Match</button>
             <Loading />
 
             <div className="editor-div">
-             {/*this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && this.props.updateRoom && (this.props.updateRoom.status === 'closed') && <BattleEditor
-            questions={this.state.eligibleQs}
-            match={this.state.activeMatch}
-            battleProps={this.props}
-            />*/}
-
-            {/*
-              TODO: MAKE SURE YOU HAVE NECESSARY LOGIC FOR INSTANTIATING PROPER BATTLE
-            */}
-
             {
-              this.state.eligibleQs && this.state.show && this.state.activeMatch ? <BattleEditor
-              questions={this.state.eligibleQs}
+              this.state.questions && this.state.showEditor && this.state.activeMatch ? <BattleEditor
+              questions={this.state.questions}
               match={this.state.activeMatch}
               battleProps={this.props}
               /> : <h3> No code baby!</h3>
             }
             </div>
 
-            {this.state.eligibleQs && this.state.showPopup && (this.props.updateRoom || this.state.show) ?
-              <PopUp
-              func={this.togglePopup}
-              quest={this.state.eligibleQs[0]}
+            {this.state.questions && this.state.showPopup && (this.props.updateRoom || this.state.showEditor) ?
+              <BattlePopup
+                func={this.removePopup}
               /> : null}
 
       </div>
