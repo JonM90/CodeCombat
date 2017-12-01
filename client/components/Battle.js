@@ -102,8 +102,9 @@ export class Battle extends Component{
         <div id="battle-main">
 
           <h4 className="component-title-h4">Battle Mode</h4>
-
-            <button onClick={this.handleMatch} disabled={this.state.matchBtn}>Find Match</button>
+          {!this.state.matchBtn?
+            <button onClick={this.handleMatch}>Find Match</button>:null
+          }
             <Loading />
 
             <div className="editor-div">
@@ -112,7 +113,7 @@ export class Battle extends Component{
               questions={this.state.questions}
               match={this.state.activeMatch}
               battleProps={this.props}
-              /> : <h3> No code baby!</h3>
+              /> : null
             }
             </div>
 

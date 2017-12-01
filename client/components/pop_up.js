@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+
 export class PopUp extends Component{
    constructor(props){
     super(props);
@@ -14,7 +19,6 @@ export class PopUp extends Component{
     let qName = this.props.quest.title
     if (!qName) return null;
     // console.log('qName:', qName)
-
     return (
       (
         <div className='popup-div' style={{zIndex:'10'}}>

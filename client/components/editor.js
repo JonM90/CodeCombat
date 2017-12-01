@@ -121,7 +121,7 @@ export class CodeEditor extends Component {
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
               <input id="train-submit-btn" type="submit" disabled={this.props.passed} />
-              <button onClick={this.nextQuestion}> NEXT </button>
+              <button onClick={this.nextQuestion}> NEXT MISSION </button>
             </form>
           </div>
 
@@ -135,7 +135,12 @@ export class CodeEditor extends Component {
 
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
-
+              {this.props.passed? 
+                (
+                  <div className="question-passed">
+                    YOU PASSED!
+                  </div>  
+                ): null}
               {
                 this.state.output && this.state.output !== "FIX YOUR ERRORS" ?
                 <div className="output-text">

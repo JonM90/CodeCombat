@@ -21,6 +21,7 @@ export default class Loading extends Component{
       (
         <div className="hidden" id='loadingGif'>
             <img src={this.state.load[rnd]} />
+            <h2>Searching For Opponent...</h2>
         </div>
       )
     )

@@ -429,6 +429,16 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   height: 52em;
+  button{
+    width: 9em;
+    font-size: 1.1em;
+    height: 2em;
+    background-color: #ff6a00;
+    border: none;
+    color: #f8f8f0;
+    margin-left: 2em;
+    margin-top: 2em;
+  }
 }
 .component-title-h4{
   margin: 0;
@@ -466,4 +476,14 @@ body {
 .my-points{
   color: rgb(231, 231, 231);
   margin-left: 1em;
+}
+.question-passed{
+  color: greenyellow;
+}
+#loadingGif{
+  text-align: center;
+  margin-top: 8em;
+  h2{
+    color: rgb(233, 231, 231);
+  }
 }
