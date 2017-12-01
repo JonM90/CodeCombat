@@ -5,6 +5,7 @@ import {Redirect} from 'react-router'
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 import socket from '../socket';
+import { Dialog } from './dialog';
 
 export class Train extends Component{
   constructor(){
@@ -18,18 +19,28 @@ export class Train extends Component{
       currInd: 0,
       pass: false,
       userSolution: '',
-      redirect: false
+      redirect: false,
+      displayCongrats: false,
     }
 
     this.togglePopup = this.togglePopup.bind(this);
     this.isPassing = this.isPassing.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
+    this.toggleCongrats = this.toggleCongrats.bind(this)
+    this.handleNext = this.handleNext.bind(this)
   }
-
+s
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
+      //currInd: (this.state.currInd + 1)
+    });
+  }
+
+  toggleCongrats() {
+    this.setState({
+      displayCongrats: !this.state.displayCongrats
       //currInd: (this.state.currInd + 1)
     });
   }
@@ -85,6 +96,8 @@ export class Train extends Component{
     console.log('newPoints', newPoints, 'setProbToComplete WITH:', this.props.user.id, currProb.id, this.state.userSolution, newPoints)
     this.setState({userPoints: newPoints})
     this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints);
+       // alert("YOU GOT THE ANSWE RGIHT")
+       this.setState({ displayCongrats: true})
   }
 
   nextQuestion(e){
@@ -96,6 +109,17 @@ export class Train extends Component{
       currInd: currProbNum,
       currentProblem: this.state.eligibleQs[currProbNum]
     })
+  }
+
+  handleNext(){
+    // this.setState({ showPopup: true })
+    // return this.state.eligibleQs && this.state.showPopup ? (<PopUp
+    //   func={this.togglePopup}
+    //   // quest={this.state.eligibleQs[0]}
+    //   quest={this.state.eligibleQs[this.state.currInd]}
+    //   skipFunc={this.handleSkip}
+    //   quitFunc={ () => this.setState({redirect: true}) }
+    // />) : null
   }
 
   render() {
@@ -130,10 +154,18 @@ export class Train extends Component{
               setProbToComplete = {this.props.setProbToComplete}
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
-              justCompleted = {this.props.justCompleted}
+              justCompleted = {this.props.justCosmpleted}
               passed = {this.state.pass}
             /> : <h1>No Dice</h1> }
         </div>
+
+        {
+          this.state.pass && this.state.displayCongrats ? <Dialog 
+            func={this.toggleCongrats}
+            //congratFunc={this.handleNext}
+            quitFunc={ () => this.setState({redirect: true}) }
+          /> : null
+        }
 
       </div>
     )
