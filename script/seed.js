@@ -222,31 +222,39 @@ Problem.create(
 
 Problem.create(
   {
-    title: 'Underscore to CamelCase',
+    title: 'String Permutations',
     level: 3,
-  description: 'Write a function to convert a variable name from under_score format to camelCase.Make sure you support an unlimited number of underscores in the input! You will not have to worry about white space in your input, only alphanumeric characters and underscore',
-    solution: `function underToCamel(underName) {
-                  var camelCaseOutput = '';
-                  var foundUnder = false;
-                  for(var i = 0; i<underName.length; i++) {
-                      if (underName[i] === '_') {
-                          foundUnder = true;
-                      } else {
-                          if (foundUnder) {
-                              camelCaseOutput += underName[i].toUpperCase();
-                              foundUnder = false;
-                          } else {
-                              camelCaseOutput += underName[i];
-                          }
-                      }
-                  }
-                     return camelCaseOutput;
-               }`,
-    signature: 'underToCamel(underName)',
+  description: `
+  Given a string, return an array of all the permutations of that string. The permutations of the string should be the same length as the 
+  original string (i.e. use each letter in the string exactly once) but do not need to be actual words.
+  The array that is returned should only contain unique values and its elements should be in alphabetical order.`,
+    solution: `function stringPermutations (str) {
+      
+       let results = [ ];
+       getPerms(str, [ ]);
+      
+       function getPerms (str, arr) {
+         if (typeof str === 'string')
+           str = str.split('');
+         if (!str.length)
+           results.push(arr.join(''));
+         for (let i = 0; i < str.length; i++) {
+           var letter = str.splice(i, 1);
+           arr.push(letter);
+           getPerms(str, arr); //recursive call
+           arr.pop();
+           str.splice(i, 0, letter);
+         }
+       }
+     
+       return results.filter(function(el,index) {
+         return results.indexOf(el) === index }).sort();
+     }`,
+    signature: 'stringPermutations (str)',
     testSpecs: [
-                'assert.equal(underToCamel("first_name"), "firstName")',
-                'assert.equal(underToCamel("my_income_tax_from_2015"), "myIncomeTaxFrom2015")',
-                'assert.equal(underToCamel("i_love_javascript"), "iLoveJavascript")'
+                "assert.deepEqual(stringPermutations('abc'), [ 'abc', 'acb', 'bac', 'bca', 'cab', 'cba' ])",
+                "assert.deepEqual(stringPermutations('code'), [ 'cdeo','cdoe','cedo','ceod','code','coed','dceo','dcoe','deco','deoc','doce','doec','ecdo','ecod',  'edco',  'edoc','eocd','eodc',  'ocde','oced', 'odce','odec', 'oecd', 'oedc' ])",
+                // 'assert.equal(underToCamel("i_love_javascript"), "iLoveJavascript")'
                ],
     authorId: 1})
 ])
@@ -254,81 +262,81 @@ Problem.create(
 const complete = await Promise.all([
   CompletedProblem.create({userId: 1, problemId: 2, rating: 4, userSolution: 'function diff(a,b){ return a-b}'}),
   CompletedProblem.create({userId: 2, problemId: 1, rating: 3, userSolution: 'function sum(a,b){ return a+b}'}),
-  CompletedProblem.create({userId: 1, problemId: 12, rating: 3, userSolution: `function underToCamel(underName) {
-    var camelCaseOutput = '';
-    var foundUnder = false;
-    for(var i = 0; i<underName.length; i++) {
-        if (underName[i] === '_') {
-            foundUnder = true;
-        } else {
-            if (foundUnder) {
-                camelCaseOutput += underName[i].toUpperCase();
-                foundUnder = false;
-            } else {
-                camelCaseOutput += underName[i];
-            }
-        }
-    }
-       return camelCaseOutput;
- }`}),
- CompletedProblem.create({userId: 1, problemId: 10, rating: 4, userSolution: `function isPrime(num){
-  for(var i=2; i < num; i++){
-     if(num%i === 0){
-         return false;
-     }
-  }
-    return num > 1;
-}`}),
-CompletedProblem.create({userId: 1, problemId: 7, rating: 4, userSolution: `function converter(temp) {
-  return (temp - 32) * 5/9;
-}`}),
-CompletedProblem.create({userId: 1, problemId: 6, rating: 4, userSolution: `function mostVowels(str) {
-  var vowels = "aeiou";
-  var wordsArr = str.split(" ");
-  var leadWord = "";
-  var mostVowels = 0;
+//   CompletedProblem.create({userId: 1, problemId: 12, rating: 3, userSolution: `function underToCamel(underName) {
+//     var camelCaseOutput = '';
+//     var foundUnder = false;
+//     for(var i = 0; i<underName.length; i++) {
+//         if (underName[i] === '_') {
+//             foundUnder = true;
+//         } else {
+//             if (foundUnder) {
+//                 camelCaseOutput += underName[i].toUpperCase();
+//                 foundUnder = false;
+//             } else {
+//                 camelCaseOutput += underName[i];
+//             }
+//         }
+//     }
+//        return camelCaseOutput;
+//  }`}),
+//  CompletedProblem.create({userId: 1, problemId: 10, rating: 4, userSolution: `function isPrime(num){
+//   for(var i=2; i < num; i++){
+//      if(num%i === 0){
+//          return false;
+//      }
+//   }
+//     return num > 1;
+// }`}),
+// CompletedProblem.create({userId: 1, problemId: 7, rating: 4, userSolution: `function converter(temp) {
+//   return (temp - 32) * 5/9;
+// }`}),
+// CompletedProblem.create({userId: 1, problemId: 6, rating: 4, userSolution: `function mostVowels(str) {
+//   var vowels = "aeiou";
+//   var wordsArr = str.split(" ");
+//   var leadWord = "";
+//   var mostVowels = 0;
 
- for (var i=0; i<wordsArr.length; i++) {
-    var word = wordsArr[i];
-    var vowelCount = 0;
-    for (var j=0; j<word.length; j++) {
-      if (vowels.indexOf(word[j]) !== -1) {
-        vowelCount += 1;
-      }
-    }
-    if (vowelCount > mostVowels) {
-      mostVowels = vowelCount;
-      leadWord = word;
-    }
-  }
+//  for (var i=0; i<wordsArr.length; i++) {
+//     var word = wordsArr[i];
+//     var vowelCount = 0;
+//     for (var j=0; j<word.length; j++) {
+//       if (vowels.indexOf(word[j]) !== -1) {
+//         vowelCount += 1;
+//       }
+//     }
+//     if (vowelCount > mostVowels) {
+//       mostVowels = vowelCount;
+//       leadWord = word;
+//     }
+//   }
 
- return leadWord;
-}`}),
-CompletedProblem.create({userId: 1, problemId: 3, rating: 4, userSolution: `function fizzBuzz(num){
-  if (num%15 === 0) {
-    return "FizzBuzz";
-  } else if (num%5 === 0) {
-    return "Buzz";
-  } else if (num%3 === 0) {
-    return "Fizz";
-  } else {
-    return false;
-  }
-}
-`}),
-CompletedProblem.create({userId: 1, problemId: 8, rating: 4, userSolution: `function frequencyAnalysis(str) {
-  var countObj = {};
+//  return leadWord;
+// }`}),
+// CompletedProblem.create({userId: 1, problemId: 3, rating: 4, userSolution: `function fizzBuzz(num){
+//   if (num%15 === 0) {
+//     return "FizzBuzz";
+//   } else if (num%5 === 0) {
+//     return "Buzz";
+//   } else if (num%3 === 0) {
+//     return "Fizz";
+//   } else {
+//     return false;
+//   }
+// }
+// `}),
+// CompletedProblem.create({userId: 1, problemId: 8, rating: 4, userSolution: `function frequencyAnalysis(str) {
+//   var countObj = {};
 
-  for (var i=0; i<str.length; i++) {
-    if (countObj[str[i]]) {
-      countObj[str[i]]++;
-    } else {
-      countObj[str[i]] = 1;
-    }
-  }
+//   for (var i=0; i<str.length; i++) {
+//     if (countObj[str[i]]) {
+//       countObj[str[i]]++;
+//     } else {
+//       countObj[str[i]] = 1;
+//     }
+//   }
 
-   return countObj;
-}`})
+//    return countObj;
+// }`})
 ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!

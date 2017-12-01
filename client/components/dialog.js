@@ -20,7 +20,7 @@ export class Dialog extends Component{
         <div className='popup-div' style={{zIndex:'10'}}>
           <div className='popup-inner-div'>
             <h1>{`CONGRATS! YOU DID AN AMAZING JOB. YOU HAVE RANKED UP RANK 9`}</h1>
-              <h3>{`We are need you use JavaScript to change the world.`}</h3>
+              {/* <h3>{`We are need you use JavaScript to change the world.`}</h3> */}
 
           <div id="train-pop-btn">
              {/* <button className='pop-btn-yes btn btn-success' onClick={this.props.func}>ACCEPT</button> */}
