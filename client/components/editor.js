@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {EventEmitter} from 'events';
 export const events = new EventEmitter();
+import { Dialog } from './dialog';
+import {Redirect} from 'react-router'
+
 
 export class CodeEditor extends Component {
   constructor(props) {
@@ -13,16 +16,20 @@ export class CodeEditor extends Component {
       currentProblem: {},
       output: '',
       logger: [],
-      error: false
+      error: false,
+      redirect: false,
+      displayCongrats: false,
+      userRank: this.props.rank
     }
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.setSig = this.setSig.bind(this);
+    this.toggleCongrats = this.toggleCongrats.bind(this);
   }
   componentDidMount() {
-    // console.log("WE IN DID MOUNT, this.props", this.props)
+    console.log("WE IN DID MOUNT IN EDITOR!!!, this.props", this.props)
     this.setState({currentProblem: this.props.question})
   }
 
@@ -34,6 +41,9 @@ export class CodeEditor extends Component {
       if (nP.justCompleted && nP.justCompleted.userSolution && nP.question && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
       else if (nP.question) this.setSig(nP.question.signature, false);
     }
+       if(this.props.userPoints >= 100) {
+           this.setState({userRank : this.props.rank + 1})
+       }
   }
 
   setSig(currSig, isSolution) {
@@ -84,17 +94,26 @@ export class CodeEditor extends Component {
     })
   }
 
-  // onPass(){
-  //     this.props.updatePoints(2);
-  // }
+  toggleCongrats() {
+    this.setState({
+      displayCongrats: !this.state.displayCongrats
+      //currInd: (this.state.currInd + 1)
+    });
+  }
 
   render() {
     console.log("*****STATE at RENDER", this.state)
     let quest = this.state.currentProblem
-    console.log('quest', quest)
+    console.log('quest', quest)    
 
     return (
-      quest && quest.id ?
+
+      <div>
+
+   {this.state.redirectToStats ? <Redirect to={`/users/${this.props.userId}/profile`} /> : null}
+   {this.state.redirectToLobby ? <Redirect to={`/`} /> : null}
+
+     { quest && quest.id ?
       (<div className="main-train-container" >
 
         <div className='question-div'>
@@ -147,8 +166,13 @@ export class CodeEditor extends Component {
 
           </div>
         </div>
-      </div>) : <div><h2>CONGRATULATIONS!!!</h2></div>
-    );
+      </div>) : 
+           <Dialog 
+            func={this.toggleCongrats}
+            quitFunc={ () => this.setState({redirectToLobby: true})} 
+            viewStatsFunc={ () => this.setState({redirectToStats: true})} 
+            rank={this.state.userRank} /> } </div>
+    )
   }
 }
 
@@ -158,20 +182,5 @@ const mapState = (state) => {
     user: state.user,
   }
 }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     loadAllProblems: () => {
-//       dispatch(fetchAllProblems())
-//     },
-//     loadCompletedProblems: (userId) => {
-//       dispatch(fetchCompletedProblems(userId))
-//     },
-//     updatePoints: () => {
-//       dispatch(getPoints(userId, points))
-//     }
-//   }
-// }
-
 
 export default connect(mapState)(CodeEditor)

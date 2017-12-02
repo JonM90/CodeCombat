@@ -20,14 +20,14 @@ export class Train extends Component{
       pass: false,
       userSolution: '',
       redirect: false,
-      displayCongrats: false,
+     // displayCongrats: false,
     }
 
     this.togglePopup = this.togglePopup.bind(this);
     this.isPassing = this.isPassing.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleSkip = this.handleSkip.bind(this);
-    this.toggleCongrats = this.toggleCongrats.bind(this)
+   // this.toggleCongrats = this.toggleCongrats.bind(this)
     this.handleNext = this.handleNext.bind(this)
   }
 s
@@ -38,18 +38,20 @@ s
     });
   }
 
-  toggleCongrats() {
-    this.setState({
-      displayCongrats: !this.state.displayCongrats
-      //currInd: (this.state.currInd + 1)
-    });
-  }
+  // toggleCongrats() {
+  //   this.setState({
+  //     displayCongrats: !this.state.displayCongrats
+  //     //currInd: (this.state.currInd + 1)
+  //   });
+  // }
 
   handleSkip(){
     this.setState({ currInd: this.state.currInd + 1 });
   }
 
   componentDidMount() {
+
+    console.log("USER IN TRAIN: ", this.props.user)
     if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
@@ -149,13 +151,15 @@ s
 
         <div className="editor-div">
           { this.state.eligibleQs.length ?
-            <CodeEditor
+          <CodeEditor
               question = {this.state.eligibleQs[this.state.currInd]}
               setProbToComplete = {this.props.setProbToComplete}
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
+              rank={this.props.user.rank}
               justCompleted = {this.props.justCosmpleted}
               passed = {this.state.pass}
+              userPoints={this.state.userPoints}
             /> : <h1>No Dice</h1> }
         </div>
 
