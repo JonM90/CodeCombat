@@ -38,13 +38,6 @@ s
     });
   }
 
-  // toggleCongrats() {
-  //   this.setState({
-  //     displayCongrats: !this.state.displayCongrats
-  //     //currInd: (this.state.currInd + 1)
-  //   });
-  // }
-
   handleSkip(){
     this.setState({ currInd: this.state.currInd + 1 });
   }
@@ -156,20 +149,20 @@ s
               setProbToComplete = {this.props.setProbToComplete}
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
-              rank={this.props.user.rank}
+              userRank={this.props.user.rank}
               justCompleted = {this.props.justCosmpleted}
               passed = {this.state.pass}
               userPoints={this.state.userPoints}
             /> : <h1>No Dice</h1> }
         </div>
 
-        {
+        {/* {
           this.state.pass && this.state.displayCongrats ? <Dialog 
             func={this.toggleCongrats}
             //congratFunc={this.handleNext}
             quitFunc={ () => this.setState({redirect: true}) }
           /> : null
-        }
+        } */}
 
       </div>
     )
@@ -197,9 +190,6 @@ const mapDispatch = dispatch => {
     setProbToComplete: (userId, problemId, userSolution, userPoints) => {
       dispatch(setCompletedProblem(userId, problemId, userSolution, userPoints))
     }
-    // addPoints: (userId, point) => {
-    //   dispatch(updateUserPoints(userId, point))
-    // }
   }
 }
 

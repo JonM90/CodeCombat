@@ -19,7 +19,7 @@ export class CodeEditor extends Component {
       error: false,
       redirect: false,
       displayCongrats: false,
-      userRank: this.props.rank
+      //userRank: this.props.rank
     }
 
     this.onChange = this.onChange.bind(this);
@@ -41,9 +41,10 @@ export class CodeEditor extends Component {
       if (nP.justCompleted && nP.justCompleted.userSolution && nP.question && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
       else if (nP.question) this.setSig(nP.question.signature, false);
     }
-       if(this.props.userPoints >= 100) {
-           this.setState({userRank : this.props.rank + 1})
-       }
+      //  let newRank = 10
+      //  if(this.props.userPoints >= 50) {
+      //      this.setState({userRank : newRank })
+      //  }
   }
 
   setSig(currSig, isSolution) {
@@ -171,7 +172,7 @@ export class CodeEditor extends Component {
             func={this.toggleCongrats}
             quitFunc={ () => this.setState({redirectToLobby: true})} 
             viewStatsFunc={ () => this.setState({redirectToStats: true})} 
-            rank={this.state.userRank} /> } </div>
+            rank={this.props.userRank} /> } </div>
     )
   }
 }
