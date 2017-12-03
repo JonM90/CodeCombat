@@ -27,7 +27,7 @@ class UserHistory extends Component {
           };
         return (
             <div id="problem-history-container">
-                <h3 id="problem-history-h3">My Completed Problems:</h3>
+                <h3 id="problem-history-h3">My Completed Problems</h3>
                 <List id="problem-history-list">
                     {completed && completed.map(val => {
 

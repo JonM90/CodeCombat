@@ -94,7 +94,7 @@ export class Battle extends Component{
           {!this.state.matchBtn ? (
             <div id="battle-lobby">
               <h1>Battle Opponents</h1>
-              <h3>Fight To The Death!</h3>
+              <h3>Win and Take Points From Your Opponents</h3>
               <button onClick={this.handleMatch}>Find Match</button>
             </div>
             ) : null
