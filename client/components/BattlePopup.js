@@ -22,7 +22,6 @@ export default class BattlePopup extends Component{
         clearInterval(popInt)
         return;
       }
-      console.log('STATE.TIME:', this.state.time)
       this.setState({time: this.state.time - 1})
     }, 1000)
   }
@@ -41,7 +40,7 @@ export default class BattlePopup extends Component{
                 <h2>Prepare For Battle!</h2>
               </div>
               )
-               : 
+               :
               <p id="battle-timer">{this.state.time || 'GO!'}</p>
             }
           </div>

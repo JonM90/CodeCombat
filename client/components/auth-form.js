@@ -87,7 +87,6 @@ const mapLogin = (state) => {
 }
 
 const mapSignup = (state) => {
-    console.log('STATE IN AUTH-FROM:', state)
   return {
     name: 'signup',
     displayName: 'Sign Up',

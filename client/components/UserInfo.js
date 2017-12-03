@@ -8,7 +8,6 @@ class UserInfo extends Component {
     render(props) {
         const {email} = this.props;
         const {user} = this.props;
-        console.log('user.points', user.points)
         return (<div id="userProfile">
                     <div id="userProfile-image">
                         <img src={user.profileImage} id="profileImage" />

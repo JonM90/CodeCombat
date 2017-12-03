@@ -36,8 +36,6 @@ export class UserHome extends Component {
   }
 
   componentDidMount() {
-    // this.props.loadAllProblems();
-    // this.props.loadCompletedProblems(this.props.user.id);
   }
 
   render(props) {

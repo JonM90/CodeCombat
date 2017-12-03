@@ -82,10 +82,6 @@ export class Battle extends Component{
   }
 
   render() {
-    console.log("THE BATTLE STATE *********", this.state)
-    if (this.props.updateRoom && this.props.updateRoom.status){
-      console.log('RENDERING', this.props.updateRoom.status, this.state.showEditor)
-    }
 
     return (
         <div id="battle-main">

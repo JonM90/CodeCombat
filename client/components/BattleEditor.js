@@ -39,11 +39,9 @@ export class BattleEditor extends Component {
     battleEvents.on('determineWinner', (winner) => {
       if (winner[0] === this.state.opponent){
         const userId = +this.props.battleProps.match.params.userId
-        console.log(`YOU LOST LOSER!!!! USER ID: ${userId} Points: ${this.state.currentProblem.level * -5}`, '+this.props.battleProps.match:', this.props.battleProps.match)
         battleEvents.emit('updateLoss', userId, this.state.currentProblem.level * 5)
       } else {
         const userId = +this.props.battleProps.match.params.userId
-        console.log(`OMG YOU WON!!! USER ID: ${userId} Points: ${this.state.currentProblem.level * 5}`, 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
         battleEvents.emit('updateWin', userId, this.state.currentProblem.level * 5)
       }
     })
@@ -55,8 +53,6 @@ export class BattleEditor extends Component {
     }
 
     battleEvents.on('battleOutput', (output) => {
-      console.log("IM THE MESSD UP OUTPUT", output[0])
-      console.log("IM THE MESSD UP LOGGER", output[1])
       this.setState({output: output[0]})
       this.setState({logger: output[1]})
     })
@@ -100,7 +96,6 @@ export class BattleEditor extends Component {
   onSubmit(e) {
     e.preventDefault();
     var total = new Date() - this.startTime;
-    console.log('TIMESTAMP ', total)
     let currMatch = this.state.currentMatch
     let currProb = this.state.currentProblem
     var player = 'host'
@@ -116,7 +111,6 @@ export class BattleEditor extends Component {
           this.setState({winLosePop: true})
           battleEvents.emit('p2Submit', this.state.opponentTotal, total, this.state.opponent, this.state.currentMatch.roomId)
         } else {
-          console.log('P1 SUBMIT STATE: ', this.state)
           this.setState({player2: false, winLosePop: true})
           battleEvents.emit('p1Submit', total)
         }

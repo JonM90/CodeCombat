@@ -76,7 +76,6 @@ export class CodeEditor extends Component {
   }
 
   render() {
-    console.log("*****STATE at RENDER", this.state)
     let quest = this.state.currentProblem
 
     return (
