@@ -48,9 +48,9 @@ export class UserHome extends Component {
       <div>
         <h3 id="welcome">Welcome, {user.name}</h3>
 
-        <div>
-          <MuiThemeProvider muiTheme={getMuiTheme()}>
-            <Tabs style={{backgroundColor:'#2d2d2d'}}>
+        <div id="user-home-container">
+          <MuiThemeProvider muiTheme={getMuiTheme()} >
+            <Tabs style={{backgroundColor:'#2d2d2d', height: '52em'}}>
             
               <Tab label="INFO" className="tabs" icon={<ActionInfoOutline />} style={tabStyles}>
                 <UserInfo />

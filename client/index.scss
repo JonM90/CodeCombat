@@ -80,28 +80,29 @@ body {
   text-align: left;
  }
 
- input {
-  width: 5em;
-  height: 1.5em;
-  border-radius: .5em;
-  background-color: white;
-  font-size: 15px;
-  margin: 0.1em 0.1em 3.4em;
-}
+//  input {
+//   width: 5em;
+//   height: 1.5em;
+//   border-radius: .5em;
+//   background-color: white;
+//   font-size: 15px;
+//   margin: 0.1em 0.1em 3.4em;
+// }
 
-.sub-btn {
-  background-color: #1A237E;
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 0.5em;
-  width: 14em;
-  margin-left: 0.4em;
-  margin-bottom: 2em;
-}
+//LOG_IN AND SIGN-UP
+// .sub-btn {
+//   background-color: #1A237E;
+//   border: none;
+//   color: white;
+//   padding: 16px 32px;
+//   text-decoration: none;
+//   margin: 4px 2px;
+//   cursor: pointer;
+//   border-radius: 0.5em;
+//   width: 14em;
+//   margin-left: 0.4em;
+//   margin-bottom: 2em;
+// }
 
 // label {
 //   color: white;
@@ -175,7 +176,6 @@ body {
     margin: 0 15px;
     box-shadow: 1px black;
     // border: solid 1px black;
-
     .card-header{
       background-color: #444;;
       height: 25%;
@@ -303,7 +303,17 @@ body {
     .train-pop-btn{
       text-align: center;
       margin-top: 3em;
-
+      .win-lose-div{
+        margin: -5em;
+      }
+      #battle-pop-return-lobby{
+        background-color: #4BB1EF;
+        font-size: 1.3em;
+        border: none;
+        padding: 8px 25px;
+        margin-top: 5em;
+        color: rgb(238, 238, 238);
+      }
       #battle-timer{
         font-family: 'Press Start 2P';
         font-size: 7rem;
@@ -332,7 +342,6 @@ body {
       }
       .pop-btn-yes{
         background-color: #b9fab9;
-
       }
       .pop-btn-no{
         background-color: #ff8181;
@@ -343,37 +352,49 @@ body {
       button{
         font-size: 1.4em;
       }
-
     }
-
   }
-
-
 }
 .tabs {
   font-family: 'Press Start 2P';
+  border-radius: 0;
 }
 .solution {
   white-space: pre-wrap;
-  font-size: 14px;
+  font-size: 19px;
   font-family: 'Courier New';
-  color:#d0d0d0;
-  // font-weight:'lighter';
+  color: #b3ce92;
+  background-color: #272727;
+  padding: 1em;
 }
 
 #welcome {
   font-family: 'Press Start 2P';
-
+  background-color: black;
+  color:#c98304;
+  text-align: center;
+  padding: 29px 0;
 }
 
 .problemHistory{
   color:white;
   font-family: 'Press Start 2P';
 }
-
+#problem-history-container{
+  h3{
+    color: #c4f342;
+    padding: 3em 0 0 20em;
+    font-family: 'Press Start 2P';
+  }
+}
+#problem-history-list{
+  padding: 2em 25em !important;
+  background-color:#2d2d2d;
+}
 #userProfile{
   display:flex;
-  flex-direction: 'row'
+  flex-direction: 'row';
+  padding: 70px;
 }
 
 #userProfile-image {
@@ -392,7 +413,6 @@ body {
   border-radius: 2%;
   width: 20em;
   height:20em;
-
 }
 
 .userProfile-info-field {
@@ -410,8 +430,9 @@ body {
   color:white;
   margin:1em;
 }
-
-
+#user-graph-div {
+  padding-top: 70px;
+}
 
 .hidden {
   display: none;
@@ -424,20 +445,36 @@ body {
   height: 52em;
 }
 #battle-main{
-  //
   background: url("/assets/night-clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   height: 52em;
-  button{
-    width: 9em;
-    font-size: 1.1em;
-    height: 2em;
-    background-color: #ff6a00;
-    border: none;
-    color: #f8f8f0;
-    margin-left: 2em;
-    margin-top: 2em;
+
+  #battle-lobby{
+    text-align: center;
+    padding-top: 6em;
+    h1{
+      font-family: 'Press Start 2P';
+      background-image: -webkit-linear-gradient(#f48008, #d32020);
+      color:transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    h3{
+      color: #fff59e;
+      padding-top: 2em;
+      letter-spacing: 2px;
+    }
+    button{
+      width: 9em;
+      font-size: 1.1em;
+      height: 2em;
+      background-color: #ff6a00;
+      border: none;
+      color: #f8f8f0;
+      // margin-left: 2em;
+      margin-top: 2em;
+    }
   }
 }
 .component-title-h4{
@@ -487,3 +524,53 @@ body {
     color: rgb(233, 231, 231);
   }
 }
+.editor-submit{
+  float:right;
+  background-color: rgb(125, 10, 136);
+  color: white;
+  font-size: 14px;
+  padding: 1.1em 3.2em;
+  border-radius: 0;
+  margin-top: 10px;
+  border: none;
+}
+.editor-submit:hover{
+  background-color: rgb(146, 69, 155);
+  color: lightgrey;
+  transition-duration: 0.4s;
+  border: none;
+}
+.editor-submit:active{
+  background-color: rgb(89, 6, 99);
+  color: lightgrey;
+  border: none;
+}
+.editor-next-btn{
+  background-color: transparent;
+  color: white;
+  font-size: 14px;
+  padding: 1.1em 3.2em;
+  border: 2px solid white;
+  border-radius: 0;
+  margin-top: 10px;
+}
+.editor-next-btn:hover{
+  background-color: #ff7a00;
+  color: rgb(43, 3, 43);
+  font-size: 14px;
+  padding: 1.1em 3.2em;
+  border: 2px solid #ff7a00;
+  border-radius: 0;
+  margin-top: 10px;
+  color: darkblue;
+}
+input:focus {
+  outline:none !important;
+}
+// #user-home-container{
+  
+// }
+#user-home-main{
+  height: 52em;
+}
+

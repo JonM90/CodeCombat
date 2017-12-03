@@ -5,7 +5,7 @@ export default class BattlePopup extends Component{
     super(props);
 
     this.state = {
-      time: 5
+      time: 6
     }
 
     this.battleCountdown = this.battleCountdown.bind(this)
@@ -35,7 +35,15 @@ export default class BattlePopup extends Component{
           <div className='popup-inner-div'>
 
           <div className="train-pop-btn">
-            <p id="battle-timer">{this.state.time || 'GO!'}</p>
+            { this.state.time > 3 ? (
+              <div>
+                <h1>Found An Opponent</h1>
+                <h2>Prepare For Battle!</h2>
+              </div>
+              )
+               : 
+              <p id="battle-timer">{this.state.time || 'GO!'}</p>
+            }
           </div>
 
           </div>

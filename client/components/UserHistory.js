@@ -26,8 +26,9 @@ class UserHistory extends Component {
             display: 'inline-block',
           };
         return (
-            <div>
-                <List>
+            <div id="problem-history-container">
+                <h3 id="problem-history-h3">My Completed Problems:</h3>
+                <List id="problem-history-list">
                     {completed && completed.map(val => {
 
                         return (<ListItem 
