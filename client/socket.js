@@ -56,11 +56,11 @@ socket.on('foundWinner', (winner) => {
   console.log('FOUND WINNER*********', winner)
   battleEvents.emit('determineWinner', winner)
 })
-battleEvents.on('updateWin', (userId) => {
-  socket.emit('updateWin', userId)
+battleEvents.on('updateWin', (userId, points) => {
+  socket.emit('updateWin', userId, points)
 })
-battleEvents.on('updateLoss', (userId) => {
-  socket.emit('updateLoss', userId)
+battleEvents.on('updateLoss', (userId, points) => {
+  socket.emit('updateLoss', userId, points)
 })
 // socket.on('findOrJoinRoom', socketID => {
 //   console.log('Joining room in FRONT:', socketID)

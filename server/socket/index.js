@@ -52,21 +52,23 @@ module.exports = (io) => {
       io.in(roomId).emit('foundWinner', winner);
     })
 
-    socket.on('updateWin', (userId) => {
+    socket.on('updateWin', (userId, points) => {
       User.findById(+userId)
       .then(user => {
-        console.log('USERID', userId, 'USER:', user)
+        let newPoints = user.points + points
+        console.log('USERID', userId, 'points:', points, 'newPts:', newPoints)
         let newC = user.battleWin + 1
-        user.update({battleWin: newC})
+        user.update({battleWin: newC, points: newPoints})
       })
     })
 
-    socket.on('updateLoss', (userId) => {
+    socket.on('updateLoss', (userId, points) => {
       User.findById(+userId)
       .then(user => {
-        console.log('USERID', userId, 'USER:', user)
+        let newPoints = user.points - points
+        console.log('USERID', userId, 'points:', points, 'newPts:', newPoints)
         let newC = user.battleLoss + 1
-        user.update({battleLoss: newC})
+        user.update({battleLoss: newC, points: newPoints})
       })
     })
 

@@ -23,14 +23,14 @@ export default class WinLosePopup extends Component{
           <div className="train-pop-btn">
             { !this.props.winLoseStatus ?
             <div>
-              <p className="win-lose-mssg">YOU WIN!</p>
+              <p className="win-lose-mssg">{`YOU WIN ${this.props.pointNet} POINTS!`}</p>
               {
                 //<img src="/assets/battleWin.gif" alt="you win gif" />
               }
             </div>
             :
             <div>
-               <p className="win-lose-mssg">YOU LOSE!</p>
+               <p className="win-lose-mssg">{`YOU LOSE ${this.props.pointNet} POINTS!`}</p>
                {
                  //<img src="/assets/fireDeath.gif" alt="you lose gif" />
                }

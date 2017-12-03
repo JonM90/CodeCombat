@@ -39,12 +39,12 @@ export class BattleEditor extends Component {
     battleEvents.on('determineWinner', (winner) => {
       if (winner[0] === this.state.opponent){
         const userId = +this.props.battleProps.match.params.userId
-        console.log("YOU LOST LOSER!!!!", 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
-        battleEvents.emit('updateLoss', userId)
+        console.log(`YOU LOST LOSER!!!! USER ID: ${userId} Points: ${this.state.currentProblem.level * -5}`, '+this.props.battleProps.match:', this.props.battleProps.match)
+        battleEvents.emit('updateLoss', userId, this.state.currentProblem.level * 5)
       } else {
         const userId = +this.props.battleProps.match.params.userId
-        console.log("OMG YOU WON!!!", 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
-        battleEvents.emit('updateWin', userId)
+        console.log(`OMG YOU WON!!! USER ID: ${userId} Points: ${this.state.currentProblem.level * 5}`, 'userId', userId, '+this.props.battleProps.match:', this.props.battleProps.match)
+        battleEvents.emit('updateWin', userId, this.state.currentProblem.level * 5)
       }
     })
 
@@ -127,13 +127,17 @@ export class BattleEditor extends Component {
 
   render() {
     let quest = this.state.eligibleQueue
+    let pointsAtStake = this.state.currentProblem.level * 5
 
     return (
       this.state.problemNum !== quest.length ?
       (<div className="main-train-container" >
 
       {
-        this.state.winLosePop ? <WinLosePopup winLoseStatus={this.state.player2} /> : null
+        this.state.winLosePop ? <WinLosePopup
+          winLoseStatus={this.state.player2}
+          pointNet={pointsAtStake}
+          /> : null
       }
 
         {quest.length && <div className='question-div'>
