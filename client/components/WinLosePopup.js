@@ -32,7 +32,7 @@ export default class WinLosePopup extends Component{
               <div className="win-lose-div">
               <p className="win-lose-mssg">{`YOU LOSE ${this.props.pointNet} POINTS!`}</p>
                 {
-                  <img src="/assets/fireDeath.gif" alt="you lose gif" />
+                  <img id="fire-death" src="/assets/fireDeath.gif" alt="you lose gif" />
                 }
               </div>
               }
