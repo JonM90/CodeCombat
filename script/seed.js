@@ -24,6 +24,7 @@ async function seed () {
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
   const problems = await Promise.all([
+<<<<<<< HEAD
     Problem.create(
       {
         title: 'Sum', 
@@ -66,6 +67,32 @@ async function seed () {
     signature:'fizzBuzz(num)',
     rating: 4
   }),
+=======
+    Problem.create({title: 'Sum', level: 1, description: 'Return the sum of two numbers', solution: 'function sum(a,b){ return a+b }', testSpecs: ['assert.equal(sum(1,2), 3)', 'assert.equal(sum(4,2), 6)'], authorId: 1, signature:'sum(a, b)'}),
+    Problem.create({title: 'Difference', level: 1, description: 'Return the difference of two numbers', solution: 'function diff(a,b){ return a-b} ', testSpecs: ['assert.equal(diff(1,2), -1)', 'assert.equal(diff(5,2), 3)'], authorId: 2, signature:'diff(a, b)'}),
+    Problem.create({title: 'FizzBuzz', level: 2, description: 'Write a function that accepts a single number as an argument. Return "Fizz" for any numbers that are divisible by 3, "Buzz" for any numbers that are divisible by 5, and "FizzBuzz" for any numbers divisible by both 3 and 5. Else, return false', solution: `function FizzBuzz(num){
+        if (num%15 === 0) {
+          return "FizzBuzz";
+        } else if (num%5 === 0) {
+          return "Buzz";
+        } else if (num%3 === 0) {
+          return "Fizz";
+        } else {
+          return false;
+        }
+      }
+    `, testSpecs: ['assert.equal(FizzBuzz(15), "FizzBuzz")', 'assert.equal(FizzBuzz(3), "Fizz")', 'assert.equal(FizzBuzz(5),"Buzz")', 'assert.equal(FizzBuzz(12), "Fizz")' ], authorId: 1, signature: 'FizzBuzz(num)'}),
+    Problem.create({title: 'Bactrian Case', level: 3, description: 'write a function bactrianCase that accepts a single string as an argument. The function should log out that string with every other letter capitalized.', solution: `function bactrianCase(str) {
+      var newString = '';
+
+    for(var i=0; i<str.length; i++) {
+      if (i%2 === 0) {
+        newString += str[i].toUpperCase();
+      } else {
+        newString += str[i];
+      }
+    }
+>>>>>>> master
 
     Problem.create(
       {

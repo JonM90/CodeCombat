@@ -300,9 +300,28 @@ body {
       color: rgb(240, 240, 240);
       letter-spacing: 3px;
     }
-    #train-pop-btn{
+    .train-pop-btn{
       text-align: center;
       margin-top: 3em;
+
+      #battle-timer{
+        font-family: 'Press Start 2P';
+        font-size: 7rem;
+        background-image: -webkit-linear-gradient(#f48008, #d32020);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      .win-lose-mssg{
+        font-family: 'Press Start 2P';
+        font-size: 2rem;
+        background-image: -webkit-linear-gradient(#f48008, #d32020);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
       .btn{
         margin: 0 12px;
         height: 3em;
@@ -344,7 +363,7 @@ body {
 
 #welcome {
   font-family: 'Press Start 2P';
-  
+
 }
 
 .problemHistory{
@@ -373,7 +392,7 @@ body {
   border-radius: 2%;
   width: 20em;
   height:20em;
-  
+
 }
 
 .userProfile-info-field {
@@ -410,6 +429,16 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   height: 52em;
+  button{
+    width: 9em;
+    font-size: 1.1em;
+    height: 2em;
+    background-color: #ff6a00;
+    border: none;
+    color: #f8f8f0;
+    margin-left: 2em;
+    margin-top: 2em;
+  }
 }
 .component-title-h4{
   margin: 0;
@@ -447,4 +476,14 @@ body {
 .my-points{
   color: rgb(231, 231, 231);
   margin-left: 1em;
+}
+.question-passed{
+  color: greenyellow;
+}
+#loadingGif{
+  text-align: center;
+  margin-top: 8em;
+  h2{
+    color: rgb(233, 231, 231);
+  }
 }
