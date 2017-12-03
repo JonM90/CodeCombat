@@ -1,3 +1,5 @@
+const {VM} = require('vm2');
+
 /*************ORIGINAL***********************************************
       // var runner = function(usersFunc) {
         //   console.log('USERFUNC in Runner', usersFunc)

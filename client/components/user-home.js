@@ -50,7 +50,7 @@ export class UserHome extends Component {
 
         <div id="user-home-container">
           <MuiThemeProvider muiTheme={getMuiTheme()} >
-            <Tabs style={{backgroundColor:'#2d2d2d', height: '52em'}}>
+            <Tabs style={{backgroundColor:'#2d2d2d', height:'60em'}}>
 
               <Tab label="INFO" className="tabs" icon={<ActionInfoOutline />} style={tabStyles}>
                 <UserInfo />

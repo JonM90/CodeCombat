@@ -42,7 +42,9 @@ class Routes extends Component {
             }
           </Switch>
 
-          <Footer />
+          {
+            //<Footer />
+          }
         </Main>
 
       </Router>

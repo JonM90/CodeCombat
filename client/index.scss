@@ -81,7 +81,7 @@ body {
   background-size: cover;
   form{
     padding-left: 35em;
-    
+
   }
  }
 
@@ -114,7 +114,7 @@ body {
   input{
     width:25em;
     font-size: 1em;
-  }  
+  }
 }
 
 .sub-btn {
@@ -181,9 +181,11 @@ body {
 #lobby-main {
   display: flex;
   justify-content: center;
-  padding-top: 4em;
-  background-color: #2d2d2d;
-  height: 52em;
+  padding-top: 8em;
+  background: url("/assets/plain-night.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 60em;
   div{
     // margin: 1em;
     text-align: center;
@@ -488,17 +490,17 @@ body {
   background: url("/assets/night-clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 52em;
+  height: 60em;
 }
 #battle-main{
   background: url("/assets/night-clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 52em;
+  height: 60em;
 
   #battle-lobby{
     text-align: center;
-    padding-top: 6em;
+    padding-top: 15em;
     h1{
       font-family: 'Press Start 2P';
       background-image: -webkit-linear-gradient(#f48008, #d32020);
@@ -613,10 +615,10 @@ body {
 input:focus {
   outline:none !important;
 }
-// #user-home-container{
-
-// }
+#user-home-container{
+  height: 60em;
+}
 #user-home-main{
-  height: 52em;
+  height: 60em;
 }
 
