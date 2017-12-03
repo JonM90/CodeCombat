@@ -24,9 +24,9 @@ const styles = {
 };
 
 const tabStyles = {
-  backgroundColor:'black', 
-  fontFamily:'Press Start 2P',
-  color:'#c98304' //ORANGE
+  backgroundColor: 'black',
+  fontFamily: 'Press Start 2P',
+  color: '#c98304' //ORANGE
 }
 
 export class UserHome extends Component {
@@ -36,8 +36,6 @@ export class UserHome extends Component {
   }
 
   componentDidMount() {
-    // this.props.loadAllProblems();
-    // this.props.loadCompletedProblems(this.props.user.id);
   }
 
   render(props) {
@@ -48,10 +46,10 @@ export class UserHome extends Component {
       <div>
         <h3 id="welcome">Welcome, {user.name}</h3>
 
-        <div>
-          <MuiThemeProvider muiTheme={getMuiTheme()}>
-            <Tabs style={{backgroundColor:'#2d2d2d'}}>
-            
+        <div id="user-home-container">
+          <MuiThemeProvider muiTheme={getMuiTheme()} >
+            <Tabs style={{backgroundColor:'#2d2d2d', height:'60em'}}>
+
               <Tab label="INFO" className="tabs" icon={<ActionInfoOutline />} style={tabStyles}>
                 <UserInfo />
               </Tab>
@@ -59,7 +57,7 @@ export class UserHome extends Component {
               <Tab label="STATS" className="tabs" icon={<EditorPieChartOutlined />} style={tabStyles}>
                 <UserGraph />
               </Tab>
-              
+
               <Tab label="History" className="tabs" icon={<ActionDoneAll />} style={tabStyles}>
                 <UserHistory />
               </Tab>
@@ -82,11 +80,9 @@ const mapState = (state) => {
     user: state.user
   }
 }
-
 // const mapDispatch = dispatch => ({ loadAllProblems: () => dispatch(fetchAllProblems()) })
 
 export default connect(mapState)(UserHome)
-// export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

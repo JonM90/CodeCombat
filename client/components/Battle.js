@@ -3,13 +3,8 @@ import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
 import {BattleEditor} from './BattleEditor';
 import socket from '../socket';
-// import { setTimeout } from 'timers';
 import BattlePopup from './BattlePopup';
 import Loading from './Loading'
-// import {Train} from './Train';
-// const {EventEmitter} = require('events');
-// export const events = new EventEmitter()
-// import axios from 'axios';
 
 export class Battle extends Component{
   constructor(){
@@ -40,7 +35,6 @@ export class Battle extends Component{
       this.props.findRoom(this.props.user.rank);
     }
     socket.on('mssg', (payload) => {
-      console.log("YA HIT ME!!!!!")
       let loadGif = document.getElementById('loadingGif');
       loadGif.classList.toggle('hidden')
       this.setState({showEditor: true, showPopup: true})
@@ -64,21 +58,17 @@ export class Battle extends Component{
     //   this.setState({showPopup: true})
     // }
   this.setState({activeMatch: active, questions: allQs})
-  // console.log('SET STATE W:', active)
-
   }
 
   handleMatch(e) {
     this.setState({matchBtn: true})
     let loadGif = document.getElementById('loadingGif');
-    console.log('TOGGLE ONE')
 
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
-      console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
-      console.log("THE ACTUAL VALUES", this.state.activeMatch.roomId, socket.id)
-      console.log('Updating ROOM:', this.state.activeMatch)
+      // console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
+      // console.log("THE ACTUAL VALUES", this.state.activeMatch.roomId, socket.id)
+      // console.log('Updating ROOM:', this.state.activeMatch)
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
-      console.log('TOGGLE TWO')
       loadGif.classList.toggle('hidden')
       socket.emit('joinRoom', this.state.activeMatch.roomId)
       setTimeout(() => {
@@ -92,18 +82,20 @@ export class Battle extends Component{
   }
 
   render() {
-    console.log("THE BATTLE STATE *********", this.state)
 
-    console.log('this.state.activeMatch', this.state.activeMatch)
-    if (this.props.updateRoom && this.props.updateRoom.status){
-      console.log('RENDERING', this.props.updateRoom.status, this.state.showEditor)
-    }
     return (
         <div id="battle-main">
 
           <h4 className="component-title-h4">Battle Mode</h4>
-          {!this.state.matchBtn?
-            <button onClick={this.handleMatch}>Find Match</button>:null
+          {!this.state.matchBtn ? (
+            <div id="battle-lobby">
+              <h1>Battle Opponents</h1>
+              <h3>Win and Take Points From Your Opponents</h3>
+              <button onClick={this.handleMatch}>Find Match</button>
+            </div>
+            ) : null
+
+
           }
             <Loading />
 
@@ -128,11 +120,9 @@ export class Battle extends Component{
 }
 
 const mapState = (state) => {
-  // console.log('STATE:', state)
   return {
     email: state.user.email,
     user: state.user,
-    // show : state.show,
     allQuestions: state.problems,
     activeRoom: state.room.activeRoom,
     updateRoom: state.room.updatedRoom

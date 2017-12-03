@@ -22,32 +22,26 @@ export class CodeEditor extends Component {
     this.setSig = this.setSig.bind(this);
   }
   componentDidMount() {
-    // console.log("WE IN DID MOUNT, this.props", this.props)
     this.setState({currentProblem: this.props.question})
   }
 
   componentWillReceiveProps(nP) {
-    // console.log("IN RECEIVE PROPS:", nP)
     if (this.ace) {
       this.setState({ currentProblem: nP.question })
-      // console.log("WILL RECEIVE FIRING SETSIG")
       if (nP.justCompleted && nP.justCompleted.userSolution && nP.question && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
       else if (nP.question) this.setSig(nP.question.signature, false);
     }
   }
 
   setSig(currSig, isSolution) {
-    // console.log('CURRRR SIG', currSig)
     if (isSolution) this.ace.editor.setValue(currSig)
     else this.ace.editor.setValue(`function ${currSig}{}`)
   }
 
   onChange(newValue, e) {
-    // console.log('NEW VALUE change', newValue, 'EVENT', e)
     let attempt = newValue;
     const editor = this.ace.editor; // The editor object is from Ace's API
     editor.getSession().setUseWrapMode(true);
-    // console.log(editor.getValue()); // Outputs the value of the editor
 
     //USED TO GET ANNOTATIOINS FROM THE CODE EDITOR
     let error = false;
@@ -73,25 +67,16 @@ export class CodeEditor extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // console.log('onSUBMIT this.props:', this.props)
-
     events.emit('userSubmit', [this.state.attempt, this.state.currentProblem.testSpecs]);
 
     events.on('output', (output) => {
-      // console.log('OUTPUT && LOGGER SHIET:', output[0], output[1])
       this.setState({output: output[0]})
       this.setState({logger: output[1]})
     })
   }
 
-  // onPass(){
-  //     this.props.updatePoints(2);
-  // }
-
   render() {
-    console.log("*****STATE at RENDER", this.state)
     let quest = this.state.currentProblem
-    console.log('quest', quest)
 
     return (
       quest && quest.id ?
@@ -105,7 +90,8 @@ export class CodeEditor extends Component {
         <div className="train-container">
           <div className="editor-div left-train-container">
             <ReactAce
-              style={{ height: '50vh'}}
+
+              style={{ height: '50vh', fontSize: 19}}
               mode="javascript"
               theme="monokai"
               enableBasicAutocompletion = {true}
@@ -120,8 +106,8 @@ export class CodeEditor extends Component {
                 e.preventDefault()
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
-              <input id="train-submit-btn" type="submit" disabled={this.props.passed} />
-              <button onClick={this.nextQuestion}> NEXT MISSION </button>
+              <button className="editor-submit" type="submit" disabled={this.props.passed}>SUBMIT</button>
+              <button className="editor-next-btn" onClick={this.nextQuestion}> NEXT MISSION </button>
             </form>
           </div>
 
@@ -135,11 +121,11 @@ export class CodeEditor extends Component {
 
             <div className="test-specs-div">
               <h4 className="right-container-headers">Test Specs:</h4>
-              {this.props.passed? 
+              {this.props.passed?
                 (
                   <div className="question-passed">
                     YOU PASSED!
-                  </div>  
+                  </div>
                 ): null}
               {
                 this.state.output && this.state.output !== "FIX YOUR ERRORS" ?
@@ -158,25 +144,9 @@ export class CodeEditor extends Component {
 }
 
 const mapState = (state) => {
-  console.log('****************MAPSTATE', state)
   return {
     user: state.user,
   }
 }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     loadAllProblems: () => {
-//       dispatch(fetchAllProblems())
-//     },
-//     loadCompletedProblems: (userId) => {
-//       dispatch(fetchCompletedProblems(userId))
-//     },
-//     updatePoints: () => {
-//       dispatch(getPoints(userId, points))
-//     }
-//   }
-// }
-
 
 export default connect(mapState)(CodeEditor)

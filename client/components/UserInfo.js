@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {List, ListItem} from 'material-ui/List';
 
 class UserInfo extends Component {
-    
+
     render(props) {
         const {email} = this.props;
         const {user} = this.props;
@@ -14,9 +14,10 @@ class UserInfo extends Component {
                     </div>
                     <div id="userProfile-info">
                     <List>
-                        <ListItem disabled={true} primaryText={`NAME:   ${user.name}`} className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText={`NAME: ${user.name}`} className="userProfile-info-field" />
                         <ListItem disabled={true} primaryText={`E-MAIL: ${email}`} className="userProfile-info-field" />
-                        <ListItem disabled={true} primaryText={`RANK:   ${user.rank}`} className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText={`RANK: ${user.rank}`} className="userProfile-info-field" />
+                        <ListItem disabled={true} primaryText={`POINTS: ${user.points}`} className="userProfile-info-field" />
                     </List>
                     </div>
                 </div>)
@@ -24,15 +25,14 @@ class UserInfo extends Component {
 }
 
 const mapState = (state) => {
-    // console.log('STATE:', state)
     return {
       email: state.user.email,
       user: state.user
     }
   }
-  
+
   const mapDispatch = dispatch => {
     return {}
   }
-  
+
   export default connect(mapState, mapDispatch)(UserInfo)

@@ -50,12 +50,12 @@ const AuthForm = (props) => {
 
       <form onSubmit={handleLoginSubmit} name={name}>
 
-        <div>
+        <div className="login-email">
           <label htmlFor="email"><small>Email</small></label>
           <input name="email" type="text"  placeholder="Email@email.com" />
         </div>
            <br />
-        <div>
+        <div className="login-password">
           <label htmlFor="password"><small>Password</small></label>
           <input name="password" type="password" placeholder="Password" />
         </div>
@@ -66,7 +66,7 @@ const AuthForm = (props) => {
 
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <a className="google-login" href="/auth/google">{displayName} with Google</a>
+      {/* <a className="google-login" href="/auth/google">{displayName} with Google</a> */}
     </div>
   )
 }
@@ -87,7 +87,6 @@ const mapLogin = (state) => {
 }
 
 const mapSignup = (state) => {
-    console.log('STATE IN AUTH-FROM:', state)
   return {
     name: 'signup',
     displayName: 'Sign Up',

@@ -21,14 +21,14 @@ const storeSubmission = () => ({type: STORE_SUBMISSION, submission})
 /**
  * THUNK CREATORS
  */
-export const submitAttempt = (question, answer) => 
+export const submitAttempt = (question, answer) =>
   dispatch => {
     //PLACEHOLDER
     axios.post('/api/submission', {question, answer})
     .then(res => {
       dispatch(storeSubmission(res.data))
     })
-    .catch(e => console.log(e))
+    .catch(e => console.error(e))
   }
 
 

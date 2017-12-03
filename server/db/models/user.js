@@ -46,7 +46,7 @@ const User = db.define('user', {
     defaultValue: 0
   },
   profileImage:{
-    type:Sequelize.STRING,
+    type: Sequelize.STRING,
     defaultValue:"http://www.sessionlogs.com/media/icons/defaultIcon.png"
   }
 })
