@@ -8,7 +8,6 @@ export default class WinLosePopup extends Component{
     this.state = {
       time: 5
     }
-    // this.battleCountdown = this.battleCountdown.bind(this)
    }
 
   componentDidMount(){

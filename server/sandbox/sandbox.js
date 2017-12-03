@@ -1,91 +1,20 @@
-// import {VM} from 'vm2'
-// import {EventEmitter} from 'events'
-// const {EventEmitter} = require('events');
-
-// const events = new EventEmitter()
-// export default events
-
-// module.exports = {
-//   events,
-//   mssg
-// }
-
-// function mssg(msg, shouldBroadcast = true) {
-  //   // If shouldBroadcast is truthy, we will emit an event to listeners w. msg
-//   shouldBroadcast &&
-//       events.emit('mssg', msg);
-// }
-//at: new Error().stack}
-// var log3 = [], err3 = [];
-
-//.run('console.log("hi")')
-// log
-// console.log(log3)
-// => [ [ 'hi' ],
-//     { args: [ 'hi' ],
-//       at: 'Error\n    at Object.log (repl:1:70)\n    at Object.apply (/Users/jonathanmartinez/Documents/Fullstack/Immersive/capStone/node_modules/vm2/lib/contextify.js:288:34)\n    at vm.js:1:9\n    at ContextifyScript.Script.runInContext (vm.js:59:29)\n    at VM.run (/Users/jonathanmartinez/Documents/Fullstack/Immersive/capStone/node_modules/vm2/lib/main.js:212:72)\n    at repl:1:134\n    at ContextifyScript.Script.runInThisContext (vm.js:50:33)\n    at REPLServer.defaultEval (repl.js:240:29)\n    at bound (domain.js:301:14)\n    at REPLServer.runBound [as eval] (domain.js:314:12)' } ]
-
-// var log4 = [], err4 = [];
-
-// var vmFour = new VM({
-  //   sandbox: {
-    //     log: [],
-//     console: {
-  //       log(...args) {
-//         log.push({args: args, at: new Error().stack})
-//       },
-//       error(...args) {
-//         err.push(args)
-//       }
-//     }
-//   }
-// })
-
-
-// var outPut = vmThree.run(`
-// let addCat = (str) => str + 'cat';
-// addCat("fat")
-// `)
-
-// console.log('TEST!');
-// console.log(outPut);
-// console.log('END!');
-// *************ORIGINAL***********************************************
-const {VM} = require('vm2');
-
-  // *************ORIGINAL***********************************************
-
-  // ************************************************************
-  // const {VM} = require('vm2')
-  // var v = new VM({
-    //   sandbox: {
-      //     __test__: require('./testSpecs')
-      //   }
-      // })
-
-      // *************ORIGINAL***********************************************
-
+/*************ORIGINAL***********************************************
       // var runner = function(usersFunc) {
         //   console.log('USERFUNC in Runner', usersFunc)
         //   console.log('***RIGHT BEFORE VM RUN', `
         //   ${usersFunc}
         //   `)
-
-        //   return vmThree.run(`${usersFunc}`)
-
-        // }
-
+        //   return vmThree.run(`${usersFunc}`) }
         // module.exports = runner;
-        // *************ORIGINAL***********************************************
+/*************ORIGINAL*********************************************
+    // let userSubmittedCode;
 
-      // let userSubmittedCode;
-
-      function wrap(functionName, userCode) {
-        return [userCode, `__test__(${functionName})`].join(';')
-      }
-      // function run(functionName, userCode) {
-      //   return userCode + `${functionName}(5)`
-      // }
+    function wrap(functionName, userCode) {
+      return [userCode, `__test__(${functionName})`].join(';')
+    }
+    // function run(functionName, userCode) {
+    //   return userCode + `${functionName}(5)`
+    // }
 
       /**
        *
@@ -135,7 +64,7 @@ const {VM} = require('vm2');
                 arr.push(`${sliced}: FAILED` )
                 console.log('error in catch', error)
                 // vm.run(`console.log("TRY AGAIN, DON'T GIVE UP!")`)
-              }           
+              }
 
             }
 
@@ -149,14 +78,10 @@ const {VM} = require('vm2');
         // const wrappedCode = wrap('hello', userFunc)
 
         // console.log('*** wrappedCode:', wrappedCode)
-
         // console.log('tester vmThree is: ', vmThree.run(wrappedCode))
-
 
         // return vmThree.run(`${userFunc}`)
         // return vmThree.run('hello', userFunc))
-
-
       }
       module.exports = runner;
 
@@ -189,3 +114,24 @@ const {VM} = require('vm2');
 //         concat: [Function],
 //         byteLength: [Function: byteLength],
 //         [Symbol(node.isEncoding)]: [Function] } } }
+
+// console.log(log3)
+// => [ [ 'hi' ],
+//     { args: [ 'hi' ],
+//       at: 'Error\n    at Object.log (repl:1:70)\n    at Object.apply (/Users/jonathanmartinez/Documents/Fullstack/Immersive/capStone/node_modules/vm2/lib/contextify.js:288:34)\n    at vm.js:1:9\n    at ContextifyScript.Script.runInContext (vm.js:59:29)\n    at VM.run (/Users/jonathanmartinez/Documents/Fullstack/Immersive/capStone/node_modules/vm2/lib/main.js:212:72)\n    at repl:1:134\n    at ContextifyScript.Script.runInThisContext (vm.js:50:33)\n    at REPLServer.defaultEval (repl.js:240:29)\n    at bound (domain.js:301:14)\n    at REPLServer.runBound [as eval] (domain.js:314:12)' } ]
+
+// var log4 = [], err4 = [];
+
+// var vmFour = new VM({
+  //   sandbox: {
+    //     log: [],
+//     console: {
+  //       log(...args) {
+//         log.push({args: args, at: new Error().stack})
+//       },
+//       error(...args) {
+//         err.push(args)
+//       }
+//     }
+//   }
+// })

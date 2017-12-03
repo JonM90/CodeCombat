@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Navbar, Login, Signup, Footer, UserHome, Lobby, Train, Battle, CodeEditor } from './components'
 import {me} from './store'
-// import {CodeEditor} from './components/editor'
 
 /**
  * COMPONENT
@@ -40,9 +39,6 @@ class Routes extends Component {
                   <Route exact path="/users/:userId/profile" component={UserHome} />
 
                 </Switch>
-            }
-            {/* Displays our Login component as a fallback */
-              //<Route component={Login} />
             }
           </Switch>
 

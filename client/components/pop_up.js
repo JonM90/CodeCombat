@@ -15,10 +15,8 @@ export class PopUp extends Component{
   render(){
     let quest = this.props.quest
     if (!quest) return null;
-    // console.log('this.props:', this.props)
     let qName = this.props.quest.title
     if (!qName) return null;
-    // console.log('qName:', qName)
     return (
       (
         <div className='popup-div' style={{zIndex:'10'}}>

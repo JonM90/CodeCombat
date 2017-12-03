@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 
 export default class Loading extends Component{
-   constructor(props){
+  constructor(props){
     super(props);
     this.state = {
-        load:[
-            "/assets/bemoLoad.gif",
-            "/assets/pokeBikeLoad.gif",
-            "/assets/pokeMatchLoad.gif",
-            "/assets/slapEarthLoad.gif"
-        ]
+      load:[
+        "/assets/bemoLoad.gif",
+        "/assets/pokeBikeLoad.gif",
+        "/assets/pokeMatchLoad.gif",
+        "/assets/slapEarthLoad.gif"
+      ]
     }
-   }
+  }
 
   componentDidMount(){}
 
