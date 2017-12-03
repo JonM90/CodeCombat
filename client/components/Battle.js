@@ -102,8 +102,15 @@ export class Battle extends Component{
         <div id="battle-main">
 
           <h4 className="component-title-h4">Battle Mode</h4>
-          {!this.state.matchBtn?
-            <button onClick={this.handleMatch}>Find Match</button>:null
+          {!this.state.matchBtn?(
+            <div id="battle-lobby">
+              <h1>Battle Opponents</h1>
+              <h3>Fight To The Death!</h3>
+              <button onClick={this.handleMatch}>Find Match</button>
+            </div>
+            ):null
+
+          
           }
             <Loading />
 

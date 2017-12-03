@@ -92,7 +92,7 @@ export class CodeEditor extends Component {
     console.log("*****STATE at RENDER", this.state)
     let quest = this.state.currentProblem
     console.log('quest', quest)
-
+   
     return (
       quest && quest.id ?
       (<div className="main-train-container" >
@@ -105,7 +105,8 @@ export class CodeEditor extends Component {
         <div className="train-container">
           <div className="editor-div left-train-container">
             <ReactAce
-              style={{ height: '50vh'}}
+              
+              style={{ height: '50vh', fontSize: 19}}
               mode="javascript"
               theme="monokai"
               enableBasicAutocompletion = {true}
@@ -120,8 +121,8 @@ export class CodeEditor extends Component {
                 e.preventDefault()
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
-              <input id="train-submit-btn" type="submit" disabled={this.props.passed} />
-              <button onClick={this.nextQuestion}> NEXT MISSION </button>
+              <button className="editor-submit" type="submit" disabled={this.props.passed}>SUBMIT</button>
+              <button className="editor-next-btn" onClick={this.nextQuestion}> NEXT MISSION </button>
             </form>
           </div>
 

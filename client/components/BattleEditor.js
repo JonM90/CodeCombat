@@ -144,7 +144,7 @@ export class BattleEditor extends Component {
         <div className="train-container">
           <div className="editor-div left-train-container">
             <ReactAce
-              style={{ height: '50vh'}}
+              style={{ height: '50vh', fontSize: 19}}
               mode="javascript"
               theme="monokai"
               enableBasicAutocompletion = {true}
@@ -159,7 +159,7 @@ export class BattleEditor extends Component {
                 e.preventDefault()
                 this.setState({output: 'FIX YOUR ERRORS'})
               } }>
-              <input id="train-submit-btn"type="submit" />
+              <input className="editor-submit" type="submit" />
             </form>
           </div>
 
@@ -169,7 +169,6 @@ export class BattleEditor extends Component {
               {
                 this.state.logger.length ? <div className="output-text"> {this.state.logger.slice(0, this.state.logger.length / 2).map(val => (<div key={val}>{val}</div>))} </div>  : <div></div>
               }
-
             </div>
 
             <div className="test-specs-div">

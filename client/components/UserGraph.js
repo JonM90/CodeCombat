@@ -53,7 +53,7 @@ class PieChart extends Component {
                     </defs>
                 </svg>
             </div> */}
-        <div style={styles}>
+        <div style={styles} id="user-graph-div">
 
             <div className="graph">
                 <span className="graph-header">PERCENTAGE</span>
