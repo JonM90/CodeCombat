@@ -19,7 +19,7 @@ export class CodeEditor extends Component {
       error: false,
       redirect: false,
       displayCongrats: false,
-      //userRank: this.props.rank
+      //userRank: this.props.userRank
     }
 
     this.onChange = this.onChange.bind(this);
@@ -29,7 +29,10 @@ export class CodeEditor extends Component {
     this.toggleCongrats = this.toggleCongrats.bind(this);
   }
   componentDidMount() {
-    console.log("WE IN DID MOUNT IN EDITOR!!!, this.props", this.props)
+
+//this.props.updateUserRank(1, 10)
+
+   // console.log("WE IN DID MOUNT IN EDITOR!!!, this.props", this.props)
     this.setState({currentProblem: this.props.question})
   }
 
@@ -41,10 +44,6 @@ export class CodeEditor extends Component {
       if (nP.justCompleted && nP.justCompleted.userSolution && nP.question && nP.justCompleted.problemId === nP.question.id) this.setSig(nP.justCompleted.userSolution, true)
       else if (nP.question) this.setSig(nP.question.signature, false);
     }
-      //  let newRank = 10
-      //  if(this.props.userPoints >= 50) {
-      //      this.setState({userRank : newRank })
-      //  }
   }
 
   setSig(currSig, isSolution) {
@@ -103,9 +102,9 @@ export class CodeEditor extends Component {
   }
 
   render() {
-    console.log("*****STATE at RENDER", this.state)
+    //console.log("*****STATE at RENDER", this.state)
     let quest = this.state.currentProblem
-    console.log('quest', quest)    
+    //console.log('quest', quest)    
 
     return (
 
@@ -172,7 +171,7 @@ export class CodeEditor extends Component {
             func={this.toggleCongrats}
             quitFunc={ () => this.setState({redirectToLobby: true})} 
             viewStatsFunc={ () => this.setState({redirectToStats: true})} 
-            rank={this.props.userRank} /> } </div>
+            /> } </div>
     )
   }
 }
@@ -180,7 +179,7 @@ export class CodeEditor extends Component {
 const mapState = (state) => {
   console.log('****************MAPSTATE', state)
   return {
-    user: state.user,
+    user: state.user,s
   }
 }
 

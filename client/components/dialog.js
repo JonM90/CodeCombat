@@ -13,7 +13,7 @@ export class Dialog extends Component{
       (
         <div className='popup-div' style={{zIndex:'10'}}>
           <div className='popup-inner-div'>
-            <h1>{`CONGRATS! YOU DID AN AMAZING JOB. YOU HAVE LEVELLED UP TO RANK ${this.props.rank}`}</h1>
+            <h1><b>{`THERE ARE NO MORE QUESTIONS LEFT`}</b></h1>
 
           <div id="train-pop-btn">
               <button className='pop-btn-close btn' onClick={this.props.viewStatsFunc}>VIEW MY STATS</button>

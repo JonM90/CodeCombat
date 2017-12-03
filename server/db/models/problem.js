@@ -25,6 +25,11 @@ const Problem = db.define('problem', {
   signature: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  rating: {
+    type: Sequelize.FLOAT,
+    validate: { min: 1, max: 5 },
+    allowNull: true
   }
 })
 

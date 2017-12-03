@@ -6,7 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-// const UPDATE_USER_POINTS = 'UPDATE_USER_POINTS'
+const UPDATE_USER_RANK = 'UPDATE_USER_RANK'
 
 /**
  * INITIAL STATE
@@ -18,7 +18,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-// const updatePoints = userPoints => ({type: UPDATE_USER_POINTS, userPoints})
+const updateRank = userRank => ({type: UPDATE_USER_RANK, userRank})
 
 /**
  * THUNK CREATORS
@@ -51,16 +51,16 @@ export const logout = () =>
       })
       .catch(err => console.log(err))
 
-// export const updateUserPoints = (userId,point) =>
-//   dispatch =>
-//     axios.put(`/api/users/${userId}/profile`, {points: point})
+export const updateUserRank = (userId, rank) =>
+  dispatch =>
+    axios.put(`/api/users/${userId}/profile`, {rank: rank})
 
-//   .then(res => {
+  .then(res => {
 
-//     console.log("***UPDATE USER POINTS RES.DATA:", res.data.points)
-//     dispatch(updatePoints(res.data.points))
-//   })
-//   .catch(err => console.error(err))
+    console.log("***UPDATE USER POINTS RES.DATA:", res.data.rank)
+    dispatch(updateRank(res.data.rank))
+  })
+  .catch(err => console.error(err))
 
 // export const getPoints = (userId) =>
 //      dispatch =>
@@ -82,8 +82,8 @@ export default function (state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
-    // case UPDATE_USER_POINTS:
-    //   return Object.assign({},state,{points: action.userPoints})
+    case UPDATE_USER_RANK:
+    return Object.assign({}, state, {rank: action.userRank})    
     default:
       return state
   }

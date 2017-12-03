@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {fetchAllProblems, fetchCompletedProblems, setCompletedProblem} from '../store';
+import {fetchAllProblems, fetchCompletedProblems, setCompletedProblem, updateUserRank} from '../store';
 import {Redirect} from 'react-router'
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 import socket from '../socket';
-import { Dialog } from './dialog';
 
 export class Train extends Component{
   constructor(){
@@ -44,7 +43,9 @@ s
 
   componentDidMount() {
 
-    console.log("USER IN TRAIN: ", this.props.user)
+     //this.props.updateUserRank(1, 10);
+
+    //console.log("USER IN TRAIN: ", this.props.user)
     if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
@@ -73,10 +74,11 @@ s
       // console.log('allQs:', allQs, 'compQs:', compQs)
       let rank = this.props.user.rank;
       let rankRange = [rank - 1, rank, rank + 1]
-      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
-        // return (rank === q.level || rank === q.level - 1 || rank === q.level + 1)
-        return rankRange.includes(q.level)
-      })
+      let eligibleQs = allQs.filter( q => !compIds.includes(q.id))
+      // .filter( q => {
+      //   // return (rank === q.level || rank === q.level - 1 || rank === q.level + 1)
+      //   return rankRange.includes(q.level)
+      // })
       // console.log('eligibleQs', eligibleQs)
       this.setState({eligibleQs})
     }
@@ -88,37 +90,34 @@ s
     let currProb = this.state.eligibleQs[this.state.currInd]
     let questPoints = currProb.level * 5;
     let newPoints = this.state.userPoints + questPoints;
-    console.log('newPoints', newPoints, 'setProbToComplete WITH:', this.props.user.id, currProb.id, this.state.userSolution, newPoints)
+   // console.log('newPoints', newPoints, 'setProbToComplete WITH:', this.props.user.id, currProb.id, this.state.userSolution, newPoints)
     this.setState({userPoints: newPoints})
     this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints);
        // alert("YOU GOT THE ANSWE RGIHT")
-       this.setState({ displayCongrats: true})
+       //this.setState({ displayCongrats: true})
+
+       let newRank;
+       if(this.state.userPoints >= 100) {
+            newRank = this.props.user.rank + 1
+            this.props.updateUserRank(`${this.props.user.id}`, newRank)
+       }
   }
 
   nextQuestion(e){
     e.preventDefault();
     this.setState({pass: false})
     let currProbNum = this.state.currInd + 1;
-    console.log('NEXT IS FIRED, PROB#', currProbNum, 'currentProblem:', this.state.eligibleQs[currProbNum])
+      // console.log('NEXT IS FIRED, PROB#', currProbNum, 'currentProblem:', this.state.eligibleQs[currProbNum])
     this.setState({
       currInd: currProbNum,
       currentProblem: this.state.eligibleQs[currProbNum]
     })
   }
 
-  handleNext(){
-    // this.setState({ showPopup: true })
-    // return this.state.eligibleQs && this.state.showPopup ? (<PopUp
-    //   func={this.togglePopup}
-    //   // quest={this.state.eligibleQs[0]}
-    //   quest={this.state.eligibleQs[this.state.currInd]}
-    //   skipFunc={this.handleSkip}
-    //   quitFunc={ () => this.setState({redirect: true}) }
-    // />) : null
-  }
+  handleNext(){}
 
   render() {
-    console.log('this.state.pass', this.state.pass)
+    console.log('****THIS IS PROPS IN TRAIN: ', this.props)
 
     return (
       <div id="train-main">
@@ -153,29 +152,21 @@ s
               justCompleted = {this.props.justCosmpleted}
               passed = {this.state.pass}
               userPoints={this.state.userPoints}
+             // updateUserRank={this.props.updateUserRank}
             /> : <h1>No Dice</h1> }
         </div>
-
-        {/* {
-          this.state.pass && this.state.displayCongrats ? <Dialog 
-            func={this.toggleCongrats}
-            //congratFunc={this.handleNext}
-            quitFunc={ () => this.setState({redirect: true}) }
-          /> : null
-        } */}
-
       </div>
     )
   }
 }
 
 const mapState = (state) => {
-  // console.log('STATE:', state)
+  //console.log('STATE IN TRAIN:', state)
   return {
     email: state.user.email,
     user: state.user,
     allQuestions: state.problems,
-    justCompleted: state.problems.justCompleted
+    justCompleted: state.problems.justCompleted,
   }
 }
 
@@ -189,6 +180,9 @@ const mapDispatch = dispatch => {
     },
     setProbToComplete: (userId, problemId, userSolution, userPoints) => {
       dispatch(setCompletedProblem(userId, problemId, userSolution, userPoints))
+    },
+    updateUserRank: (userId, rank) => {
+      dispatch(updateUserRank(userId, rank))
     }
   }
 }
