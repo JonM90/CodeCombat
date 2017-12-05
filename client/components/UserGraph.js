@@ -34,9 +34,9 @@ class PieChart extends Component {
         let losses = this.props.user.battleLoss
         console.log("WINS AND LOSSES", wins, losses)
         let rankObj = {}
-        if(completedQuestions.length){
+        if (completedQuestions.length){
             completedQuestions.forEach(val => {
-                rankObj[val.level+''] = rankObj[val.level+''] + 1 || 1
+                rankObj[val.level + ''] = rankObj[val.level + ''] + 1 || 1
             })
         }
         return (
@@ -53,7 +53,7 @@ class PieChart extends Component {
                     </defs>
                 </svg>
             </div> */}
-        <div style={styles}>
+        <div style={styles} id="user-graph-div">
 
             <div className="graph">
                 <span className="graph-header">PERCENTAGE</span>
@@ -68,7 +68,7 @@ class PieChart extends Component {
                 ]}
                 labelRadius={75}
                 style={{labels: {
-                            fill:'white',
+                            fill: 'white',
                             textAnchor: "middle",
                             verticalAnchor: "middle"
                         }
@@ -127,7 +127,6 @@ class PieChart extends Component {
 }
 
 const mapState = (state) => {
-    // console.log('STATE:', state)
     return {
       email: state.user.email,
       user: state.user,

@@ -37,10 +37,5 @@ router.route('/matches')
         })
         .then(updatedRoom => res.json(updatedRoom))
 
-        // let room = req.body.room
-        // room.update({status: 'closed'})
-        // .then(rm => {
-        //   res.json(rm)
-        // })
     })
 

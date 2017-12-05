@@ -16,8 +16,8 @@ export class Dialog extends Component{
             <h1><b>{`THERE ARE NO MORE QUESTIONS LEFT`}</b></h1>
 
           <div id="train-pop-btn">
-              <button className='pop-btn-close btn' onClick={this.props.viewStatsFunc}>VIEW MY STATS</button>
-              <button className='pop-btn-close btn' onClick={this.props.quitFunc}>BACK TO LOBBY</button>
+              <button className='editor-next-btn' onClick={this.props.viewStatsFunc}>VIEW MY STATS</button>
+              <button className='editor-next-btn' onClick={this.props.quitFunc}>BACK TO LOBBY</button>
           </div>
 
           </div>

@@ -13,9 +13,6 @@ const Room = db.define('room', {
     type: Sequelize.ENUM('open', 'closed'),
     defaultValue: 'open'
   },
-  // players: {
-  //     type: Sequelize.ARRAY(Sequelize.INTEGER)
-  // },
   playerHost: {
     type: Sequelize.INTEGER
   },

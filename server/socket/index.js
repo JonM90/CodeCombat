@@ -10,13 +10,11 @@ module.exports = (io) => {
       var outPut = RUN(usersFunc[0], usersFunc[1])
 
       console.log('********this is outPut in socket/index.js:', outPut);
-      console.log('END!');
       socket.emit('result', outPut.slice(0, 2))
       socket.emit('pass', outPut[2], usersFunc[0])
     })
 
     socket.on('joinRoom', roomId => {
-      console.log('In joinRoom:', roomId)
       socket.join(roomId)
       setTimeout(() => {
         console.log(`joined room: ${roomId}`)
@@ -52,21 +50,23 @@ module.exports = (io) => {
       io.in(roomId).emit('foundWinner', winner);
     })
 
-    socket.on('updateWin', (userId) => {
+    socket.on('updateWin', (userId, points) => {
       User.findById(+userId)
       .then(user => {
-        console.log('USERID', userId, 'USER:', user)
+        let newPoints = user.points + points
+        console.log('USERID', userId, 'points:', points, 'newPts:', newPoints)
         let newC = user.battleWin + 1
-        user.update({battleWin: newC})
+        user.update({battleWin: newC, points: newPoints})
       })
     })
 
-    socket.on('updateLoss', (userId) => {
+    socket.on('updateLoss', (userId, points) => {
       User.findById(+userId)
       .then(user => {
-        console.log('USERID', userId, 'USER:', user)
+        let newPoints = user.points - points
+        console.log('USERID', userId, 'points:', points, 'newPts:', newPoints)
         let newC = user.battleLoss + 1
-        user.update({battleLoss: newC})
+        user.update({battleLoss: newC, points: newPoints})
       })
     })
 
@@ -75,118 +75,3 @@ module.exports = (io) => {
     })
   })
 }
-
-
-
-
-
-//OLD Vs
-// const {VM} = require('vm2');
-// var log3 = [], err3 = [];
-// var vmThree = new VM({
-//   sandbox: {
-//     console: {
-//       log(...args) {
-//         log3.push({args: args, at: new Error().stack})
-//       },
-//       error(...args) {
-//         err3.push(args)
-//       }
-//     }
-//   }
-// })
-// let message;
-
-// console.log('MESSAGE!!!', message)
-// var outPut = vmThree.run(`
-// let addCat = (str) => str + 'cat';
-// addCat("fat")
-// `)
-// var outPut = vmThree.run(`${message}`)
-// console.log('TEST!');
-// console.log(outPut);
-// console.log('END!');
-
-// io.on('connection', socket => {
-// 	console.log(`Welcome new socket: ${socket.id}`);
-// 	console.log("im the io", io)
-// 	if(inMemoryDrawHistory.length) {
-// 		console.log("gonna load", inMemoryDrawHistory)
-// 		socket.emit('load', inMemoryDrawHistory)
-// 	}
-
-// 	socket.on('draw', (start, end, color) => {
-// 		inMemoryDrawHistory.push({start, end, color});
-// 		socket.broadcast.emit('draw', start, end, color)
-// 	})
-
-// 	socket.on('disconnect', () => {
-// 		console.log(`Goodbye old friend: ${socket.id}`);
-// 	})
-// });
-
-// // const {VM} = require('vm2');
-// // var log3 = [], err3 = [];
-// // var vmThree = new VM({
-// //   sandbox: {
-// //     console: {
-// //       log(...args) {
-// //         log3.push({args: args, at: new Error().stack})
-// //       },
-// //       error(...args) {
-// //         err3.push(args)
-// //       }
-// //     }
-// //   }
-// // })
-// // let message;
-// const run = require('../sandbox/sandbox');
-
-// module.exports = (io) => {
-//   io.on('connection', (socket) => {
-//     console.log(`A socket connection to the server has been made: ${socket.id}`)
-
-//     socket.on('userSubmit', (usersFunc) => {
-
-//       var outPut = run(usersFunc[0], usersFunc[1])
-
-//       console.log("********this is outPut in socket/index.js:",outPut);
-//       console.log('END!');
-//       socket.emit('result', outPut)
-//     })
-
-//     socket.on('disconnect', () => {
-//       console.log(`Connection ${socket.id} has left the building`)
-//     })
-
-
-//   })
-// }
-
-// // console.log('MESSAGE!!!', message)
-// // var outPut = vmThree.run(`
-// // let addCat = (str) => str + 'cat';
-// // addCat("fat")
-// // `)
-// // var outPut = vmThree.run(`${message}`)
-// // console.log('TEST!');
-// // console.log(outPut);
-// // console.log('END!');
-
-// // io.on('connection', socket => {
-// // 	console.log(`Welcome new socket: ${socket.id}`);
-// // 	console.log("im the io", io)
-// // 	if(inMemoryDrawHistory.length) {
-// // 		console.log("gonna load", inMemoryDrawHistory)
-// // 		socket.emit('load', inMemoryDrawHistory)
-// // 	}
-
-// // 	socket.on('draw', (start, end, color) => {
-// // 		inMemoryDrawHistory.push({start, end, color});
-// // 		socket.broadcast.emit('draw', start, end, color)
-// // 	})
-
-// // 	socket.on('disconnect', () => {
-// // 		console.log(`Goodbye old friend: ${socket.id}`);
-// // 	})
-// // });

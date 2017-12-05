@@ -14,11 +14,11 @@ export class Train extends Component{
       userPoints: 0, // set user points everytime points changes
       eligibleQs: [],
       currentProblem: {},
-      // problemNum: 0,
       currInd: 0,
       pass: false,
       userSolution: '',
       redirect: false,
+      userRank: 0,
      // displayCongrats: false,
     }
 
@@ -33,7 +33,6 @@ s
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
-      //currInd: (this.state.currInd + 1)
     });
   }
 
@@ -44,8 +43,6 @@ s
   componentDidMount() {
 
      //this.props.updateUserRank(1, 10);
-
-    //console.log("USER IN TRAIN: ", this.props.user)
     if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
@@ -53,14 +50,13 @@ s
 
     this.setState({
       showPopup: true,
-      userPoints: this.props.user.points
+      userPoints: this.props.user.points,
+      userRank: this.props.user.rank
     })
 
     socket.on('pass', (pass, userSolution) => {
-      console.log('SOCKET ON PASS:', pass, 'userSolution:', userSolution)
       if (pass) {
         this.setState({userSolution, pass})
-        // this.setState({pass})
         this.isPassing(pass)
       }
     })
@@ -70,44 +66,46 @@ s
     let allQs = nextProps.allQuestions.allProblems;
     let compQs = nextProps.allQuestions.completedProblems;
     let compIds = compQs.map(q => q.id)
-    if (allQs.length && compQs.length) {
-      // console.log('allQs:', allQs, 'compQs:', compQs)
+    if (allQs.length && compQs.length || Array.isArray(compIds)) {
       let rank = this.props.user.rank;
-      let rankRange = [rank - 1, rank, rank + 1]
-      let eligibleQs = allQs.filter( q => !compIds.includes(q.id))
-      // .filter( q => {
-      //   // return (rank === q.level || rank === q.level - 1 || rank === q.level + 1)
-      //   return rankRange.includes(q.level)
-      // })
-      // console.log('eligibleQs', eligibleQs)
+      let rankRange = [rank - 1, rank, rank + 1, rank + 2, rank + 3, rank + 4, rank + 5, rank + 6, rank + 7]
+      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => { return rankRange.includes(q.level) })
       this.setState({eligibleQs})
     }
   }
 
   isPassing(pass) {
-    console.log('SOCKET ON PASS TRUE:', this.state.pass, 'this.state.currentProb', this.state.eligibleQs[this.state.currInd], 'userSolution:', this.state.userSolution)
-
     let currProb = this.state.eligibleQs[this.state.currInd]
-    let questPoints = currProb.level * 5;
+    let questPoints = currProb.level * 20;
     let newPoints = this.state.userPoints + questPoints;
-   // console.log('newPoints', newPoints, 'setProbToComplete WITH:', this.props.user.id, currProb.id, this.state.userSolution, newPoints)
     this.setState({userPoints: newPoints})
     this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints);
-       // alert("YOU GOT THE ANSWE RGIHT")
-       //this.setState({ displayCongrats: true})
+       
+       let newRank = this.state.userRank;
 
-       let newRank;
-       if(this.state.userPoints >= 100) {
-            newRank = this.props.user.rank + 1
-            this.props.updateUserRank(`${this.props.user.id}`, newRank)
+       if (this.state.userPoints >= 100 && this.state.userPoints <= 200){
+        newRank = (newRank + 1);
        }
+       if (this.state.userPoints >= 200 && this.state.userPoints <= 300){
+        newRank = (newRank + 1);
+       }
+       if (this.state.userPoints  >= 300 && this.state.userPoints <= 400){
+        newRank = (newRank + 1);
+       }
+       if (this.state.userPoints >= 400 && this.state.userPoints <= 500){
+        newRank = (newRank + 1);
+       }
+
+       if (this.state.userPoints >= 500 && this.state.userPoints <= 600){
+        newRank = (newRank + 1);
+       }
+           this.props.updateUserRank(`${this.props.user.id}`, newRank);
   }
 
   nextQuestion(e){
     e.preventDefault();
     this.setState({pass: false})
     let currProbNum = this.state.currInd + 1;
-      // console.log('NEXT IS FIRED, PROB#', currProbNum, 'currentProblem:', this.state.eligibleQs[currProbNum])
     this.setState({
       currInd: currProbNum,
       currentProblem: this.state.eligibleQs[currProbNum]
@@ -117,25 +115,19 @@ s
   handleNext(){}
 
   render() {
-    console.log('****THIS IS PROPS IN TRAIN: ', this.props)
-
+          
     return (
       <div id="train-main">
 
         <h4 className="component-title-h4">Training Mode</h4>
-        {/* <button onClick={this.togglePopup}>show popup</button> */}
 
         {this.state.redirect ? <Redirect to="/" /> : null}
 
         <h2 className="my-points">MY POINTS: {this.state.userPoints}</h2>
-        {
-          // <button onClick={this.togglePopup} className="loading">show popup</button>
-        }
 
         { this.state.eligibleQs && this.state.showPopup ?
           <PopUp
             func={this.togglePopup}
-            // quest={this.state.eligibleQs[0]}
             quest={this.state.eligibleQs[this.state.currInd]}
             skipFunc={this.handleSkip}
             quitFunc={ () => this.setState({redirect: true}) }
@@ -161,7 +153,6 @@ s
 }
 
 const mapState = (state) => {
-  //console.log('STATE IN TRAIN:', state)
   return {
     email: state.user.email,
     user: state.user,

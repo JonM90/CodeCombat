@@ -26,18 +26,19 @@ class UserHistory extends Component {
             display: 'inline-block',
           };
         return (
-            <div>
-                <List>
+            <div id="problem-history-container">
+                <h3 id="problem-history-h3">My Completed Problems</h3>
+                <List id="problem-history-list">
                     {completed && completed.map(val => {
 
-                        return (<ListItem 
-                            key={val.title} 
-                            primaryText={<span className="problemHistory">{val.title}</span>} 
+                        return (<ListItem
+                            key={val.title}
+                            primaryText={<span className="problemHistory">{val.title}</span>}
                             initiallyOpen={false}
                             primaryTogglesNestedList={true}
                             hoverColor="#222"
                             nestedItems={[
-                                <ListItem 
+                                <ListItem
                                     key={val.solution}
                                     children={[<div className="solution">{val.solution}</div>]}
                                     />
@@ -50,13 +51,12 @@ class UserHistory extends Component {
 }
 
 const mapState = (state) => {
-    // console.log('STATE:', state)
     return {
         user:state.user,
         allQuestions: state.problems
     }
   }
-  
+
   const mapDispatch = dispatch => {
     return {
 
@@ -65,5 +65,5 @@ const mapState = (state) => {
       }
     }
   }
-  
+
   export default connect(mapState, mapDispatch)(UserHistory)

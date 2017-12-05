@@ -35,9 +35,7 @@ export const auth = (email, password, method, name, userName, userId) =>
     axios.post(`/auth/${method}`, { email, password, name, userName })
       .then(res => {
         dispatch(getUser(res.data))
-        // console.log('RES.DATA***********:', res.data)
         history.push(`/users/${res.data.id}/profile`)
-        //  history.push('/profile')
       })
       .catch(error =>
         dispatch(getUser({error})))
@@ -71,6 +69,7 @@ export const updateUserRank = (userId, rank) =>
 //                  dispatch(updateUserPoint(userPoint))
 //               })
 //                .catch(err => console.error(err));
+      .catch(err => console.error(err))
 
 
 /**

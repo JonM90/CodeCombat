@@ -64,33 +64,71 @@ body {
 }
 
  .signup-div {
-  border-radius: 50px;
-  border: 1px solid #73AD21;
-  padding: 50px;
-  width: 550px;
-  height: 475px;
-  margin: auto;
-  margin-top: 80px;
+  //background-color: black;
+  text-align: center;
+  padding-top: 11em;
+  width: 100%;
+  height: 65vh;
   text-align: center;
   font-size: 25px;
   font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans';
   font-weight: normal;
   font-size: 20px;
   text-align: left;
+  background: url("/assets/plain-night.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  form{
+    padding-left: 35em;
+
+  }
  }
 
  input {
-  width: 5em;
-  height: 1.5em;
-  border-radius: .5em;
-  background-color: white;
-  font-size: 15px;
-  margin: 0.1em 0.1em 3.4em;
+  // width: 5em;
+  // height: 1.5em;
+  // border-radius: .5em;
+  // background-color: white;
+  // font-size: 15px;
+  // margin: 0.1em 0.1em 3.4em;
+
+
+  width: 25em;
+  height: 2.5em;
+  /* border: 5em; */
+  border-radius: 1em;
+  line-height: 3em;
+  font-size: 14px;
+  border-color: #000;
+  padding: 0.5em;
+}
+
+//LOG_IN AND SIGN-UP
+.login-email{
+  width: 100%;
+  height: 31px;
+  font-size: 1em;
+  color: white;
+  input{
+    width:25em;
+    font-size: 14px;
+  }
+}
+.login-password{
+  width: 100%;
+  height: 31px;
+  font-size: 1em;
+  color: white;
+  margin-top: 1em;
+  input{
+    width:25em;
+    font-size: 14px;
+  }
 }
 
 .sub-btn {
-  background-color: #1A237E;
+  background-color: #6a39ff;
   border: none;
   color: white;
   padding: 16px 32px;
@@ -99,8 +137,21 @@ body {
   cursor: pointer;
   border-radius: 0.5em;
   width: 14em;
-  margin-left: 0.4em;
-  margin-bottom: 2em;
+  margin-top: 2em;
+  font-size: 0.85em;
+}
+.sub-btn:hover {
+  background-color: #8c6cf3;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 0.5em;
+  width: 14em;
+  margin-top: 2em;
+  font-size: 0.85em;
 }
 
 // label {
@@ -108,15 +159,15 @@ body {
 //   font-size: 18px;
 // }
 
-.google-login {
-  background-color: #1A237E;
-  border-radius: 0.5em;
-  margin-right: 10em;
-  padding: 0.5em;
-  margin-top: 3.5em;
-  color: white;
-  width: 14em;
-}
+// .google-login {
+//   background-color: #1A237E;
+//   border-radius: 0.5em;
+//   margin-right: 10em;
+//   padding: 0.5em;
+//   margin-top: 3.5em;
+//   color: white;
+//   width: 14em;
+// }
 //----------------------------------------------------------------------------
 
 #main-game-title {
@@ -140,9 +191,11 @@ body {
 #lobby-main {
   display: flex;
   justify-content: center;
-  padding-top: 4em;
-  background-color: #2d2d2d;
-  height: 52em;
+  padding-top: 8em;
+  background: url("/assets/plain-night.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 60em;
   div{
     // margin: 1em;
     text-align: center;
@@ -162,6 +215,8 @@ body {
       font-family: 'Open Sans';
       font-weight: 800;
       color: #d0d0d0;
+      margin-top: 1em;
+
     }
 
     /* color: white; */
@@ -175,11 +230,10 @@ body {
     margin: 0 15px;
     box-shadow: 1px black;
     // border: solid 1px black;
-
     .card-header{
       background-color: #444;;
       height: 25%;
-      padding-top: 2em;
+      padding-top: 3em;
     }
     .card-body{
       height: 75%;
@@ -202,8 +256,7 @@ body {
   // }
   #train-div{
     .card-body{
-      background-color: rgb(197, 101, 12);
-      .card-body-img{
+      background: linear-gradient(to top right, #ffcc00 0%, #ff66cc 100%);      .card-body-img{
         width: 30%;
         padding-top: 20%;
       }
@@ -211,9 +264,10 @@ body {
   }
   #battle-div{
     .card-body{
-      background-color: skyblue;
+      background: linear-gradient(to bottom right, #00ccff 0%, #c1ffa2 100%);
       .card-body-img{
         padding-top: 15%;
+        width: 18em;
       }
 
     }
@@ -303,7 +357,17 @@ body {
     .train-pop-btn{
       text-align: center;
       margin-top: 3em;
-
+      .win-lose-div{
+        margin: -5em;
+      }
+      #battle-pop-return-lobby{
+        background-color: #4BB1EF;
+        font-size: 1.3em;
+        border: none;
+        padding: 8px 25px;
+        margin-top: 5em;
+        color: rgb(238, 238, 238);
+      }
       #battle-timer{
         font-family: 'Press Start 2P';
         font-size: 7rem;
@@ -322,6 +386,10 @@ body {
         background-clip: text;
       }
 
+      #fire-death{
+        width: 14rem;
+      }
+
       .btn{
         margin: 0 12px;
         height: 3em;
@@ -332,7 +400,6 @@ body {
       }
       .pop-btn-yes{
         background-color: #b9fab9;
-
       }
       .pop-btn-no{
         background-color: #ff8181;
@@ -343,37 +410,49 @@ body {
       button{
         font-size: 1.4em;
       }
-
     }
-
   }
-
-
 }
 .tabs {
   font-family: 'Press Start 2P';
+  border-radius: 0;
 }
 .solution {
   white-space: pre-wrap;
-  font-size: 14px;
+  font-size: 19px;
   font-family: 'Courier New';
-  color:#d0d0d0;
-  // font-weight:'lighter';
+  color: #b3ce92;
+  background-color: #272727;
+  padding: 1em;
 }
 
 #welcome {
   font-family: 'Press Start 2P';
-
+  background-color: black;
+  color:#c98304;
+  text-align: center;
+  padding: 29px 0;
 }
 
 .problemHistory{
   color:white;
   font-family: 'Press Start 2P';
 }
-
+#problem-history-container{
+  h3{
+    color: #c4f342;
+    padding: 3em 0 0 20em;
+    font-family: 'Press Start 2P';
+  }
+}
+#problem-history-list{
+  padding: 2em 25em !important;
+  background-color:#2d2d2d;
+}
 #userProfile{
   display:flex;
-  flex-direction: 'row'
+  flex-direction: 'row';
+  padding: 70px;
 }
 
 #userProfile-image {
@@ -392,7 +471,6 @@ body {
   border-radius: 2%;
   width: 20em;
   height:20em;
-
 }
 
 .userProfile-info-field {
@@ -410,8 +488,9 @@ body {
   color:white;
   margin:1em;
 }
-
-
+#user-graph-div {
+  padding-top: 70px;
+}
 
 .hidden {
   display: none;
@@ -421,23 +500,39 @@ body {
   background: url("/assets/night-clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 52em;
+  height: 60em;
 }
 #battle-main{
-  //
   background: url("/assets/night-clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 52em;
-  button{
-    width: 9em;
-    font-size: 1.1em;
-    height: 2em;
-    background-color: #ff6a00;
-    border: none;
-    color: #f8f8f0;
-    margin-left: 2em;
-    margin-top: 2em;
+  height: 60em;
+
+  #battle-lobby{
+    text-align: center;
+    padding-top: 15em;
+    h1{
+      font-family: 'Press Start 2P';
+      background-image: -webkit-linear-gradient(#f48008, #d32020);
+      color:transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    h3{
+      color: #fff59e;
+      padding-top: 2em;
+      letter-spacing: 2px;
+    }
+    button{
+      width: 9em;
+      font-size: 1.1em;
+      height: 2em;
+      background-color: #ff6a00;
+      border: none;
+      color: #f8f8f0;
+      // margin-left: 2em;
+      margin-top: 2em;
+    }
   }
 }
 .component-title-h4{
@@ -487,3 +582,53 @@ body {
     color: rgb(233, 231, 231);
   }
 }
+.editor-submit{
+  float:right;
+  background-color: rgb(125, 10, 136);
+  color: white;
+  font-size: 14px;
+  padding: 1.1em 3.2em;
+  border-radius: 0;
+  margin-top: 10px;
+  border: none;
+}
+.editor-submit:hover{
+  background-color: rgb(146, 69, 155);
+  color: lightgrey;
+  transition-duration: 0.4s;
+  border: none;
+}
+.editor-submit:active{
+  background-color: rgb(89, 6, 99);
+  color: lightgrey;
+  border: none;
+}
+.editor-next-btn{
+  background-color: transparent;
+  color: white;
+  font-size: 14px;
+  padding: 1.1em 3.2em;
+  border: 2px solid white;
+  border-radius: 0;
+  margin-top: 10px;
+}
+.editor-next-btn:hover{
+  background-color: #ff7a00;
+  color: rgb(43, 3, 43);
+  font-size: 14px;
+  padding: 1.1em 3.2em;
+  border: 2px solid #ff7a00;
+  border-radius: 0;
+  margin-top: 10px;
+  color: darkblue;
+}
+input:focus {
+  outline:none !important;
+}
+#user-home-container{
+  height: 60em;
+}
+#user-home-main{
+  height: 60em;
+}
+

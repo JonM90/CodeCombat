@@ -36,7 +36,7 @@ router.route('/:userId/profile')
 
 router.get('/:userId/problemHistory', (req, res, next) => {
   User.findById(+req.params.userId,
-    {include:[{model: Problem}] })
+    {include: [{model: Problem}] })
   .then(completed => {
     res.json(completed.problems)
   })
@@ -45,7 +45,7 @@ router.get('/:userId/problemHistory', (req, res, next) => {
 
 router.get('/:userId/problemAuthored', (req, res, next) => {
   Problem.findAll({
-    where:{
+    where: {
       authorId: req.params.userId
     }
   })
@@ -61,7 +61,7 @@ router.get('/:userId/problemAuthored/:problemId', (req, res, next) => {
 
 router.delete('/:userId/problemAuthored/:problemId/delete', (req, res, next) => {
   Problem.destroy({
-    where:{
+    where: {
       authorId: req.params.userId,
       id: req.params.problemId
     }
@@ -78,35 +78,17 @@ router.post('/:userId/problemCreate', (req, res, next) => {
 
 //COMPLETED PROBLEMS
 router.post('/setComplete', (req, res, next) => {
-  // console.log('Complete on backend',req.body)
-  console.log('Complete on backend userid', req.body.userId)
-  console.log('Complete on backend problemID', req.body.problemId)
-  console.log('Complete on backend userSolution', req.body.userSolution)
-  console.log('Complete on backend userPoints', req.body.points)
   User.findById(+req.body.userId)
   .then(user => {
-    console.log('FOUND User', user)
     return user.update({points: req.body.points})
   })
   .then(updatedUser => {
-    console.log('UPDATEDUser.points', updatedUser.points)
     return CompletedProblem.create({
       userId: req.body.userId,
       problemId: req.body.problemId,
       userSolution: req.body.userSolution
     })
-    // res.json(updatedUser)
   })
-  .then(prob => {
-    console.log('Complete prob:', prob)
-    res.json(prob)
-  })
+  .then(prob => { res.json(prob) })
   .catch(next)
-
-  // const completedProblem = CompletedProblem.build({rating: 3})
-  // completedProblem.addProblem(+req.body.problemId, {save: false})
-  // completedProblem.addUser(+req.body.userId, {save: false})
-  // completedProblem.save()
-  // .then(newProblem => res.json(newProblem))
-  // .catch(next)
 })
