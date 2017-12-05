@@ -17,16 +17,18 @@ export class UserHome extends Component {
   }
 
   render() {
-    const {email} = this.props;
-    const {user} = this.props;
 
     return (
       <div>
-        <h3>Welcome, {user.name}</h3>
+        <h3>Welcome, {this.props.name}</h3>
         <div>
-          Name: {user.name}
+          <div className="name">
+          Name: {this.props.name}
+          </div>
           <br />
-          Email: {email}
+          <div className="email">
+          Email: {this.props.email}
+          </div>
           <br />
         </div>
       </div>
