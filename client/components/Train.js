@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, setCompletedProblem} from '../store';
-import {Redirect} from 'react-router'
+import {Redirect} from 'react-router';
+import { Link } from 'react-router-dom';
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 import socket from '../socket';
@@ -113,7 +114,13 @@ export class Train extends Component{
               userId = {this.props.user.id}
               justCompleted = {this.props.justCompleted}
               passed = {this.state.pass}
-            /> : <h1>No Dice</h1> }
+            /> : <div className="train-complete-div">
+              <h1>Great Job! You've Completed All Missions!</h1>
+              <Link to={`/users/${this.props.userId}/battle`}>
+                <button id="try-battle-btn">Try Battle Mode</button>
+              </Link>
+
+              </div>}
         </div>
 
       </div>
