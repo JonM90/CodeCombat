@@ -30,6 +30,7 @@
     "express": "^4.14.1",
     "express-session": "^1.15.1",
     "history": "^4.6.3",
+    "material-ui": "^0.19.4",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
@@ -47,7 +48,9 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.3.1",
+    "sinon": "^4.1.2",
     "socket.io": "^2.0.3",
+    "victory": "^0.24.2",
     "vm": "^0.1.0",
     "vm2": "^3.5.2"
   },

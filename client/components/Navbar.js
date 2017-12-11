@@ -13,8 +13,8 @@ export const Navbar = (props) => {
       <nav>
         <div id="main-game-title">
           <h1>CODE COMBAT</h1>
-          <p>put your javascript skills to the test</p>
-        </div> 
+          <p>Put Your JavaScript Skills To The Test</p>
+        </div>
         <div id="nav-links">
           {
             isLoggedIn
@@ -32,7 +32,7 @@ export const Navbar = (props) => {
           }
         </div>
       </nav>
-      
+
     </div>
   )
 }

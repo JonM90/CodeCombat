@@ -1,91 +1,118 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, fetchRoom, makeRoom, putRoom} from '../store';
-import {CodeEditor} from './editor';
+import {BattleEditor} from './BattleEditor';
 import socket from '../socket';
-// import {Train} from './Train';
-// import { PopUp } from './pop_up';
-// const {EventEmitter} = require('events');
-// export const events = new EventEmitter()
-// import axios from 'axios';
+import BattlePopup from './BattlePopup';
+import Loading from './Loading'
 
 export class Battle extends Component{
   constructor(){
     super();
     this.state = {
-      eligibleQs: [],
+      // eligibleQs: [],
+      questions: [],
+      activeMatch: {},
       showPopup: false,
-      activeMatch: {}
+      showEditor: false,
+      matchBtn: false
     }
-    // console.log('EVENTS IN BATTLE', events)
-    this.togglePopup = this.togglePopup.bind(this);
+
+    this.removePopup = this.removePopup.bind(this);
     this.handleMatch = this.handleMatch.bind(this);
   }
-  togglePopup() {
+
+  removePopup() {
     this.setState({
-      showPopup: !this.state.showPopup
+      showPopup: false
     });
   }
+
   componentDidMount() {
     if (this.props.loadAllProblems && this.props.loadCompletedProblems) {
       this.props.loadAllProblems();
       this.props.loadCompletedProblems(this.props.user.id);
       this.props.findRoom(this.props.user.rank);
     }
-    this.setState({showPopup: true})
+    socket.on('mssg', (payload) => {
+      let loadGif = document.getElementById('loadingGif');
+      loadGif.classList.toggle('hidden')
+      this.setState({showEditor: true, showPopup: true})
+    })
+  }
+
+  componentWillUnmount() {
+    socket.off('mssg')
   }
 
   componentWillReceiveProps(nextProps) {
-    let allQs = nextProps.allQuestions.allProblems;
-    let compQs = nextProps.allQuestions.completedProblems;
     let active = nextProps.activeRoom;
-    let compIds = compQs.map(q => q.id)
-    if (allQs.length && compQs.length) {
-      let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
-        return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
-      })
-      this.setState({eligibleQs})
-    }
-  this.setState({activeMatch: active})
-  console.log('SET STATE W:', active)
+    let allQs = nextProps.allQuestions.allProblems;
+    // let compQs = nextProps.allQuestions.completedProblems;
+    // let compIds = compQs.map(q => q.id)
+    // if (allQs.length && compQs.length) {
+    //   let eligibleQs = allQs.filter( q => !compIds.includes(q.id)).filter( q => {
+    //     return (this.props.user.rank === q.level || this.props.user.rank === q.level - 1 || this.props.user.rank === q.level + 1)
+    //   })
+    //   this.setState({eligibleQs})
+    //   this.setState({showPopup: true})
+    // }
+  this.setState({activeMatch: active, questions: allQs})
   }
 
   handleMatch(e) {
-    e.preventDefault();
-    // events.emit('findOrCreateMatch', socket.id)// =>
-    // this.props.findRoom(this.props.user.rank)
-    console.log('this.state.activeMatch!', this.state.activeMatch)
+    this.setState({matchBtn: true})
+    let loadGif = document.getElementById('loadingGif');
 
     if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
-      console.log('Updating ROOM:', this.state.activeMatch)
-      this.props.updateRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
+      // console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
+      // console.log("THE ACTUAL VALUES", this.state.activeMatch.roomId, socket.id)
+      // console.log('Updating ROOM:', this.state.activeMatch)
+      this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
+      loadGif.classList.toggle('hidden')
       socket.emit('joinRoom', this.state.activeMatch.roomId)
+      setTimeout(() => {
+        this.setState({showEditor: true})
+      }, 1000)
     } else {
-     this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
+      loadGif.classList.toggle('hidden')
+      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
     }
-    console.log('socketID:', socket.id)
+
   }
 
   render() {
-    // if (this.state.eligibleQs) console.log('this.state.eligibleQs', this.state.eligibleQs)
-    //<Train />
 
     return (
         <div id="battle-main">
 
-            <h1>BATTLE COMPONENT</h1>
-            <button onClick={this.togglePopup}>show popup</button>
-            <button onClick={this.handleMatch}>Find Match</button>
+          <h4 className="component-title-h4">Battle Mode</h4>
+          {!this.state.matchBtn ? (
+            <div id="battle-lobby">
+              <h1>Battle Opponents</h1>
+              <h3>Win and Take Points From Your Opponents</h3>
+              <button onClick={this.handleMatch}>Find Match</button>
+            </div>
+            ) : null
 
+
+          }
+            <Loading />
 
             <div className="editor-div">
-              {this.state.eligibleQs && this.state.activeMatch && this.state.activeMatch.id && <CodeEditor
-                questions={this.state.eligibleQs}
-                match={this.state.activeMatch}
-                battleProps={this.props}
-              />}
+            {
+              this.state.questions && this.state.showEditor && this.state.activeMatch ? <BattleEditor
+              questions={this.state.questions}
+              match={this.state.activeMatch}
+              battleProps={this.props}
+              /> : null
+            }
             </div>
 
+            {this.state.questions && this.state.showPopup && (this.props.updateRoom || this.state.showEditor) ?
+              <BattlePopup
+                func={this.removePopup}
+              /> : null}
 
       </div>
     )
@@ -93,12 +120,12 @@ export class Battle extends Component{
 }
 
 const mapState = (state) => {
-  // console.log('STATE:', state)
   return {
     email: state.user.email,
     user: state.user,
     allQuestions: state.problems,
-    activeRoom: state.room.activeRoom
+    activeRoom: state.room.activeRoom,
+    updateRoom: state.room.updatedRoom
   }
 }
 
@@ -116,7 +143,7 @@ const mapDispatch = dispatch => {
     createRoom: (roomId, level, player1) => {
       dispatch(makeRoom(roomId, level, player1))
     },
-    updateRoom: (roomId, playerJoin, status) => {
+    updatingRoom: (roomId, playerJoin, status) => {
       dispatch(putRoom(roomId, playerJoin, status))
     }
   }

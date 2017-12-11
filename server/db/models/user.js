@@ -3,6 +3,10 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  userName: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
   name: {
     type: Sequelize.STRING,
     allowNull: true //CHANGE LATER
@@ -32,6 +36,18 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  battleWin: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  battleLoss: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  profileImage:{
+    type: Sequelize.STRING,
+    defaultValue:"http://www.sessionlogs.com/media/icons/defaultIcon.png"
   }
 })
 

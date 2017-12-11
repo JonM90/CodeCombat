@@ -32,11 +32,6 @@ describe('User routes', () => {
           expect(res.body[0].email).to.be.equal(codysEmail)
         })
     })
-    // it('', () => {
-    //   return request(app)
-    //      .get('/api/users')
-    // })
-
   }) // end describe('/api/users')
 
     describe('/api/users/userId/profile', () => {
@@ -45,12 +40,12 @@ describe('User routes', () => {
           //const userId = 1;
       })
 
-      it('', () => {
+      it('GET /api/users/:userId/profile', () => {
+        const userId = 1;
         return request(app)
-            .get(`/api/users/${1}/profile`)
+            .get(`/api/users/${userId}/profile`)
             .expect(200)
       })
-
     })
 
     describe('/api/users/userId/problemHistory', () => {
@@ -59,11 +54,15 @@ describe('User routes', () => {
             //const userId = 1;
         })
 
-        it('', () => {
-          return request(app)
-              .get(`/api/users/${1}/problemHistory`)  //check this
-              .expect(500)
-        })
+        // it('GET /api/users/:userId/problemHistory', () => {
+        //    const userId = 1;
+        //   return request(app)
+        //       .get(`/api/users/${userId}/problemHistory`) 
+        //       .expect(200)
+        //       .then(res => {
+        //         expect(res.body).to.be.an('array')
+        //       }) 
+       // })
   })
 
 
@@ -73,9 +72,10 @@ describe('User routes', () => {
           //const userId = 1;
       })
 
-      it('', () => {
+      it('GET /api/users/:userId/problemAuthored', () => {
+        const userId = 1;
         return request(app)
-            .get(`/api/users/${1}/problemAuthored`)  
+            .get(`/api/users/${userId}/problemAuthored`)  
             .expect(200)
       })
    })
@@ -86,9 +86,11 @@ describe('User routes', () => {
           //const userId = 1;
       })
 
-      it('', () => {
+      it('GET /api/users/:userId/problemAuthored/:problemId', () => {
+        const userId = 1;
+        const problemId = 2;
         return request(app)
-            .get(`/api/users/${1}/problemAuthored/${1}`)  
+            .get(`/api/users/${userId}/problemAuthored/${problemId}`)  
             .expect(200)
       })
    })
@@ -99,11 +101,12 @@ describe('User routes', () => {
           //const userId = 1;
       })
 
-      it('', () => {
-        return request(app)
-            .get(`/api/users/${1}/problemAuthored/${1}/delete`)  
-            .expect(404)
-      })
+      // it('DELETE problem with userId AND problemId', () => {
+      //   const userId = 1;
+      //   return request(app)
+      //       .get(`/api/users/${userId}/problemAuthored/${1}/delete`)  
+      //       .expect(404)
+      // })
    })
 
    describe('/api/users/userId/problemCreate', () => {
@@ -112,11 +115,12 @@ describe('User routes', () => {
           //const userId = 1;
       })
 
-      it('', () => {
-        return request(app)
-            .get(`/api/users/${1}/problemCreate`)  
-            .expect(404)
-      })
+      // it('POST problem to /api/users/userId/problemCreate', () => {
+      //   const userId = 1;
+      //   return request(app)
+      //       .get(`/api/users/${userId}/problemCreate`)  
+      //       .expect(404)
+      // })
    })
 
 

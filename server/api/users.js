@@ -1,6 +1,8 @@
 const router = require('express').Router()
-const {User, Problem} = require('../db/models')
+const {User, Problem, CompletedProblem} = require('../db/models')
 module.exports = router
+
+// ***********/api/users
 
 router.get('/', (req, res, next) => {
   User.findAll({
@@ -32,10 +34,9 @@ router.route('/:userId/profile')
   .catch(next)
 })
 
-
 router.get('/:userId/problemHistory', (req, res, next) => {
   User.findById(+req.params.userId,
-    {include:[{model: Problem}] })
+    {include: [{model: Problem}] })
   .then(completed => {
     res.json(completed.problems)
   })
@@ -44,7 +45,7 @@ router.get('/:userId/problemHistory', (req, res, next) => {
 
 router.get('/:userId/problemAuthored', (req, res, next) => {
   Problem.findAll({
-    where:{
+    where: {
       authorId: req.params.userId
     }
   })
@@ -60,7 +61,7 @@ router.get('/:userId/problemAuthored/:problemId', (req, res, next) => {
 
 router.delete('/:userId/problemAuthored/:problemId/delete', (req, res, next) => {
   Problem.destroy({
-    where:{
+    where: {
       authorId: req.params.userId,
       id: req.params.problemId
     }
@@ -75,3 +76,19 @@ router.post('/:userId/problemCreate', (req, res, next) => {
   .catch(next)
 })
 
+//COMPLETED PROBLEMS
+router.post('/setComplete', (req, res, next) => {
+  User.findById(+req.body.userId)
+  .then(user => {
+    return user.update({points: req.body.points})
+  })
+  .then(updatedUser => {
+    return CompletedProblem.create({
+      userId: req.body.userId,
+      problemId: req.body.problemId,
+      userSolution: req.body.userSolution
+    })
+  })
+  .then(prob => { res.json(prob) })
+  .catch(next)
+})
