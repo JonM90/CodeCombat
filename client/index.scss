@@ -182,19 +182,6 @@ body {
   }
   a{
     text-decoration: none;
-    h1{
-      font-family: 'Press Start 2P';
-      background-image: -webkit-linear-gradient(#f48008, #d32020);
-      color:transparent;
-      -webkit-background-clip: text;
-      background-clip: text;
-    }
-    p{
-      font-family: 'Open Sans';
-      font-weight: 800;
-      color: #d0d0d0;
-      margin-top: 1em;
-    }
   }
   .card{
     text-align: center;
@@ -206,7 +193,20 @@ body {
     .card-header{
       background-color: #444;;
       height: 25%;
-      padding-top: 3em;
+      padding-top: 2em;
+      h1{
+        font-family: 'Press Start 2P';
+        background-image: -webkit-linear-gradient(#f48008, #d32020);
+        color:transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      p{
+        font-family: 'Open Sans';
+        font-weight: 800;
+        color: #d0d0d0;
+        margin-top: 1em;
+      }
     }
     .card-body{
       height: 75%;
@@ -214,12 +214,12 @@ body {
   }
   #train-div.card:hover{
     -webkit-boxbox-shadow: 0px 19px 80px 8px #2869fc;
-    box-shadow: 0px 19px 80px 8px #2869fc;
+    box-shadow: 0px 19px 80px 35px #2869fc;
   }
 
   #battle-div.card:hover{
     -webkit-boxbox-shadow: 0px 19px 80px 8px #fc8728;
-    box-shadow: 0px 19px 80px 8px #fc8728;
+    box-shadow: 0px 19px 80px 20px #fc8728;
 
 }
   #train-div{
@@ -240,11 +240,6 @@ body {
 
     }
   }
-  // #sandbox-div{
-  //   background-color: grey;
-  //   border: solid 1px black;
-  //   width: 30%
-  // }
 }
 
 .train-container {
@@ -285,6 +280,30 @@ body {
     }
   }
 }
+.train-complete-div{
+  color: white;
+  text-align: center;
+  padding-top: 7em;
+}
+#try-battle-btn{
+  width: 11em;
+  font-size: 1.5em;
+  height: 2em;
+  border: 1px solid white;
+  color: #e6e6e6;
+  margin-top: 2em;
+  background-color: transparent;
+  border-radius: 0;
+  letter-spacing: 3px;
+  padding: 1em 1em 2em 1em;
+}
+#try-battle-btn:hover{
+    background-color: rgb(146, 69, 155);
+    color: lightgrey;
+    transition-duration: 0.4s;
+    border: none;
+  }
+
 .popup-div {
   position: fixed;
   width: 100%;
@@ -361,7 +380,7 @@ body {
       .btn{
         margin: 0 12px;
         height: 2.5em;
-        width: 7em;
+        width: 25%;
         letter-spacing: 2px;
         color:#504f4f;
         border: none;
@@ -546,7 +565,7 @@ body {
 }
 #loadingGif{
   text-align: center;
-  margin-top: 8em;
+  margin-top: 7em;
   h2{
     color: rgb(233, 231, 231);
   }
