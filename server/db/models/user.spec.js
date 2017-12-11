@@ -18,7 +18,12 @@ describe('User model', () => {
       beforeEach(() => {
         return User.create({
           email: 'cody@puppybook.com',
-          password: 'bones'
+          password: 'bones',
+          rank:5,
+          points:80,
+          isAdmin:false,
+          battleWin:56,
+          battleLoss:0
         })
           .then(user => {
             cody = user
@@ -41,73 +46,73 @@ describe('User model', () => {
 
 
 //Problem Specs
-describe('Problem model', () => {
-   beforeEach(() => {
-     return db.sync({ force: true })
-   })
+// describe('Problem model', () => {
+//    beforeEach(() => {
+//      return db.sync({ force: true })
+//    })
 
-   beforeEach(() => {
-     let title, description, challenge; 
+//    beforeEach(() => {
+//      let title, description, challenge; 
      
-     return Problem.create({
-         title: 'Summ',
-         description: 'Find the sum',
-         solution: 'sol',
-         level: 2,
-         testSpecs: ['testSPecs'],
-         signature: 'signature'
-      })
-       .then(probelem => {
-            challenge = probelem
-       })
-   })
+//      return Problem.create({
+//          title: 'Summ',
+//          description: 'Find the sum',
+//          solution: 'sol',
+//          level: 2,
+//          testSpecs: ['testSPecs'],
+//          signature: 'signature'
+//       })
+//        .then(probelem => {
+//             challenge = probelem
+//        })
+//    })
 
-   describe('Validation', () => {
-      it('errors without title', () => {
-          return Problem.build({}).validate()
-              .catch(err => {
-                expect(err);
-              })
-      })
+//    describe('Validation', () => {
+//       it('errors without title', () => {
+//           return Problem.build({}).validate()
+//               .catch(err => {
+//                 expect(err);
+//               })
+//       })
 
-      it('errors without description', () => {
-        return Problem.build({}).validate()
-            .catch(err => {
-              expect(err);
-            })
-    })
+//       it('errors without description', () => {
+//         return Problem.build({}).validate()
+//             .catch(err => {
+//               expect(err);
+//             })
+//     })
 
-    it('errors without solution', () => {
-      return Problem.build({}).validate()
-          .catch(err => {
-            expect(err);
-          })
-     })
+//     it('errors without solution', () => {
+//       return Problem.build({}).validate()
+//           .catch(err => {
+//             expect(err);
+//           })
+//      })
 
-     it('errors without level', () => {
-      return Problem.build({}).validate()
-          .catch(err => {
-            expect(err);
-          })
-     })
+//      it('errors without level', () => {
+//       return Problem.build({}).validate()
+//           .catch(err => {
+//             expect(err);
+//           })
+//      })
 
-     it('errors without testpecs', () => {
-      return Problem.build({}).validate()
-          .catch(err => {
-            expect(err);
-          })
-     })
+//      it('errors without testpecs', () => {
+//       return Problem.build({}).validate()
+//           .catch(err => {
+//             expect(err);
+//           })
+//      })
 
-     it('errors without signature', () => {
-      return Problem.build({}).validate()
-          .catch(err => {
-            expect(err);
-          })
-     })
+//      it('errors without signature', () => {
+//       return Problem.build({}).validate()
+//           .catch(err => {
+//             expect(err);
+//           })
+//      })
 
-   })
+//    })
    
-})
+// })
 
 
 // describe('completed')

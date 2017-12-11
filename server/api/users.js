@@ -26,7 +26,7 @@ router.route('/:userId/profile')
 })
 .get( (req, res, next) => {
   res.json(req.user)
-  .catch(next)
+  //.catch(next)
 })
 .put((req, res, next) => {
   req.user.update(req.body)
