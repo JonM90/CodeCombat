@@ -153,61 +153,6 @@ describe('User routes', () => {
               .catch(e => console.log(e))  //check this
         })
   })
-
-
-  // describe('/api/users/userId/problemAuthored', () => {
-    
-  //     beforeEach(() => {
-  //         //const userId = 1;
-  //     })
-
-  //     it('', () => {
-  //       return request(app)
-  //           .get(`/api/users/${1}/problemAuthored`)  
-  //           .expect(200)
-  //     })
-  //  })
-
-  //  describe('/api/users/userId/problemAuthored/problemId', () => {
-    
-  //     beforeEach(() => {
-  //         //const userId = 1;
-  //     })
-
-  //     it('', () => {
-  //       return request(app)
-  //           .get(`/api/users/${1}/problemAuthored/${1}`)  
-  //           .expect(200)
-  //     })
-  //  })
-
-  //  describe('/api/users/userId/problemAuthored/problemId/delete', () => {
-    
-  //     beforeEach(() => {
-  //         //const userId = 1;
-  //     })
-
-  //     it('', () => {
-  //       return request(app)
-  //           .get(`/api/users/${1}/problemAuthored/${1}/delete`)  
-  //           .expect(404)
-  //     })
-  //  })
-
-  //  describe('/api/users/userId/problemCreate', () => {
-    
-  //     beforeEach(() => {
-  //         //const userId = 1;
-  //     })
-
-  //     it('', () => {
-  //       return request(app)
-  //           .get(`/api/users/${1}/problemCreate`)  
-  //           .expect(404)
-  //     })
-  //  })
-
-
 }) // end describe('User routes')
 
 
