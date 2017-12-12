@@ -120,13 +120,9 @@ export class CodeEditor extends Component {
             </div>
 
             <div className="test-specs-div">
-              <h4 className="right-container-headers">Test Specs:</h4>
-              {this.props.passed?
-                (
-                  <div className="question-passed">
-                    YOU PASSED!
-                  </div>
-                ): null}
+              <h4 className="right-container-headers">Test Specs: {this.props.passed?
+                (<span className="question-passed">YOU PASSED!</span>) : null}</h4>
+             
               {
                 this.state.output && this.state.output !== "FIX YOUR ERRORS" ?
                 <div className="output-text">
