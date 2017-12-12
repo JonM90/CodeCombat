@@ -56,13 +56,14 @@ export const fetchCompletedProblems = (userId) =>
       })
       .catch(err => console.error(err))
 
-export const setCompletedProblem = (userId, problemId, userSolution, points) =>
+export const setCompletedProblem = (userId, problemId, userSolution, points, rank) =>
   dispatch =>
     axios.post('/api/users/setComplete', {
       userId,
       problemId,
       userSolution,
-      points
+      points,
+      rank
     })
     .then(res => {
       console.log("***res is", res)

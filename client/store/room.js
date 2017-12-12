@@ -32,12 +32,13 @@ export const fetchRoom = (level) =>
         dispatch(getRoom(res.data || defaultRoom)))
       .catch(err => console.error(err))
 
-export const makeRoom = (roomId, level, player1) =>
+export const makeRoom = (roomId, level, player1, questId) =>
   dispatch =>
     axios.post('/api/room/matches', {
         roomId,
         level,
-        player1
+        player1,
+        questId
     })
       .then(res =>
         dispatch(createRoom(res.data || defaultRoom)))
