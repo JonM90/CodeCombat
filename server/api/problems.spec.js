@@ -10,9 +10,6 @@ const Problem = db.model('problem')
 
 
 describe('Problem routes', () => {
-  beforeEach(() => {
-    //return db.sync({force: true})
-  })
 
   describe('/api/problems/', () => {
 

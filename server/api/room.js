@@ -5,6 +5,7 @@ module.exports = router
 // STARTS WITH :  '/api/room'
 router.route('/matches')
     .get( (req, res, next) => {
+      console.log("REQUEST", req.body)
       Room.findOne({
         where: {
           status: 'open',

@@ -10,9 +10,6 @@ const Problem = db.model('problem')
 
 
 describe('User routes', () => {
-  beforeEach(() => {
-    //return db.sync({force: true})
-  })
 
   describe('/api/users/', () => {
     const AryaEmail = 'Arya@email.com'
