@@ -54,9 +54,12 @@ module.exports = (io) => {
       User.findById(+userId)
       .then(user => {
         let newPoints = user.points + points
-        console.log('USERID', userId, 'points:', points, 'newPts:', newPoints)
         let newC = user.battleWin + 1
-        user.update({battleWin: newC, points: newPoints})
+        let lvl = Math.floor(Math.sqrt(newPoints) * 0.2)
+
+        console.log('USERID', userId, 'newBatWIN:', newC, 'pointsGained:', points, 'newPts:', newPoints, 'LVL:', lvl)
+
+        user.update({battleWin: newC, points: newPoints, rank: lvl})
       })
     })
 
@@ -64,9 +67,12 @@ module.exports = (io) => {
       User.findById(+userId)
       .then(user => {
         let newPoints = user.points - points
-        console.log('USERID', userId, 'points:', points, 'newPts:', newPoints)
         let newC = user.battleLoss + 1
-        user.update({battleLoss: newC, points: newPoints})
+        let lvl = Math.floor(Math.sqrt(newPoints) * 0.2)
+
+        console.log('USERID', userId, 'newBatLOSS:', newC, 'pointsGained:', points, 'newPts:', newPoints, 'LVL:', lvl)
+
+        user.update({battleLoss: newC, points: newPoints, rank: lvl})
       })
     })
 

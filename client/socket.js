@@ -42,7 +42,7 @@ socket.on('p1SubmitFinish', (msg, p1Total, p1Socket) => {
   battleEvents.emit('p2Pending', msg, p1Total, p1Socket)
 })
 socket.on('foundWinner', (winner) => {
-  // console.log('FOUND WINNER*********', winner)
+  console.log('****FOUND WINNER*********', winner)
   battleEvents.emit('determineWinner', winner)
 })
 battleEvents.on('updateWin', (userId, points) => {

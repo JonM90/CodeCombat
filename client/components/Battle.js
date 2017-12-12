@@ -12,6 +12,7 @@ export class Battle extends Component{
     this.state = {
       // eligibleQs: [],
       questions: [],
+      quest: {},
       activeMatch: {},
       showPopup: false,
       showEditor: false,
@@ -64,10 +65,10 @@ export class Battle extends Component{
     this.setState({matchBtn: true})
     let loadGif = document.getElementById('loadingGif');
 
-    if (this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
-      // console.log('SOCKET ID TYPE', typeof socket.id, typeof this.state.activeMatch.roomId)
-      // console.log("THE ACTUAL VALUES", this.state.activeMatch.roomId, socket.id)
-      // console.log('Updating ROOM:', this.state.activeMatch)
+    if (this.state.activeMatch && this.state.activeMatch.id && this.state.activeMatch.roomId !== socket.id) {
+    let getQuest = this.state.questions.filter(q => q.id === this.state.activeMatch.questId)
+    this.setState({quest: getQuest[0]})
+
       this.props.updatingRoom(this.state.activeMatch.id, this.props.user.id, 'closed')
       loadGif.classList.toggle('hidden')
       socket.emit('joinRoom', this.state.activeMatch.roomId)
@@ -75,13 +76,19 @@ export class Battle extends Component{
         this.setState({showEditor: true})
       }, 1000)
     } else {
+      let rndInd = Math.floor(Math.random() * this.state.questions.length)
+      let rndQ = this.state.questions[rndInd]
+      this.setState({quest: rndQ})
+
       loadGif.classList.toggle('hidden')
-      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id)
+      console.log('creating room with questid:', rndQ.id)
+      this.props.createRoom(socket.id, this.props.user.rank, this.props.user.id, rndQ.id)
     }
 
   }
 
   render() {
+    console.log('BATTLE STATE:', this.state)
 
     return (
         <div id="battle-main">
@@ -102,7 +109,7 @@ export class Battle extends Component{
             <div className="editor-div">
             {
               this.state.questions && this.state.showEditor && this.state.activeMatch ? <BattleEditor
-              questions={this.state.questions}
+              questions={this.state.quest}
               match={this.state.activeMatch}
               battleProps={this.props}
               /> : null
@@ -140,8 +147,8 @@ const mapDispatch = dispatch => {
     findRoom: (level) => {
       dispatch(fetchRoom(level))
     },
-    createRoom: (roomId, level, player1) => {
-      dispatch(makeRoom(roomId, level, player1))
+    createRoom: (roomId, level, player1, questId) => {
+      dispatch(makeRoom(roomId, level, player1, questId))
     },
     updatingRoom: (roomId, playerJoin, status) => {
       dispatch(putRoom(roomId, playerJoin, status))

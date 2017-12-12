@@ -15,8 +15,6 @@ export class BattleEditor extends Component {
       currentProblem: {},
       currentMatch: {},
       output: [],
-      eligibleQueue: [],
-      problemNum: 0,
       logger: [],
       pass: false,
       error: false,
@@ -24,6 +22,8 @@ export class BattleEditor extends Component {
       opponent: '',
       player2: true,
       winLosePop: false
+      // eligibleQueue: [],
+      // problemNum: 0,
     }
 
     this.onChange = this.onChange.bind(this);
@@ -32,22 +32,25 @@ export class BattleEditor extends Component {
   }
 
   componentDidMount() {
-
-    this.setState({eligibleQueue: this.props.questions})
-    this.setState({currentProblem: this.props.questions[this.state.problemNum]})
+    this.setState({currentProblem: this.props.questions})
 
     battleEvents.on('determineWinner', (winner) => {
+      let ptsWagered = Math.floor((Math.log(this.state.currentProblem.level) + 1) * 30)
+      console.log('pts wagered:', ptsWagered)
+
       if (winner[0] === this.state.opponent){
         const userId = +this.props.battleProps.match.params.userId
-        battleEvents.emit('updateLoss', userId, this.state.currentProblem.level * 5)
+        battleEvents.emit('updateLoss', userId, ptsWagered)
       } else {
         const userId = +this.props.battleProps.match.params.userId
-        battleEvents.emit('updateWin', userId, this.state.currentProblem.level * 5)
+        battleEvents.emit('updateWin', userId, ptsWagered)
       }
     })
 
     if (this.state.player2){
+      console.log('p2Boolean:', this.state.player2)
       battleEvents.on('p2Pending', (msg, p1Total, p1Socket) => {
+        console.log('p2pending total & socket:', p1Total, p1Socket)
         this.setState({opponentTotal: p1Total, opponent: p1Socket})
       })
     }
@@ -62,7 +65,7 @@ export class BattleEditor extends Component {
 
   componentWillReceiveProps(nP) {
     this.startTime = new Date();
-    if (nP.questions.length) { this.setSig() }
+    if (nP.questions && nP.questions.id) { this.setSig() }
     if (nP.match && nP.match.id) {
       this.setState({currentMatch: nP.match})
     }
@@ -102,7 +105,7 @@ export class BattleEditor extends Component {
     if (Object.keys(currMatch).length) { player = 'guest' }
 
     currProb && currProb.id ?
-      battleEvents.emit('battleSubmit', [this.state.attempt, this.state.eligibleQueue[this.state.problemNum].testSpecs, player])
+      battleEvents.emit('battleSubmit', [this.state.attempt, currProb.testSpecs, player])
     : null
 
     battleEvents.on('battlePass', (pass) => {
@@ -120,23 +123,23 @@ export class BattleEditor extends Component {
   }
 
   render() {
-    let quest = this.state.eligibleQueue
-    let pointsAtStake = this.state.currentProblem.level * 5
+    let quest = this.state.currentProblem
+    // let pointsAtStake = this.state.currentProblem.level * 5
 
     return (
-      this.state.problemNum !== quest.length ?
-      (<div className="main-train-container" >
+      // this.state.problemNum !== quest.length ?
+      <div className="main-train-container" >
 
       {
         this.state.winLosePop ? <WinLosePopup
           winLoseStatus={this.state.player2}
-          pointNet={pointsAtStake}
+          pointNet={Math.floor((Math.log(this.state.currentProblem.level) + 1) * 30)}
           /> : null
       }
 
-        {quest.length && <div className='question-div'>
-          <h3 className='question-title-text'>{quest.length && quest[this.state.problemNum].title}</h3>
-          <p className='question-description-text'>{quest.length && quest[this.state.problemNum].description}</p>
+        {quest && <div className='question-div'>
+          <h3 className='question-title-text'>{quest.id && quest.title}</h3>
+          <p className='question-description-text'>{quest.id && quest.description}</p>
         </div>}
 
         <div className="train-container">
@@ -179,7 +182,8 @@ export class BattleEditor extends Component {
 
           </div>
         </div>
-      </div>) : <div><h2>CONGRATULATIONS!!!</h2></div>
+      </div>
+    //) : <div><h2>CONGRATULATIONS!!!</h2></div>
     );
   }
 }

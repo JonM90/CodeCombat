@@ -17,7 +17,8 @@ router.route('/matches')
       Room.create({
           roomId: req.body.roomId,
           playerHost: req.body.player1,
-          level: req.body.level
+          level: req.body.level,
+          questId: req.body.questId
       })
       .then(room => res.json(room))
       .catch(next)

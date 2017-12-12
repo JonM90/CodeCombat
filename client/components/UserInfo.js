@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {connect} from 'react-redux'
 import {List, ListItem} from 'material-ui/List';
+import {me} from '../store';
 
-class UserInfo extends Component {
+
+export class UserInfo extends Component {
+
+  componentDidMount() {
+    this.props.loadMe()
+  }
 
     render(props) {
         const {email} = this.props;
@@ -32,7 +38,11 @@ const mapState = (state) => {
   }
 
   const mapDispatch = dispatch => {
-    return {}
+    return {
+      loadMe: () => {
+        dispatch(me())
+      }
+    }
   }
 
   export default connect(mapState, mapDispatch)(UserInfo)
