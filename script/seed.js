@@ -19,9 +19,9 @@ async function seed () {
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({name: 'Arya Stark', email: 'Arya@email.com', password: '123', rank: 2, points: 50, isAdmin: false, battleWin: 17, battleLoss: 7, profileImage: 'https://firebasestorage.googleapis.com/v0/b/stackathon-17f9d.appspot.com/o/arya.jpg?alt=media&token=19789414-d3ac-44cb-b915-5440f105591c'}),
-    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 1, points: 95, isAdmin: false, battleWin: 15, battleLoss: 10, profileImage: 'http://img.sharetv.com/shows/characters/thumbnails/samurai_jack.samurai_jack.jpg'}),
-    User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 1, points: 95, isAdmin: false, battleWin: 15, battleLoss: 10})
+    User.create({name: 'Arya Stark', email: 'Arya@email.com', password: '123', rank: 3, points: 350, isAdmin: false, battleWin: 20, battleLoss: 15, profileImage: 'https://firebasestorage.googleapis.com/v0/b/stackathon-17f9d.appspot.com/o/arya.jpg?alt=media&token=19789414-d3ac-44cb-b915-5440f105591c'}),
+    User.create({name: 'Samurai Jack', email: 'Jack@email.com', password: '123', rank: 3, points: 225, isAdmin: false, battleWin: 15, battleLoss: 10, profileImage: 'http://img.sharetv.com/shows/characters/thumbnails/samurai_jack.samurai_jack.jpg'}),
+    User.create({name: 'Jonathan', email: 'Jonathan@email.com', password: '123', rank: 1, points: 70, isAdmin: false, battleWin: 10, battleLoss: 5})
   ])
 //CHANGE REST OF TESTSPECS TO MATCH BOTTOM ONES
   const problems = await Promise.all([
