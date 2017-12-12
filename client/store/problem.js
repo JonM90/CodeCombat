@@ -1,13 +1,13 @@
 import axios from 'axios'
-import history from '../history'
+// import history from '../history'
 
 /**
  * ACTION TYPES
  */
-const GET_PROBLEM = 'GET_PROBLEM'
-const GET_PROBLEMS = 'GET_PROBLEMS'
-const GET_COMPLETED_PROBLEMS = 'GET_COMPLETED_PROBLEMS'
-const SET_PROBLEM_COMPLETE = 'SET_PROBLEM_COMPLETE'
+export const GET_PROBLEM = 'GET_PROBLEM'
+export const GET_PROBLEMS = 'GET_PROBLEMS'
+export const GET_COMPLETED_PROBLEMS = 'GET_COMPLETED_PROBLEMS'
+export const SET_PROBLEM_COMPLETE = 'SET_PROBLEM_COMPLETE'
 
 // const REMOVE_PROBLEM = 'REMOVE_PROBLEM'
 
@@ -24,10 +24,10 @@ const defaultProblem = {
 /**
  * ACTION CREATORS
  */
-const getProblem = problem => ({type: GET_PROBLEM, problem})
-const getAllProblems = problems => ({type: GET_PROBLEMS, problems})
-const getCompletedProblems = completedProblems => ({type: GET_COMPLETED_PROBLEMS, completedProblems})
-const setProblemToComplete = problem => ({type: SET_PROBLEM_COMPLETE, problem})
+export const getProblem = problem => ({type: GET_PROBLEM, problem})
+export const getAllProblems = problems => ({type: GET_PROBLEMS, problems})
+export const getCompletedProblems = completedProblems => ({type: GET_COMPLETED_PROBLEMS, completedProblems})
+export const setProblemToComplete = problem => ({type: SET_PROBLEM_COMPLETE, problem})
 // const removeProblem = () => ({type: REMOVE_PROBLEM})
 
 /**

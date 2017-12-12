@@ -1,11 +1,11 @@
 import axios from 'axios'
-import history from '../history'
+//import history from '../history'
 
 /**
  * ACTION TYPES
  */
-const STORE_ATTEMPT = 'STORE_ATTEMPT'
-const STORE_SUBMISSION = 'STORE_SUBMISSION'
+export const STORE_ATTEMPT = 'STORE_ATTEMPT'
+export const STORE_SUBMISSION = 'STORE_SUBMISSION'
 
 /**
  * INITIAL STATE
@@ -15,8 +15,8 @@ const defaultAnswer = ""
 /**
  * ACTION CREATORS
  */
-const storeAttempt = user => ({type: STORE_ATTEMPT, attempt})
-const storeSubmission = () => ({type: STORE_SUBMISSION, submission})
+export const storeAttempt = user => ({type: STORE_ATTEMPT, attempt})
+export const storeSubmission = () => ({type: STORE_SUBMISSION, submission})
 
 /**
  * THUNK CREATORS
