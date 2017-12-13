@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {createStore} from 'redux';
-
+//mocha --compilers js:babel-core/register
 import userAttemptReducer from '../client/store/userAttempts'
 
 describe("User Attempts Reducer", () => {

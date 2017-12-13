@@ -1,19 +1,32 @@
-import React from 'react';
-import {expect} from 'chai';
-import Enzyme from 'enzyme'
-import {shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15'
-Enzyme.configure({ adapter: new Adapter() })
-import Lobby from '../client/components/Lobby'
+// import React from 'react';
+// import {expect} from 'chai';
+// import Enzyme from 'enzyme'
+// import {mount} from 'enzyme';
+// // import Adapter from 'enzyme-adapter-react-15'
+// // Enzyme.configure({ adapter: new Adapter() })
+// //mocha --compilers js:babel-core/register --require test/setup.js --recursive test
+// import { configure } from 'enzyme';
+// import Adapter from 'enzyme-adapter-react-15';
+// configure({ adapter: new Adapter() });
 
-describe('Lobby', () => {
-	let lobby;
-	beforeEach('create component', () => {
-		lobby = shallow(<Lobby />);
-	})
+// import { Provider } from 'react-redux';
+// import Lobby from '../client/components/Lobby'
+// import Store from '../client/store'
+// import {Router} from 'react-router-DOM'
+// import {browserHistory, getCurrentLocation} from "react-router"
 
-	it('should be a <div> with expected bgrd', () => {
-		expect(lobby.is('div')).to.be.equal(true);
+// const location = { pathname: '/' };
+
+// describe('Lobby', () => {
+//     let lobby;
+// 	beforeEach('create component', () => {
+//         lobby = mount(<Provider store={Store}><Router history={browserHistory} ><Lobby /></Router></Provider>);
+//         // browserHistory.replace("/")
+// 	})
+
+// 	xit('should have battle component', () => {
+//         // expect(lobby.find(Lobby)).to.have.length(1);
+//     // expect(lobby.find('#train-div')).to.have.length(1);
 		
-	})
-})
+// 	})
+// })
