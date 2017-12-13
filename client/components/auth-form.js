@@ -11,62 +11,64 @@ const AuthForm = (props) => {
   const {name, displayName, handleSignupSubmit, error, handleLoginSubmit} = props;
 
   return name === 'signup' ? (
-    <div className="signup-div">
+    <div className="main-container">
+      <div className="signup-div">
+        <h1>Sign Up</h1>
+        <form onSubmit={handleSignupSubmit} name={name}>
 
-      <form onSubmit={handleSignupSubmit} name={name}>
+        <div className="all-input">
+            <label htmlFor="userName"><small> User Name</small></label>
+            <input name="userName" type="text" placeholder="User Name" />
+          </div>
+            <br />
+          <div className="all-input">
+            <label htmlFor="fullName"><small> Full Name </small></label>
+            <input name="fullName" type="text" placeholder="Your Name" />
+          </div>
+            <br />
+          <div className="all-input">
+            <label htmlFor="email"><small>Email</small></label>
+            <input name="email" type="text"  placeholder="Email@email.com" />
+          </div>
+            <br />
+          <div className="all-input">
+            <label htmlFor="password"><small>Password</small></label>
+            <input name="password" type="password" placeholder="Password" />
+          </div>
+            <br />
+          <div className="all-input">
+            <button className="sub-btn" type="submit">{displayName}</button>
+          </div>
 
-      <div>
-          <label htmlFor="userName"><small> User Name</small></label>
-          <input name="userName" type="text" placeholder="User Name" />
-        </div>
-          <br />
-        <div>
-          <label htmlFor="fullName"><small> Full Name </small></label>
-          <input name="fullName" type="text" placeholder="Your Name" />
-        </div>
-           <br />
-        <div>
-          <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text"  placeholder="Email@email.com" />
-        </div>
-           <br />
-        <div>
-          <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" placeholder="Password" />
-        </div>
-           <br />
-        <div>
-          <button className="sub-btn" type="submit">{displayName}</button>
-        </div>
-
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a className="google-login" href="/auth/google">{displayName} with Google</a>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      </div>
     </div>
   )
     :
   (
-    <div className="signup-div">
+    <div className="main-container">
+      <div className="signup-div">
+        <h1>Log In</h1>
+        <form onSubmit={handleLoginSubmit} name={name}>
+          <div className="login-email all-input">
+            <label htmlFor="email"><small>Email</small></label>
+            <input name="email" type="text"  placeholder="Email@email.com" />
+          </div>
+            <br />
+          <div className="login-password all-input">
+            <label htmlFor="password"><small>Password</small></label>
+            <input name="password" type="password" placeholder="Password" />
+          </div>
+            <br />
+          <div>
+            <button className="sub-btn" type="submit">{displayName}</button>
+          </div>
 
-      <form onSubmit={handleLoginSubmit} name={name}>
-
-        <div className="login-email">
-          <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text"  placeholder="Email@email.com" />
-        </div>
-           <br />
-        <div className="login-password">
-          <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" placeholder="Password" />
-        </div>
-           <br />
-        <div>
-          <button className="sub-btn" type="submit">{displayName}</button>
-        </div>
-
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      {/* <a className="google-login" href="/auth/google">{displayName} with Google</a> */}
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        {/* <a className="google-login" href="/auth/google">{displayName} with Google</a> */}
+      </div>
     </div>
   )
 }

@@ -25,7 +25,7 @@ const User = db.define('user', {
   },
   points: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 10 //10 for signing up!
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,

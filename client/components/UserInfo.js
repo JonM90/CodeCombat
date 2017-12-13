@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {connect} from 'react-redux'
 import {List, ListItem} from 'material-ui/List';
+import {me} from '../store';
 
-class UserInfo extends Component {
+
+export class UserInfo extends Component {
+
+  componentDidMount() {
+    this.props.loadMe()
+  }
 
     render(props) {
         const {email} = this.props;
@@ -13,12 +19,12 @@ class UserInfo extends Component {
                         <img src={user.profileImage} id="profileImage" />
                     </div>
                     <div id="userProfile-info">
-                    <List>
-                        <ListItem disabled={true} primaryText={`NAME: ${user.name}`} className="userProfile-info-field" />
-                        <ListItem disabled={true} primaryText={`E-MAIL: ${email}`} className="userProfile-info-field" />
-                        <ListItem disabled={true} primaryText={`RANK: ${user.rank}`} className="userProfile-info-field" />
-                        <ListItem disabled={true} primaryText={`POINTS: ${user.points}`} className="userProfile-info-field" />
-                    </List>
+                        <List>
+                            <ListItem disabled={true} primaryText={`NAME: ${user.name}`} className="userProfile-info-field" />
+                            <ListItem disabled={true} primaryText={`E-MAIL: ${email}`} className="userProfile-info-field" />
+                            <ListItem disabled={true} primaryText={`RANK: ${user.rank}`} className="userProfile-info-field" />
+                            <ListItem disabled={true} primaryText={`POINTS: ${user.points}`} className="userProfile-info-field" />
+                        </List>
                     </div>
                 </div>)
     }
@@ -32,7 +38,11 @@ const mapState = (state) => {
   }
 
   const mapDispatch = dispatch => {
-    return {}
+    return {
+      loadMe: () => {
+        dispatch(me())
+      }
+    }
   }
 
   export default connect(mapState, mapDispatch)(UserInfo)

@@ -9,6 +9,9 @@ const Room = db.define('room', {
     type: Sequelize.INTEGER,
     validate: { min: 1, max: 10 }
   },
+  questId: {
+    type: Sequelize.INTEGER
+  },
   status: {
     type: Sequelize.ENUM('open', 'closed'),
     defaultValue: 'open'

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchAllProblems, fetchCompletedProblems, setCompletedProblem} from '../store';
-import {Redirect} from 'react-router'
+import {Redirect} from 'react-router';
+import { Link } from 'react-router-dom';
 import { PopUp } from './pop_up';
 import {CodeEditor} from './editor';
 import socket from '../socket';
@@ -69,10 +70,14 @@ export class Train extends Component{
 
   isPassing(pass) {
     let currProb = this.state.eligibleQs[this.state.currInd]
-    let questPoints = currProb.level * 5;
+    let questPoints = Math.floor((Math.log(currProb.level) + 1) * 30);
     let newPoints = this.state.userPoints + questPoints;
     this.setState({userPoints: newPoints})
-    this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints);
+
+    let lvl = Math.floor(Math.sqrt(newPoints) * 0.2)
+    console.log('questPts:', questPoints, 'newpoints;', newPoints, 'LVL:', lvl)
+
+    this.props.setProbToComplete(this.props.user.id, currProb.id, this.state.userSolution, newPoints, lvl);
   }
 
   nextQuestion(e){
@@ -108,12 +113,18 @@ export class Train extends Component{
           { this.state.eligibleQs.length ?
             <CodeEditor
               question = {this.state.eligibleQs[this.state.currInd]}
-              setProbToComplete = {this.props.setProbToComplete}
+              // setProbToComplete = {this.props.setProbToComplete}
               nextQuestion = {this.nextQuestion}
               userId = {this.props.user.id}
               justCompleted = {this.props.justCompleted}
               passed = {this.state.pass}
-            /> : <h1>No Dice</h1> }
+            /> : <div className="train-complete-div">
+              <h1>Great Job! You've Completed All Missions!</h1>
+              <Link to={`/users/${this.props.userId}/battle`}>
+                <button id="try-battle-btn">Try Battle Mode</button>
+              </Link>
+
+              </div>}
         </div>
 
       </div>
@@ -138,8 +149,8 @@ const mapDispatch = dispatch => {
     loadCompletedProblems: (userId) => {
       dispatch(fetchCompletedProblems(userId))
     },
-    setProbToComplete: (userId, problemId, userSolution, userPoints) => {
-      dispatch(setCompletedProblem(userId, problemId, userSolution, userPoints))
+    setProbToComplete: (userId, problemId, userSolution, userPoints, rank) => {
+      dispatch(setCompletedProblem(userId, problemId, userSolution, userPoints, rank))
     }
   }
 }

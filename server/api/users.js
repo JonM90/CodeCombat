@@ -80,7 +80,8 @@ router.post('/:userId/problemCreate', (req, res, next) => {
 router.post('/setComplete', (req, res, next) => {
   User.findById(+req.body.userId)
   .then(user => {
-    return user.update({points: req.body.points})
+    console.log('reqbodyRANK:', req.body.rank)
+    return user.update({points: req.body.points, rank: req.body.rank})
   })
   .then(updatedUser => {
     return CompletedProblem.create({
