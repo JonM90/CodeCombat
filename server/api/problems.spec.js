@@ -13,7 +13,7 @@ describe('Problem routes', () => {
 
   describe('/api/problems/', () => {
 
-    const sig = 'fizzBuzz(num)'
+    const sig = 'converter(temp)'
     it('GET /api/problems', () => {
       return request(app)
         .get('/api/problems')
@@ -32,7 +32,7 @@ describe('Problem routes', () => {
             .get(`/api/problems/${1}`)
             .expect(200)
             .then(res => {
-                expect(res.body.signature).to.be.equal('fizzBuzz(num)')
+                expect(res.body.signature).to.be.equal('converter(temp)')
             })
     })
   })
@@ -45,17 +45,9 @@ describe('Problem routes', () => {
             .expect(200)
             .then(res => {
                 expect(res.body.solution).to.be.equal(
-                    `function fizzBuzz(num){
-                      if (num%15 === 0) {
-                        return "FizzBuzz";
-                      } else if (num%5 === 0) {
-                        return "Buzz";
-                      } else if (num%3 === 0) {
-                        return "Fizz";
-                      } else {
-                        return false;
-                      }
-                    }`
+  `function converter(temp) {
+      return (temp - 32) * 5/9;
+    }`
                 )
             })
     })
