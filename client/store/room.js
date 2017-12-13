@@ -1,12 +1,12 @@
 import axios from 'axios'
-import history from '../history'
+//import history from '../history'
 
 /**
  * ACTION TYPES
  */
-const GET_ROOM = 'GET_ROOM'
-const CREATE_ROOM = 'CREATE_ROOM'
-const UPDATE_ROOM = 'UPDATE_ROOM'
+export const GET_ROOM = 'GET_ROOM'
+export const CREATE_ROOM = 'CREATE_ROOM'
+export const UPDATE_ROOM = 'UPDATE_ROOM'
 
 /**
  * INITIAL STATE
@@ -16,9 +16,9 @@ const defaultRoom = {};
 /**
  * ACTION CREATORS
  */
-const getRoom = room => ({type: GET_ROOM, room})
-const createRoom = room => ({type: CREATE_ROOM, room})
-const updateRoom = room => ({type: UPDATE_ROOM, room})
+export const getRoom = room => ({type: GET_ROOM, room})
+export const createRoom = room => ({type: CREATE_ROOM, room})
+export const updateRoom = room => ({type: UPDATE_ROOM, room})
 
 // const removeProblem = () => ({type: REMOVE_PROBLEM})
 

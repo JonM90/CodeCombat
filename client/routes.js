@@ -22,9 +22,11 @@ class Routes extends Component {
       <Router history={history}>
         <Main>
           <Navbar />
+          
           <Switch>
 
               {/* Routes placed here are available to all visitors */}
+            {!isLoggedIn && <Route exact path="/" component={Login} />}
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
 
